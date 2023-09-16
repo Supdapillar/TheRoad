@@ -1,0 +1,13 @@
+name: TheRoadPlugin
+version: '${project.version}'
+main: me.supdapillar.theroad.TheRoadPlugin
+api-version: '1.20'
+authors: [Supdapillar]
+description: For my minecraft minigame
+commands:
+  MakeSpawn:
+    description: Makes an enemy spawnpoint
+  ChangeWorld:
+    description: Change what world your in
+  MakeBlockage:
+    description: makes a blockage that the player cant go through until the round is cleared
