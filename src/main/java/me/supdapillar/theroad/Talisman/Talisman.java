@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -63,6 +64,8 @@ public class Talisman {
                 TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).remove(talismanToBeRemoved);
                 player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
                 player.sendMessage(ChatColor.RED + "You've deactivated the " + name);
+                talismanToBeRemoved.onTalismanDeselect(player);
+
             }
             else {
                 if (TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).size() < 3){ // If the player hasnt hit the cap on talismans
@@ -74,6 +77,7 @@ public class Talisman {
                     player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
                     player.sendMessage(ChatColor.AQUA + "You've activated the " + name);
                     player.sendMessage(ChatColor.RED + "but you've unactivated the " + name + "!");
+                    TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).get(0).onTalismanDeselect(player);
                     TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).remove(0);
                     TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(this);
                 }
@@ -100,7 +104,13 @@ public class Talisman {
         return list.stream().anyMatch(o -> Objects.equals(o.name, name));
     }
 
+    public void onTalismanDeselect(Player player) {};
+
+
+
     public void onMobDeath(EntityDeathEvent event) {};
     public void onMobDamage(EntityDamageByEntityEvent event) {};
     public void onPlayerMove(PlayerMoveEvent event) {};
+    public void onPlayerHealthRegain(EntityRegainHealthEvent event) {};
+
 }

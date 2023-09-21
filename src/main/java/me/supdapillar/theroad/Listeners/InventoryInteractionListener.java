@@ -1,10 +1,12 @@
 package me.supdapillar.theroad.Listeners;
 
+import me.supdapillar.theroad.Arenas.Arena;
 import me.supdapillar.theroad.Helpers.StarterItems;
 import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.gameClasses.GameClass;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,16 +29,34 @@ public class InventoryInteractionListener implements Listener {
 
         switch (event.getClickedInventory().getType()){
             case HOPPER:
-                //Class picker ui
-                event.setCancelled(true);
+                if (event.getView().getTitle().equals(ChatColor.BOLD + "Class Chooser"))
+                {
+                    //Class picker ui
+                    event.setCancelled(true);
 
-                for (GameClass gameclass : TheRoadPlugin.getInstance().gameClasses){
-                    if (event.getCurrentItem().getType() == gameclass.inventoryIcon.getType()){
-                        gameclass.processClick(player);
+                    for (GameClass gameclass : TheRoadPlugin.getInstance().gameClasses){
+                        if (event.getCurrentItem().getType() == gameclass.inventoryIcon.getType()){
+                            gameclass.processClick(player);
+                        }
                     }
+                    StarterItems.refreshClassInventory(player);
+
+                }
+                else {
+                    //Map selection UI
+                    event.setCancelled(true);
+
+                    for (Arena arena : TheRoadPlugin.getInstance().gameManager.gameArenas){
+                        if (event.getCurrentItem().getType() == arena.inventoryIcon.getType()){
+                            arena.processClick(player);
+                        }
+                    }
+                    StarterItems.refreshMapInventory(player);
+
                 }
 
-                StarterItems.refreshClassInventory(player);
+
+
                 break;
             case BARREL:
                 //Talisman picker

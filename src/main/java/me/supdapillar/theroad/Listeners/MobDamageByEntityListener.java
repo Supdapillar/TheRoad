@@ -34,6 +34,7 @@ public class MobDamageByEntityListener implements Listener {
             if (event.getDamager() instanceof Player){
                 event.setCancelled(true);
                 Bukkit.broadcastMessage("Get cancelled nerd: " + mobEntity.getHealth());
+                Bukkit.broadcastMessage(mobEntity.getTarget() + "");
             }
             else {
                 mobEntity.setCustomName(ChatColor.BLUE + "[" + Math.ceil(mobEntity.getHealth() - event.getDamage()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");

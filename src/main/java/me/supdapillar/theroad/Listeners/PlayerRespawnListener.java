@@ -26,6 +26,7 @@ public class PlayerRespawnListener implements Listener {
                 StarterItems.GiveClassCompass(player);
                 StarterItems.GiveUnreadyConcrete(player);
                 StarterItems.GiveTalismanTotem(player);
+                StarterItems.GiveMapSelection(player);
                 player.setGameMode(GameMode.ADVENTURE);
                 double randomAngle = (Math.PI*2) * Math.random();
                 Location location = new Location(Bukkit.getWorld("minigame"),165.5 + Math.cos(randomAngle)*15,-49,31.5 + Math.sin(randomAngle)*15);
@@ -33,7 +34,7 @@ public class PlayerRespawnListener implements Listener {
                 break;
             case inGame:
                 player.setGameMode(GameMode.SPECTATOR);
-                event.setRespawnLocation(TheRoadPlugin.getInstance().gameManager.gameArenas.get(TheRoadPlugin.getInstance().gameManager.currentArena).spawnLocation);
+                event.setRespawnLocation(TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)].spawnLocation);
                 break;
         }
     }

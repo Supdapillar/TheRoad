@@ -32,6 +32,7 @@ public class Assassin extends GameClass {
 
         AttributeModifier modifier2 = new AttributeModifier(UUID.randomUUID(), "generic.attackSpeed", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
         AttributeModifier modifier3 = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", 8, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
+
         AssassinBladeMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, modifier1);
         AssassinBladeMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, modifier2);
 

@@ -44,13 +44,13 @@ public class InfernoTalisman extends Talisman{
         for(int i = 0; i < 25; i++){
             Angle -= Math.PI/12.5f + new Date(System.currentTimeMillis()).getTime()*80;;
 
-            Location particleLocation = new Location(player.getWorld(), pLocation.getX() + (Math.cos(Angle) * 5), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 5));
+            Location particleLocation = new Location(player.getWorld(), pLocation.getX() + (Math.cos(Angle) * 3.75f), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 3.75f));
             player.spawnParticle(Particle.FLAME, particleLocation, 1, 0 ,0 ,0 ,0);
         }
 
 
         for (LivingEntity livingEntity : livingEntities){
-            if (livingEntity.getLocation().distance(player.getLocation()) < 5){
+            if (livingEntity.getLocation().distance(player.getLocation()) < 3.75){
                 livingEntity.setFireTicks(livingEntity.getFireTicks() + 4);
                 livingEntity.damage(0, player);
             }

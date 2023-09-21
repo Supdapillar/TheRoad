@@ -42,6 +42,9 @@ public class PlayerJoinListener implements Listener {
                         StarterItems.GiveUnreadyConcrete(player);
                     }
                 }
+                if (!player.getInventory().contains(Material.MAP)){
+                    StarterItems.GiveMapSelection(player);
+                }
                 // Makes sure the player doesn't have null values
                 mainPlugin.PlayerClass.putIfAbsent(player, Classes.Swordsman);
                 mainPlugin.PlayerUnlockedClasses.putIfAbsent(player, new ArrayList<Classes>());
@@ -53,7 +56,7 @@ public class PlayerJoinListener implements Listener {
             case inGame:
                 player.setGameMode(GameMode.SPECTATOR);
                 player.sendMessage(ChatColor.YELLOW + "You are now spectating");
-                player.teleport(TheRoadPlugin.getInstance().gameManager.gameArenas.get(TheRoadPlugin.getInstance().gameManager.currentArena).spawnLocation);
+                player.teleport(TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)].spawnLocation);
                 break;
         }
     }

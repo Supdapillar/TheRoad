@@ -51,14 +51,10 @@ public class MobSpawnListener implements Listener {
             }
 
             //Set the target
-            if (attackableList.isEmpty() ){
-                Bukkit.broadcastMessage("TARGET NOT ADQUIRED CUNT");
-            }
-            else {
-                Bukkit.broadcastMessage("TARGET ADQUIRED");
+            if (!attackableList.isEmpty() ){
                 mobEntity.setTarget((LivingEntity) attackableList.get(0));
+                Bukkit.broadcastMessage("Target adquired");
             }
-
         }
         else {
             mobEntity.setCustomName("[" + Math.round(mobEntity.getHealth()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");

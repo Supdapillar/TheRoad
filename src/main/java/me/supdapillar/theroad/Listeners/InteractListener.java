@@ -35,7 +35,9 @@ public class InteractListener implements Listener {
             case RECOVERY_COMPASS:
                 StarterItems.refreshClassInventory(player);
                 break;
-            case EMERALD:
+            case MAP:
+                StarterItems.refreshMapInventory(player);
+                event.setCancelled(true);
                 break;
             case RED_CONCRETE:
                 player.getInventory().remove(Material.RED_CONCRETE);

@@ -49,15 +49,15 @@ public class CounterLoop extends BukkitRunnable {
                             player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 9999, 1f);
                         }
                     }
-                    else { // Begining the game
+                    else { // Beginning the game
                         Bukkit.broadcastMessage(ChatColor.YELLOW + "The game has begun!");
                         TheRoadPlugin.getInstance().gameManager.gamestates = Gamestates.inGame;
                         for(Player player : Bukkit.getOnlinePlayers()){
-                            Arena currentArena = TheRoadPlugin.getInstance().gameManager.gameArenas.get(TheRoadPlugin.getInstance().gameManager.currentArena);
+                            Arena currentArena = TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)];
                             player.teleport(currentArena.spawnLocation);
                             player.playSound(player, Sound.ENTITY_GUARDIAN_DEATH, 9999, 1);
                         }
-                        for (Entity entity : TheRoadPlugin.getInstance().gameManager.gameArenas.get(TheRoadPlugin.getInstance().gameManager.currentArena).spawnLocation.getWorld().getEntities()){
+                        for (Entity entity : TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)].spawnLocation.getWorld().getEntities()){
                             boolean SkipDeletion = entity instanceof Player;
                             if (entity instanceof ArmorStand){
                                 SkipDeletion = true;
@@ -74,7 +74,7 @@ public class CounterLoop extends BukkitRunnable {
                 break;
                 case inGame:
                     //Makes sure there are no zombies
-                    Arena currentArena = TheRoadPlugin.getInstance().gameManager.gameArenas.get(TheRoadPlugin.getInstance().gameManager.currentArena);
+                    Arena currentArena = TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)];
                     boolean areZombiesLeft = false;
                     //Check for remaining zombies
 
@@ -103,7 +103,7 @@ public class CounterLoop extends BukkitRunnable {
                         }
                         else
                         {
-                            if (TheRoadPlugin.getInstance().gameManager.currentRound == currentArena.finalyRound){ // ENDING THE GAME
+                            if (TheRoadPlugin.getInstance().gameManager.currentRound == currentArena.finalRound){ // ENDING THE GAME
                                 Bukkit.broadcastMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "YOU'VE ESCAPED THE ROAD");
                                 TheRoadPlugin.getInstance().gameManager.resetGame();
                             }

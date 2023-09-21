@@ -11,3 +11,5 @@ commands:
     description: Change what world your in
   MakeBlockage:
     description: makes a blockage that the player cant go through until the round is cleared
+  MakeRespawnBeacon:
+    description: Makes the armor stand the player has to click to enter the respawn event

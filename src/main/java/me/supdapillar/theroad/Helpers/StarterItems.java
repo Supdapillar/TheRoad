@@ -1,5 +1,6 @@
 package me.supdapillar.theroad.Helpers;
 
+import me.supdapillar.theroad.Arenas.Arena;
 import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.gameClasses.GameClass;
@@ -53,7 +54,17 @@ public class StarterItems {
         TalsimanTotem.setItemMeta(TotemMeta);
         player.getInventory().addItem(TalsimanTotem);
     }
-//UI Refreshes
+    public static void GiveMapSelection(Player player){
+        ItemStack MapSelector = new ItemStack(Material.MAP,1);
+        ItemMeta MapMeta = MapSelector.getItemMeta();
+        MapMeta.setDisplayName(ChatColor.WHITE + "Map Selector");
+        String[] MapLore = {ChatColor.GREEN + "[Click To Vote for a map]"};
+
+        MapMeta.setLore(Arrays.asList(MapLore));
+        MapSelector.setItemMeta(MapMeta);
+        player.getInventory().addItem(MapSelector);
+    }
+    //UI Refreshes
     public static void refreshTalismanMenu(Player player){
         Inventory talismanInventory = Bukkit.createInventory(player, InventoryType.BARREL, ChatColor.BOLD + "Talisman Chooser");
         for(Talisman talisman : TheRoadPlugin.getInstance().talismans)
@@ -61,6 +72,14 @@ public class StarterItems {
             talismanInventory.addItem(talisman.makeIcon(player));
         }
         player.openInventory(talismanInventory);
+    }
+    public static void refreshMapInventory(Player player){
+        Inventory mapInventory = Bukkit.createInventory(player, InventoryType.HOPPER, ChatColor.BOLD + "Map Selector");
+        for(Arena arena : TheRoadPlugin.getInstance().gameManager.gameArenas)
+        {
+            mapInventory.addItem( arena.makeIcon(player));
+        }
+        player.openInventory(mapInventory);
     }
 
     public static void refreshClassInventory(Player player){
