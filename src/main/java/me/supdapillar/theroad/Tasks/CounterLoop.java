@@ -5,6 +5,7 @@ import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Gamestates;
 import org.bukkit.*;
 import org.bukkit.entity.*;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CounterLoop extends BukkitRunnable {
@@ -76,9 +77,16 @@ public class CounterLoop extends BukkitRunnable {
                     //Makes sure there are no zombies
                     Arena currentArena = TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)];
                     boolean areZombiesLeft = false;
+                    //Make sure all the loot containers dont despawn
+                    for(Entity entity : currentArena.spawnLocation.getWorld().getEntities()){
+                        if (entity instanceof FallingBlock){
+                            entity.setTicksLived(1);
+                        }
+                    }
+
+
+
                     //Check for remaining zombies
-
-
                     for (Entity entity : currentArena.spawnLocation.getWorld().getEntities()){
                         if (entity instanceof Zombie){
                             areZombiesLeft = true;

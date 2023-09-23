@@ -1,9 +1,6 @@
 package me.supdapillar.theroad;
 
-import me.supdapillar.theroad.Commands.ChangeWorldCommand;
-import me.supdapillar.theroad.Commands.EntitySpawnPointCommand;
-import me.supdapillar.theroad.Commands.MakeBlockageCommand;
-import me.supdapillar.theroad.Commands.RespawnBeaconCommand;
+import me.supdapillar.theroad.Commands.*;
 import me.supdapillar.theroad.Managers.GameManager;
 import me.supdapillar.theroad.Talisman.*;
 import me.supdapillar.theroad.Tasks.CounterLoop;
@@ -80,6 +77,7 @@ public final class TheRoadPlugin extends JavaPlugin {
         new EntityExplodeListener(this);
         new MobTargetListener(this);
         new EntityRegainHealthListener(this);
+        new PlayerInteractEntityListener(this);
 
 
 
@@ -89,6 +87,7 @@ public final class TheRoadPlugin extends JavaPlugin {
         getCommand("MakeBlockage").setExecutor(new MakeBlockageCommand());
         getCommand("ChangeWorld").setExecutor(new ChangeWorldCommand());
         getCommand("MakeRespawnBeacon").setExecutor(new RespawnBeaconCommand());
+        getCommand("MakeLootGenerator").setExecutor(new MakeLootGeneratorCommand());
         counterLoop.runTaskTimer(this,0,10);
 
         World map1 = Bukkit.getServer().createWorld(new WorldCreator("SkyRoad"));

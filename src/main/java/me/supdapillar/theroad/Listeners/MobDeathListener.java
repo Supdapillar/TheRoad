@@ -32,9 +32,8 @@ public class MobDeathListener implements Listener {
 
     @EventHandler
     public void onMobDeath(EntityDeathEvent event){
-        Bukkit.broadcastMessage("" + event.getEntity().getKiller());
-        Bukkit.broadcastMessage("" + event.getEntity().getKiller());
 
+        Bukkit.broadcastMessage(event.getEntity() +"Has died");
         Player player = null;
 
         NamespacedKey namespacedKey = new NamespacedKey(TheRoadPlugin.getInstance(), "killer");

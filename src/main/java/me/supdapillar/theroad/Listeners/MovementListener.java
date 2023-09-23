@@ -47,6 +47,7 @@ public class MovementListener implements Listener {
                     ArmorStand armorstand = (ArmorStand) entity;
                     NamespacedKey namespacedKey = new NamespacedKey(TheRoadPlugin.getInstance(),"BlockageRound");
                     NamespacedKey namespacedKey2 = new NamespacedKey(TheRoadPlugin.getInstance(),"Round");
+                    NamespacedKey namespacedKey3 = new NamespacedKey(TheRoadPlugin.getInstance(),"SpawnChance");
 
                     if (armorstand.getPersistentDataContainer().has(namespacedKey, PersistentDataType.INTEGER)){
                         player.spawnParticle(Particle.REDSTONE,entity.getLocation(),5, new Particle.DustOptions(Color.FUCHSIA, 2));
@@ -61,6 +62,10 @@ public class MovementListener implements Listener {
                         else {
                             player.spawnParticle(Particle.REDSTONE,entity.getLocation(),5, new Particle.DustOptions(Color.YELLOW, 2));
                         }
+                    }else if (armorstand.getPersistentDataContainer().has(namespacedKey3, PersistentDataType.INTEGER))
+                    {
+                        player.spawnParticle(Particle.REDSTONE,entity.getLocation(),5, new Particle.DustOptions(Color.GREEN, 2));
+
                     }
                 }
             }

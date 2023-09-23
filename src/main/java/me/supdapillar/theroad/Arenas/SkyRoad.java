@@ -1,5 +1,6 @@
 package me.supdapillar.theroad.Arenas;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,6 +16,7 @@ public class SkyRoad extends Arena {
         iconLore.add(ChatColor.LIGHT_PURPLE + "Difficulty: Medium");
         iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 30 Rounds");
 
+        spawnLocation = new Location(Bukkit.getWorld("HauntedRoad"), 4.5, -59, 1.5 );
 
         ItemStack skyroadIcon = new ItemStack(Material.WHITE_WOOL);
         ItemMeta skyroadIconMeta = skyroadIcon.getItemMeta();

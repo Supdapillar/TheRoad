@@ -4,6 +4,7 @@ import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.Managers.GameManager;
 import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -27,7 +28,7 @@ public class Arena {
     public String arenaName;
 
     //Ingame stuff
-    public Location spawnLocation;
+    public Location spawnLocation = new Location(Bukkit.getWorld("HauntedRoad"), 4.5, -59, 1.5 );
     public int finalRound;
     public List<Player> votedPlayers = new ArrayList<>();
 

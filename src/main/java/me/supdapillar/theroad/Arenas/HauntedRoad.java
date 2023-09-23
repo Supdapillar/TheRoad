@@ -1,5 +1,6 @@
 package me.supdapillar.theroad.Arenas;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,6 +15,8 @@ public class HauntedRoad extends Arena {
         iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 300 Rounds");
 
 
+        spawnLocation = new Location(Bukkit.getWorld("HauntedRoad"), 4.5, -59, 1.5 );
+
         ItemStack hauntedroadIcon = new ItemStack(Material.COBWEB);
         ItemMeta hauntedroadIconMeta = hauntedroadIcon.getItemMeta();
 
@@ -24,9 +27,6 @@ public class HauntedRoad extends Arena {
 
         inventoryIcon = hauntedroadIcon;
     }
-
-
-
     //Inventory Stuff
 
     //Ingame stuff
