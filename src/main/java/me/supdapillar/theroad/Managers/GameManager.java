@@ -5,10 +5,12 @@ import me.supdapillar.theroad.Arenas.HauntedRoad;
 import me.supdapillar.theroad.Arenas.SkyRoad;
 import me.supdapillar.theroad.Helpers.StarterItems;
 import me.supdapillar.theroad.Tasks.DelayedSpawn;
+import me.supdapillar.theroad.Tasks.GameEndDelayer;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Gamestates;
 import me.supdapillar.theroad.gameClasses.GameClass;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.*;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -64,20 +66,21 @@ public class GameManager {
             }
         }
 
-        //Teleports all players to the selected Arena
-        for(Player player : Bukkit.getOnlinePlayers()){
-            Arena currentArena = TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)];
-            player.teleport(currentArena.spawnLocation);
-            player.playSound(player, Sound.ENTITY_GUARDIAN_DEATH, 9999, 1);
-        }
-
         for (Player player : Bukkit.getOnlinePlayers()){
             //Teleport the player to selected arena
+            Arena currentSelectedArena = TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)];
+
+            player.teleport(currentSelectedArena.spawnLocation);
+
             TheRoadPlugin plugin = TheRoadPlugin.getInstance();
             player.getInventory().clear();
             GameClass.getClassFromEnum(plugin.PlayerClass.get(player)).givePlayerClassItems(player);
-            player.sendTitle(ChatColor.BOLD + gameArenas[currentArena].arenaName, "", 0 , 1, 1);
+            player.sendTitle(ChatColor.BOLD + currentSelectedArena.arenaName, "", 0 , 1, 1);
             player.setGameMode(GameMode.ADVENTURE);
+            player.playSound(player, Sound.ENTITY_GUARDIAN_DEATH, 9999, 1);
+
+            player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+
         }
 
 
@@ -122,31 +125,48 @@ public class GameManager {
         player.setGameMode(GameMode.ADVENTURE);
     }
 
-    public void resetGame(){
-        gamestates = Gamestates.lobby;
-        TheRoadPlugin.getInstance().counterLoop.counter = 10;
-        for (Player player : Bukkit.getOnlinePlayers()){
-
-            player.getInventory().clear();
-
-            player.setGameMode(GameMode.ADVENTURE);
-            StarterItems.GiveClassCompass(player);
-
-            StarterItems.GiveUnreadyConcrete(player);
-            StarterItems.GiveTalismanTotem(player);
-            StarterItems.GiveMapSelection(player);
-            double randomAngle = (Math.PI*2) * Math.random();
-            Location location = new Location(Bukkit.getWorld("minigame"),165.5 + Math.cos(randomAngle)*15,-49,31.5 + Math.sin(randomAngle)*15);
-            player.teleport(location);
-            currentRound = 0;
-        }
-        //Removes all loot containers
+    public void resetGame(boolean gameWasWon){
+        //Stuff to reset nomatter the win case
         for(Entity entity : gameArenas[currentArena].spawnLocation.getWorld().getEntities()){
             if (entity instanceof FallingBlock){
                 entity.remove();
             }
         }
+        currentRound = 0;
+        TheRoadPlugin.getInstance().counterLoop.counter = 10;
+
+
+
+
+
+
+        if (gameWasWon){
+            gamestates = Gamestates.endGame;
+
+            new GameEndDelayer(this).runTaskTimer(TheRoadPlugin.getInstance(), 0, 20);
+        }
+        else
+        {
+            gamestates = Gamestates.lobby;
+            for (Player player : Bukkit.getOnlinePlayers()){
+
+                player.getInventory().clear();
+
+                player.setGameMode(GameMode.ADVENTURE);
+                StarterItems.GiveClassCompass(player);
+
+                StarterItems.GiveUnreadyConcrete(player);
+                StarterItems.GiveTalismanTotem(player);
+                StarterItems.GiveMapSelection(player);
+                double randomAngle = (Math.PI*2) * Math.random();
+                Location location = new Location(Bukkit.getWorld("minigame"),165.5 + Math.cos(randomAngle)*15,-49,31.5 + Math.sin(randomAngle)*15);
+                player.teleport(location);
+            }
+
+        }
     }
+
+
 
     public void summonWave(){
         World world = gameArenas[currentArena].spawnLocation.getWorld();
@@ -159,7 +179,6 @@ public class GameManager {
 
                     currentActiveSpawners.add(new DelayedSpawn(armorstand));
 
-                    //armorstand.getLocation().getWorld().spawnEntity(armorstand.getLocation(),EntityType.valueOf(data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING)), true);
                 }
             }
         }

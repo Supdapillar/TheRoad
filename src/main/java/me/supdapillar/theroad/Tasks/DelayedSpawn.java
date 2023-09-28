@@ -23,13 +23,13 @@ public class DelayedSpawn extends BukkitRunnable {
         tickCounter++;
 
         //Warns the player of incoming entity
-            TheRoadPlugin.getInstance().gameManager.gameArenas[TheRoadPlugin.getInstance().gameManager.currentArena].spawnLocation.getWorld().spawnParticle(Particle.COMPOSTER, whereToSummon.getLocation().add(0,0.5,0),3,
+            TheRoadPlugin.getInstance().gameManager.gameArenas[TheRoadPlugin.getInstance().gameManager.currentArena].spawnLocation.getWorld().spawnParticle(Particle.COMPOSTER, whereToSummon.getLocation().add(0,0.5,0),4,
                      (double) tickCounter /30,1,(double) tickCounter /30);
 
 
 
         //Summons the entity and ends the task
-        if (tickCounter == 20){
+        if (tickCounter == 30){
             PersistentDataContainer dataContainer = whereToSummon.getPersistentDataContainer();
             whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.valueOf(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING)), true);
             TheRoadPlugin.getInstance().gameManager.currentActiveSpawners.remove(this);

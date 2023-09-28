@@ -38,7 +38,7 @@ public class PlayerDeathListener implements Listener {
         Bukkit.broadcastMessage(NumberOfAlivePlayer + "");
         //Checks if the dead player should become a ghost
         if (NumberOfAlivePlayer < 1){
-            TheRoadPlugin.getInstance().gameManager.resetGame();
+            TheRoadPlugin.getInstance().gameManager.resetGame(false);
 
         }
     }

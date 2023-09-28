@@ -104,7 +104,7 @@ public class CounterLoop extends BukkitRunnable {
                             ////////  ENDING THE GAME /////////
                             if (TheRoadPlugin.getInstance().gameManager.currentRound == currentArena.finalRound){
                                 Bukkit.broadcastMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "YOU'VE ESCAPED THE ROAD");
-                                TheRoadPlugin.getInstance().gameManager.resetGame();
+                                TheRoadPlugin.getInstance().gameManager.resetGame(true);
                             }
                             else {
 
