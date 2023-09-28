@@ -9,6 +9,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class DelayedSpawn extends BukkitRunnable {
@@ -31,9 +32,16 @@ public class DelayedSpawn extends BukkitRunnable {
         //Summons the entity and ends the task
         if (tickCounter == 30){
             PersistentDataContainer dataContainer = whereToSummon.getPersistentDataContainer();
-            whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.valueOf(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING)), true);
-            TheRoadPlugin.getInstance().gameManager.currentActiveSpawners.remove(this);
-            this.cancel();
+            ///// Handles all the fancy stuff for the boss
+            if (Objects.equals(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING), "Boss1")){
+                whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.ZOMBIE);
+            }
+            else {
+                whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.valueOf(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING)), true);
+                TheRoadPlugin.getInstance().gameManager.currentActiveSpawners.remove(this);
+                this.cancel();
+            }
+
         }
 
     }
