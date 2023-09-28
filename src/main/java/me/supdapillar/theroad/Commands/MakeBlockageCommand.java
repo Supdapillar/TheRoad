@@ -18,7 +18,7 @@ public class MakeBlockageCommand implements CommandExecutor {
         if (commandSender instanceof Player ){
             Player player = (Player) commandSender;
             if (args.length < 2){
-                player.sendMessage(ChatColor.RED + "/MakeBlockage < X | Y > <Round> <Length>");
+                player.sendMessage(ChatColor.RED + "/MakeBlockage < X | Z > <Round> <Length>");
             }
             else {
                 ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);

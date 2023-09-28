@@ -10,6 +10,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -25,7 +26,16 @@ public class MobDamageByEntityListener implements Listener {
 
     @EventHandler
     public void onMobDamagedByEntity(EntityDamageByEntityEvent event){
-        if (event.getEntity() instanceof Player) return;
+
+        if (event.getEntity() instanceof Player)
+        {
+            if (event.getDamager() instanceof WitherSkull){
+                event.setCancelled(true);
+            }
+            return;
+        }
+        if (!(event.getEntity() instanceof Mob)) return;
+
         Mob mobEntity = (Mob) event.getEntity();
 
         //For summons

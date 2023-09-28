@@ -3,6 +3,7 @@ package me.supdapillar.theroad;
 import me.supdapillar.theroad.Commands.*;
 import me.supdapillar.theroad.Managers.GameManager;
 import me.supdapillar.theroad.Talisman.*;
+import me.supdapillar.theroad.Tasks.BeaconEventLoop;
 import me.supdapillar.theroad.Tasks.CounterLoop;
 import me.supdapillar.theroad.enums.Classes;
 import me.supdapillar.theroad.Helpers.ScoreboardHandler;
@@ -31,8 +32,11 @@ public final class TheRoadPlugin extends JavaPlugin {
     public HashMap<Player, List<Talisman>> PlayerActiveTalismans = new HashMap<Player, List<Talisman>>();
     public HashMap<Player, List<Talisman>> PlayerUnlockedTalisman = new HashMap<Player, List<Talisman>>();
     public CounterLoop counterLoop = new CounterLoop();
+    public BeaconEventLoop beaconEventLoop = new BeaconEventLoop();
+
     public GameManager gameManager;
     public boolean nextMobIsSummoned = false;
+    public boolean respawnBeaconActive = false;
     public GameClass[] gameClasses = new GameClass[]{
             new Swordsman(TheRoadPlugin.getInstance()),
             new Archer(TheRoadPlugin.getInstance()),
@@ -78,6 +82,7 @@ public final class TheRoadPlugin extends JavaPlugin {
         new MobTargetListener(this);
         new EntityRegainHealthListener(this);
         new PlayerInteractEntityListener(this);
+        new InventoryOpenListener(this);
 
 
 

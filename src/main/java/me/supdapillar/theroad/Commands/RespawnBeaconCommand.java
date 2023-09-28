@@ -20,7 +20,7 @@ public class RespawnBeaconCommand implements CommandExecutor {
             ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
 
             PersistentDataContainer armorStandData = armorStand.getPersistentDataContainer();
-            armorStandData.set(new NamespacedKey(TheRoadPlugin.getInstance(), "IsRespawnBeacon"), PersistentDataType.BOOLEAN, true);
+            armorStandData.set(new NamespacedKey(TheRoadPlugin.getInstance(), "IsAbleToRespawn"), PersistentDataType.BOOLEAN, true);
             armorStand.setCustomName(ChatColor.BOLD + "" + ChatColor.LIGHT_PURPLE + "RESPAWN BEACON [CLICK] TO START EVENT");
             armorStand.setCustomNameVisible(true);
             armorStand.setInvisible(true);

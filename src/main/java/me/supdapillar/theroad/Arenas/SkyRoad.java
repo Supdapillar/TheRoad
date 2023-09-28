@@ -16,7 +16,8 @@ public class SkyRoad extends Arena {
         iconLore.add(ChatColor.LIGHT_PURPLE + "Difficulty: Medium");
         iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 30 Rounds");
 
-        spawnLocation = new Location(Bukkit.getWorld("HauntedRoad"), 4.5, -59, 1.5 );
+        spawnLocation = new Location(Bukkit.getWorld("SkyRoad"), -7.5, 10, -6.5 );
+        finalRound = 6;
 
         ItemStack skyroadIcon = new ItemStack(Material.WHITE_WOOL);
         ItemMeta skyroadIconMeta = skyroadIcon.getItemMeta();
@@ -28,12 +29,4 @@ public class SkyRoad extends Arena {
 
         inventoryIcon = skyroadIcon;
     }
-
-
-
-    //Inventory Stuff
-
-    //Ingame stuff
-    public Location spawnLocation;
-    public int finalRound;
 }

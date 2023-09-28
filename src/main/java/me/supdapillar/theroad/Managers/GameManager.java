@@ -4,6 +4,7 @@ import me.supdapillar.theroad.Arenas.Arena;
 import me.supdapillar.theroad.Arenas.HauntedRoad;
 import me.supdapillar.theroad.Arenas.SkyRoad;
 import me.supdapillar.theroad.Helpers.StarterItems;
+import me.supdapillar.theroad.Tasks.DelayedSpawn;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Gamestates;
 import me.supdapillar.theroad.gameClasses.GameClass;
@@ -25,14 +26,51 @@ public class GameManager {
             new SkyRoad(),
             new HauntedRoad(),
     };
-    public int currentArena = 1;
+    public int currentArena = 0;
     public int currentRound = 0;
-    public List<ArmorStand> blockageArmorStands;
+    public List<DelayedSpawn> currentActiveSpawners = new ArrayList<>();
 
     public GameManager(){
     }
 
     public void startGame(){
+        Bukkit.broadcastMessage(ChatColor.YELLOW + "The game has begun!");
+        gamestates = Gamestates.inGame;
+
+
+        //Deletes all from the previous round
+        for (Entity entity : TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)].spawnLocation.getWorld().getEntities()){
+            boolean SkipDeletion = entity instanceof Player;
+            if (entity instanceof ArmorStand || entity instanceof Painting || entity instanceof ItemFrame){
+                SkipDeletion = true;
+            }
+            if (!SkipDeletion){
+                entity.remove();
+            }
+        }
+
+
+        //Sets the current arena to the most voted
+        Arena mostVoted = gameArenas[0];
+        for(Arena arena : gameArenas){
+            if (arena.votedPlayers.size() > mostVoted.votedPlayers.size()){
+                mostVoted = arena;
+            }
+        }
+        for (int i = 0; i < gameArenas.length; i++)
+        {
+            if (gameArenas[i] == mostVoted){
+                currentArena = i;
+            }
+        }
+
+        //Teleports all players to the selected Arena
+        for(Player player : Bukkit.getOnlinePlayers()){
+            Arena currentArena = TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)];
+            player.teleport(currentArena.spawnLocation);
+            player.playSound(player, Sound.ENTITY_GUARDIAN_DEATH, 9999, 1);
+        }
+
         for (Player player : Bukkit.getOnlinePlayers()){
             //Teleport the player to selected arena
             TheRoadPlugin plugin = TheRoadPlugin.getInstance();
@@ -65,7 +103,23 @@ public class GameManager {
                 }
 
             }
+            //Resets all the beacon names
+            if (entity.getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(), "IsAbleToRespawn"), PersistentDataType.BOOLEAN)){
+                entity.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "IsAbleToRespawn"), PersistentDataType.BOOLEAN, true);
+                entity.setCustomName(ChatColor.BOLD + "" + ChatColor.LIGHT_PURPLE + "RESPAWN BEACON [CLICK] TO START EVENT");
+            }
+
         }
+
+    }
+
+    public void respawnPlayer(Player player){
+        //Teleport the player to selected arena
+        TheRoadPlugin plugin = TheRoadPlugin.getInstance();
+        player.getInventory().clear();
+        GameClass.getClassFromEnum(plugin.PlayerClass.get(player)).givePlayerClassItems(player);
+        player.sendTitle(ChatColor.LIGHT_PURPLE + "You have been respawned", "", 0 , 1, 1);
+        player.setGameMode(GameMode.ADVENTURE);
     }
 
     public void resetGame(){
@@ -102,9 +156,18 @@ public class GameManager {
                 System.out.println("Attempted to spawn");
                 PersistentDataContainer data = armorstand.getPersistentDataContainer();
                 if (Objects.equals(data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "Round"), PersistentDataType.INTEGER), currentRound)) {
-                    armorstand.getLocation().getWorld().spawnEntity(armorstand.getLocation(),EntityType.valueOf(data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING)), true);
+
+                    currentActiveSpawners.add(new DelayedSpawn(armorstand));
+
+                    //armorstand.getLocation().getWorld().spawnEntity(armorstand.getLocation(),EntityType.valueOf(data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING)), true);
                 }
             }
+        }
+
+        //Activate all the delayed spawners
+        for (DelayedSpawn delayedSpawn : currentActiveSpawners){
+            Random random = new Random();
+            delayedSpawn.runTaskTimer(TheRoadPlugin.getInstance(), random.nextInt(0,100), 1);
         }
     }
 }

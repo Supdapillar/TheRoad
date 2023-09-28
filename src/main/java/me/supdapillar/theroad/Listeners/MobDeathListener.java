@@ -4,9 +4,7 @@ import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.Talisman.CritTalisman;
 import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,7 +31,6 @@ public class MobDeathListener implements Listener {
     @EventHandler
     public void onMobDeath(EntityDeathEvent event){
 
-        Bukkit.broadcastMessage(event.getEntity() +"Has died");
         Player player = null;
 
         NamespacedKey namespacedKey = new NamespacedKey(TheRoadPlugin.getInstance(), "killer");
@@ -74,6 +71,18 @@ public class MobDeathListener implements Listener {
                             mob.setTarget((LivingEntity) attackableList.get(0));
                         }
                     }
+                }
+            }
+        }
+
+        //Check to see if the mob died in the area of beacon event
+        if (TheRoadPlugin.getInstance().respawnBeaconActive){
+            if (event.getEntity().getWorld() == TheRoadPlugin.getInstance().beaconEventLoop.centerPointArmorStand.getWorld()){ // Make sure they are in the same world
+                if (event.getEntity().getLocation().distance(TheRoadPlugin.getInstance().beaconEventLoop.centerPointArmorStand.getLocation()) < 12){
+                    TheRoadPlugin.getInstance().beaconEventLoop.SoulsNeeded--;
+                    TheRoadPlugin.getInstance().beaconEventLoop.centerPointArmorStand.setCustomName(ChatColor.LIGHT_PURPLE + "Souls Needed: " + TheRoadPlugin.getInstance().beaconEventLoop.SoulsNeeded);
+                    Vibration vibration = new Vibration(event.getEntity().getLocation(), new Vibration.Destination.EntityDestination(TheRoadPlugin.getInstance().beaconEventLoop.centerPointArmorStand), 5);
+                    event.getEntity().getWorld().spawnParticle(Particle.VIBRATION, event.getEntity().getLocation(), 1, vibration);
                 }
             }
         }

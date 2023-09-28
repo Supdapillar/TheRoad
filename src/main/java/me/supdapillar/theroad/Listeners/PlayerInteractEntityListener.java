@@ -97,6 +97,8 @@ public class PlayerInteractEntityListener implements Listener {
                             sharpnessAxeStack.setItemMeta(sharpnessAxeMeta);
                             choosenItem = sharpnessAxeStack;
                             break;
+                            ///// MAKE PERMINEST EXTRA HEART
+                            //MAKE EXTRA MONEY
                         case 7:
                             break;
                         case 8:

@@ -25,7 +25,6 @@ public class PlayerSpawnListener implements Listener {
                 Location location = new Location(Bukkit.getWorld("minigame"),165.5 + Math.cos(randomAngle)*15,-49,31.5 + Math.sin(randomAngle)*15);
                 event.setSpawnLocation(location);
                 event.getPlayer().setBedSpawnLocation(location);
-                event.getPlayer().setSaturation(9999f);
                 break;
         }
     }

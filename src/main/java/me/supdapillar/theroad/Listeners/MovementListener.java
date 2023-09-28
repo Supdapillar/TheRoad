@@ -92,46 +92,52 @@ public class MovementListener implements Listener {
                         int length = armorStand.getPersistentDataContainer().get(new NamespacedKey(TheRoadPlugin.getInstance(), "Length"), PersistentDataType.INTEGER);
                         if (Objects.equals(armorStand.getPersistentDataContainer().get(namespacedKeyAxis, PersistentDataType.STRING), "X")){ // X Axis Check
                             if (event.getTo().getZ() > armorStand.getLocation().getZ()-DistanceTilParticles && event.getTo().getZ() < armorStand.getLocation().getZ()+DistanceTilParticles){
-                                if (event.getTo().getZ() > armorStand.getLocation().getZ()-0.75f && event.getTo().getZ() < armorStand.getLocation().getZ()+0.75f){
-                                    if (event.getTo().getX() > armorStand.getLocation().getX()-length && event.getTo().getX() < armorStand.getLocation().getX()+length){
-                                        event.setCancelled(true);
-                                        player.sendMessage(ChatColor.YELLOW + "This gate opens after round " + armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.INTEGER) + "!");
-                                        player.playSound(player,Sound.BLOCK_NOTE_BLOCK_BIT, 9999, 0.77f);
-                                        player.setVelocity(new Vector(0f, 0.05f, event.getFrom().getZ() - event.getTo().getZ()).normalize());
-                                    }
+                                boolean withinX = event.getTo().getX() > armorStand.getLocation().getX()-length && event.getTo().getX() < armorStand.getLocation().getX()+length;
+                                boolean withinZ = event.getTo().getZ() > armorStand.getLocation().getZ()-0.75f && event.getTo().getZ() < armorStand.getLocation().getZ()+0.75f;
+                                boolean withinY = event.getTo().getY() < armorStand.getLocation().getY() + 4 && event.getTo().getY() > armorStand.getLocation().getY()-1;
+
+                                if (withinX && withinZ && withinY){
+                                    event.setCancelled(true);
+                                    player.sendMessage(ChatColor.YELLOW + "This gate opens after round " + armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.INTEGER) + "!");
+                                    player.playSound(player,Sound.BLOCK_NOTE_BLOCK_BIT, 9999, 0.77f);
+                                    player.setVelocity(new Vector(0f, 0.05f, event.getFrom().getZ() - event.getTo().getZ()).normalize());
                                 }
                                 else {//show particles
                                     Location asLocation = armorStand.getLocation();
                                     for (int i = 1; i < length+1; i++){
                                         Particle.DustOptions dustOptions;
                                         Location randomLocation = new Location(asLocation.getWorld(),asLocation.getX()+(-length+(i*2)+(Math.random()*2)) - 2f,asLocation.getY()+Math.random()*4, asLocation.getZ());
-                                        if ((randomLocation.getX() - randomLocation.getY()) % 4 < 1){
+
+                                        if (Math.abs(randomLocation.getX() - randomLocation.getY()) % 4 < 1){
                                             dustOptions = new Particle.DustOptions(Color.YELLOW, 3);
                                         }
                                         else {
                                             dustOptions = new Particle.DustOptions(Color.BLACK, 3);
                                         }
+
                                         player.spawnParticle(Particle.REDSTONE,randomLocation ,1, dustOptions);
                                     }
                                 }
                             }
                         }
-                        else { // Y Axis Check
+                        else { // Z Axis Check
                             if (event.getTo().getX() > armorStand.getLocation().getX()-DistanceTilParticles && event.getTo().getX() < armorStand.getLocation().getX()+DistanceTilParticles){
-                                if (event.getTo().getX() > armorStand.getLocation().getX()-0.75f && event.getTo().getX() < armorStand.getLocation().getX()+0.75f){
-                                    if (event.getTo().getZ() > armorStand.getLocation().getZ()-length && event.getTo().getZ() < armorStand.getLocation().getZ()+length) {
-                                        event.setCancelled(true);
-                                        player.sendMessage(ChatColor.YELLOW + "This gate opens after round " + armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.INTEGER) + "!");
-                                        player.playSound(player,Sound.BLOCK_NOTE_BLOCK_BIT, 9999, 0.77f);
-                                        player.setVelocity(new Vector(event.getFrom().getX() - event.getTo().getX(), 0.05f, 0f).normalize());
-                                    }
+                                boolean withinX = event.getTo().getX() > armorStand.getLocation().getX()-0.75f && event.getTo().getX() < armorStand.getLocation().getX()+0.75f;
+                                boolean withinZ = event.getTo().getZ() > armorStand.getLocation().getZ()-length && event.getTo().getZ() < armorStand.getLocation().getZ()+length;
+                                boolean withinY = event.getTo().getY() < armorStand.getLocation().getY() + 4 && event.getTo().getY() > armorStand.getLocation().getY()-1;
+
+                                if (withinX && withinZ && withinY){
+                                    event.setCancelled(true);
+                                    player.sendMessage(ChatColor.YELLOW + "This gate opens after round " + armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.INTEGER) + "!");
+                                    player.playSound(player,Sound.BLOCK_NOTE_BLOCK_BIT, 9999, 0.77f);
+                                    player.setVelocity(new Vector(event.getFrom().getX() - event.getTo().getX(), 0.05f, 0f).normalize());
                                 }
                                 else {//show particles
                                     Location asLocation = armorStand.getLocation();
                                     for (int i = 1; i < length+1; i++){
                                         Particle.DustOptions dustOptions;
                                         Location randomLocation = new Location(asLocation.getWorld(),asLocation.getX(),asLocation.getY()+Math.random()*4, asLocation.getZ()+(-length+(i*2)+(Math.random()*2)) - 2f);
-                                        if ((randomLocation.getZ() - randomLocation.getY()) % 4 < 1){
+                                        if (Math.abs(randomLocation.getZ() - randomLocation.getY()) % 4 < 1){
                                             dustOptions = new Particle.DustOptions(Color.YELLOW, 3);
                                         }
                                         else {

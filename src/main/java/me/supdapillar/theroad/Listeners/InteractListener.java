@@ -27,11 +27,6 @@ public class InteractListener implements Listener {
         if (event.getItem() == null) return;
         if (event.getAction() == Action.PHYSICAL) return;
 
-        if (event.getClickedBlock().getType() == Material.BEACON){
-            event.setCancelled(true);
-            Bukkit.broadcastMessage("Get cancled nerd");
-        }
-
         Player player = event.getPlayer();
 
 

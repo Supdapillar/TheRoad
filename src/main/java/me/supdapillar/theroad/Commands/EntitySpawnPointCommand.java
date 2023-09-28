@@ -25,13 +25,13 @@ public class EntitySpawnPointCommand implements CommandExecutor {
                 ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
 
                 PersistentDataContainer armorStandData = armorStand.getPersistentDataContainer();
-                armorStandData.set(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING, args[0]);
+                armorStandData.set(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING, args[0].toUpperCase());
                 armorStandData.set(new NamespacedKey(TheRoadPlugin.getInstance(), "Round"), PersistentDataType.INTEGER, Integer.parseInt(args[1]));
                 armorStand.setInvisible(true);
                 armorStand.setInvulnerable(true);
                 player.sendMessage(args[0]);
                 armorStand.setMarker(true);
-                player.sendMessage(ChatColor.BLUE + "Spawnpoint created");
+                player.sendMessage(ChatColor.BLUE + args[0].toUpperCase() + " spawnpoint set on round " + args[1]);
             }
             return true;
         }
