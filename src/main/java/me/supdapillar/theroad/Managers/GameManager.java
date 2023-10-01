@@ -40,6 +40,7 @@ public class GameManager {
         gamestates = Gamestates.inGame;
 
 
+
         //Deletes all from the previous round
         for (Entity entity : TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)].spawnLocation.getWorld().getEntities()){
             boolean SkipDeletion = entity instanceof Player;
@@ -91,18 +92,7 @@ public class GameManager {
                 ArmorStand armorStand = (ArmorStand) entity;
                 Random random = new Random();
                 if (random.nextInt(100)+1 < armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.INTEGER) ){
-                    BlockData barrelData = Material.BARREL.createBlockData();
-
-                    FallingBlock fallingBlock = entity.getWorld().spawnFallingBlock(entity.getLocation(), barrelData);
-                    fallingBlock.setVelocity(new Vector(0,0,0));
-                    fallingBlock.setGravity(false);
-                    fallingBlock.setInvulnerable(true);
-                    fallingBlock.setRotation(90,33);
-                    fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.YELLOW + "GOODIES");
-                    fallingBlock.setCustomNameVisible(true);
-                    fallingBlock.setPersistent(true);
-                    fallingBlock.setCancelDrop(true);
-                    fallingBlock.setDropItem(true);
+                    makeLootChest(entity);
                 }
 
             }
@@ -114,6 +104,22 @@ public class GameManager {
 
         }
 
+    }
+
+    public void makeLootChest(Entity entity){
+
+        BlockData barrelData = Material.BARREL.createBlockData();
+
+        FallingBlock fallingBlock = entity.getWorld().spawnFallingBlock(entity.getLocation(), barrelData);
+        fallingBlock.setVelocity(new Vector(0,0,0));
+        fallingBlock.setGravity(false);
+        fallingBlock.setInvulnerable(true);
+        fallingBlock.setRotation(90,33);
+        fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.YELLOW + "GOODIES");
+        fallingBlock.setCustomNameVisible(true);
+        fallingBlock.setPersistent(true);
+        fallingBlock.setCancelDrop(true);
+        fallingBlock.setDropItem(true);
     }
 
     public void respawnPlayer(Player player){
@@ -151,7 +157,7 @@ public class GameManager {
             for (Player player : Bukkit.getOnlinePlayers()){
 
                 player.getInventory().clear();
-
+                player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
                 player.setGameMode(GameMode.ADVENTURE);
                 StarterItems.GiveClassCompass(player);
 

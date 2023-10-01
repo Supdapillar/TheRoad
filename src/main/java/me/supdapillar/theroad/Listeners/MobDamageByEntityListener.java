@@ -7,10 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.WitherSkull;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -29,18 +26,25 @@ public class MobDamageByEntityListener implements Listener {
 
         if (event.getEntity() instanceof Player)
         {
-            if (event.getDamager() instanceof WitherSkull){
+            //Talisman
+            for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get((Player) event.getEntity())){
+                talisman.onPlayerDamage(event);
+            }
+
+
+
+            if (event.getDamager() instanceof WitherSkull ){
                 event.setCancelled(true);
             }
             return;
         }
+
         if (!(event.getEntity() instanceof Mob)) return;
 
         Mob mobEntity = (Mob) event.getEntity();
 
-        //For summons
-        NamespacedKey summonedKey = new NamespacedKey(TheRoadPlugin.getInstance(), "summonedby");
-        if (mobEntity.getPersistentDataContainer().has(summonedKey, PersistentDataType.STRING)) {
+        //For Wolves
+        if (mobEntity instanceof Tameable) {
             if (event.getDamager() instanceof Player){
                 event.setCancelled(true);
                 Bukkit.broadcastMessage("Get cancelled nerd: " + mobEntity.getHealth());
@@ -51,24 +55,15 @@ public class MobDamageByEntityListener implements Listener {
                 mobEntity.setCustomNameVisible(true);
             }
         }
-        else { // everything that isnt a summon
+        //For bosses
+        else if (mobEntity.getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(), "IsBoss"),PersistentDataType.BOOLEAN)){
+            mobEntity.setCustomName(ChatColor.WHITE + "Sky Guardian" + "[" + Math.ceil(mobEntity.getHealth() - event.getDamage()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
+            mobEntity.setCustomNameVisible(true);
+        }
+        else { // everything that isnt a boss
+
             mobEntity.setCustomName("[" + Math.ceil(mobEntity.getHealth() - event.getDamage()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
             mobEntity.setCustomNameVisible(true);
-                if (event.getDamager().getPersistentDataContainer().has(summonedKey, PersistentDataType.STRING)){
-                    Entity entity = event.getDamager();
-                    if (entity instanceof Mob){
-                        if (entity.getPersistentDataContainer().has(summonedKey, PersistentDataType.STRING)){
-                            Player killer = Bukkit.getPlayer(entity.getPersistentDataContainer().get(summonedKey, PersistentDataType.STRING));
-
-                            NamespacedKey killedByKey = new NamespacedKey(TheRoadPlugin.getInstance(), "killer");
-
-                            mobEntity.getPersistentDataContainer().set(killedByKey,PersistentDataType.STRING, killer.getName());
-
-                            Bukkit.broadcastMessage("Summon gots a hit");
-                        }
-
-                    }
-                }
         }
 
 

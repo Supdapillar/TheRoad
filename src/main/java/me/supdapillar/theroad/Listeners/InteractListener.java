@@ -6,13 +6,12 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Silverfish;
+import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -54,49 +53,37 @@ public class InteractListener implements Listener {
             case TOTEM_OF_UNDYING:
                 StarterItems.refreshTalismanMenu(player);
                 break;
-            case SILVERFISH_SPAWN_EGG:
+            case WOLF_SPAWN_EGG:
                 event.setCancelled(true);
-                ItemStack itemStack = event.getItem();
-                ItemMeta itemMeta = itemStack.getItemMeta();
-                if (itemStack.getAmount() > 1) {
+                ItemStack wolfStack = event.getItem();
+                if (wolfStack.getAmount() > 1) {
 
-                    itemStack.setAmount(itemStack.getAmount() - 1);
-                    summonSilverfish(player);
+                    wolfStack.setAmount(wolfStack.getAmount() - 1);
+                    summonWolf(player);
 
                 }
                 else {
 
-                    itemStack.setAmount(0);
-                    summonSilverfish(player);
+                    wolfStack.setAmount(0);
+                    summonWolf(player);
 
                 }
                 break;
         }
     }
 
-    private void summonSilverfish(Player player){
+    private void summonWolf(Player player){
 
-        TheRoadPlugin.getInstance().nextMobIsSummoned = true;
-
-        Silverfish silverfish = (Silverfish) player.getWorld().spawnEntity(player.getLocation(), EntityType.SILVERFISH);
-        PersistentDataContainer silverFishData = silverfish.getPersistentDataContainer();
-
-        //Sets the summoner as the summoner player
-        NamespacedKey summonedKey = new NamespacedKey(TheRoadPlugin.getInstance(), "summonedby");
-        silverFishData.set(summonedKey, PersistentDataType.STRING, player.getDisplayName());
-
-        //Makes the silverfish stronger
-        silverfish.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(2D);
-        silverfish.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10D);
-        silverfish.setHealth(10);
-        Bukkit.broadcastMessage(silverfish.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() + "");
+        Wolf wolf = (Wolf) player.getWorld().spawnEntity(player.getLocation(), EntityType.WOLF);
 
 
+        wolf.setTamed(true);
+        wolf.setOwner(player);
 
 
-        //Makes sure the health matches the updated version
-        silverfish.setCustomName(ChatColor.BLUE + "[" + silverfish.getHealth() + "❤/" + silverfish.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
-        silverfish.setCustomNameVisible(true);
+        wolf.setCustomName(ChatColor.BLUE + "[" + wolf.getHealth() + "❤/" + wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
+        wolf.setCustomNameVisible(true);
     }
+
 }
 

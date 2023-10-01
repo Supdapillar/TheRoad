@@ -40,12 +40,9 @@ public class AgonyTalisman extends Talisman{
         for (LivingEntity livingEntity : livingEntities){
             if (!(livingEntity instanceof HumanEntity)){
                 //No damage summons
-                NamespacedKey summonedKey = new NamespacedKey(TheRoadPlugin.getInstance(), "summonedby");
-                if (!(livingEntity.getPersistentDataContainer().has(summonedKey, PersistentDataType.STRING))){
-                    if (livingEntity.getLocation().distance(player.getLocation()) < 5){
-                        livingEntity.damage(event.getAmount(), player);
-                        player.spawnParticle(Particle.DAMAGE_INDICATOR, livingEntity.getLocation(), 20, 0.5 ,0.5 ,0.5 ,0);
-                    }
+                if (livingEntity.getLocation().distance(player.getLocation()) < 5){
+                    livingEntity.damage(event.getAmount(), player);
+                    player.spawnParticle(Particle.DAMAGE_INDICATOR, livingEntity.getLocation(), 20, 0.5 ,0.5 ,0.5 ,0);
                 }
             }
 

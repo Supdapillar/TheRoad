@@ -83,7 +83,7 @@ public class StarterItems {
     }
 
     public static void refreshClassInventory(Player player){
-        Inventory classInventory = Bukkit.createInventory(player, InventoryType.HOPPER, ChatColor.BOLD + "Class Chooser");
+        Inventory classInventory = Bukkit.createInventory(player, 9, ChatColor.BOLD + "Class Chooser");
         for(GameClass gameClass : TheRoadPlugin.getInstance().gameClasses)
         {
             classInventory.addItem(gameClass.makeIcon(player));

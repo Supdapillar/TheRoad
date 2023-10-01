@@ -6,12 +6,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class SummonerClassTalisman extends Talisman{
+public class WolfTamerClassTalisman extends Talisman{
 
-    public SummonerClassTalisman(){
+    public WolfTamerClassTalisman(){
         name = "You shouldn't see this";
         price = 0;
-        lores.add(ChatColor.LIGHT_PURPLE + "STILL SHOULNDT SEE THIS");
+        lores.add(ChatColor.LIGHT_PURPLE + "STILL SHOULDN'T SEE THIS");
 
         inventoryIcon = new ItemStack(Material.CACTUS);
         ItemMeta itemMeta = inventoryIcon.getItemMeta();
@@ -22,11 +22,11 @@ public class SummonerClassTalisman extends Talisman{
 
     @Override
     public void onMobDeath(EntityDeathEvent event) {
-        ItemStack silverFishSpawner = new ItemStack(Material.SILVERFISH_SPAWN_EGG);
-        ItemMeta silverFishMeta = silverFishSpawner.getItemMeta();
-        silverFishMeta.setDisplayName("Silverfish Summoner");
+        ItemStack wolfSpawner = new ItemStack(Material.WOLF_SPAWN_EGG);
+        ItemMeta wolfMeta = wolfSpawner.getItemMeta();
+        wolfMeta.setDisplayName(ChatColor.GREEN + "Wolf Summoner");
 
-        silverFishSpawner.setItemMeta(silverFishMeta);
-        event.getEntity().getKiller().getInventory().addItem(silverFishSpawner);
+        wolfSpawner.setItemMeta(wolfMeta);
+        event.getEntity().getKiller().getInventory().addItem(wolfSpawner);
     }
 }

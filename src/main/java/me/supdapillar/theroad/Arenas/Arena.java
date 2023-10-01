@@ -76,7 +76,7 @@ public class Arena {
 
         if (votedPlayers.contains(player)){ // remove vote
             player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
-            player.sendMessage(ChatColor.GREEN + "You removed your vote for " + arenaName);
+            player.sendMessage(ChatColor.RED + "You removed your vote for " + arenaName);
             votedPlayers.remove(player);
         }
         else { // Add new vote

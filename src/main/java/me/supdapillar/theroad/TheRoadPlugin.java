@@ -35,14 +35,14 @@ public final class TheRoadPlugin extends JavaPlugin {
     public BeaconEventLoop beaconEventLoop = new BeaconEventLoop();
 
     public GameManager gameManager;
-    public boolean nextMobIsSummoned = false;
+    public boolean nextMobIsBoss = false;
     public boolean respawnBeaconActive = false;
     public GameClass[] gameClasses = new GameClass[]{
             new Swordsman(TheRoadPlugin.getInstance()),
             new Archer(TheRoadPlugin.getInstance()),
             new Executioner(TheRoadPlugin.getInstance()),
             new Assassin(TheRoadPlugin.getInstance()),
-            new Summoner(TheRoadPlugin.getInstance())
+            new WolfTamer(TheRoadPlugin.getInstance())
     };
 
     public Talisman[] talismans = new Talisman[]{
@@ -58,6 +58,8 @@ public final class TheRoadPlugin extends JavaPlugin {
             new HellFireTalisman(),
             new PanicTalisman(),
             new AgonyTalisman(),
+            new FrostTalisman(),
+            new PlunderTalisman(),
     };
 
     @Override
@@ -79,12 +81,9 @@ public final class TheRoadPlugin extends JavaPlugin {
         new HungerChangeListener(this);
         new MobDamageByEntityListener(this);
         new EntityExplodeListener(this);
-        new MobTargetListener(this);
         new EntityRegainHealthListener(this);
         new PlayerInteractEntityListener(this);
         new InventoryOpenListener(this);
-
-
 
         ScoreboardHandler.updateScoreboard(this);
 
@@ -101,7 +100,6 @@ public final class TheRoadPlugin extends JavaPlugin {
         World map2 = Bukkit.getServer().createWorld(new WorldCreator("HauntedRoad"));
         Bukkit.getServer().getWorlds().add(map2);
         gameManager = new GameManager();
-
 
 
 

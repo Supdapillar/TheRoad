@@ -23,6 +23,7 @@ public class PlayerLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event){
         event.setQuitMessage(ChatColor.YELLOW + event.getPlayer().getDisplayName() + " shit the bed!");
+
         if (TheRoadPlugin.getInstance().gameManager.gamestates == Gamestates.inGame){
             int NumOfPlayers = 0;
             for (Player player : Bukkit.getOnlinePlayers()){

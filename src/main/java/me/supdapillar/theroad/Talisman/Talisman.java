@@ -8,10 +8,7 @@ import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -112,5 +109,6 @@ public class Talisman {
     public void onMobDamage(EntityDamageByEntityEvent event) {};
     public void onPlayerMove(PlayerMoveEvent event) {};
     public void onPlayerHealthRegain(EntityRegainHealthEvent event) {};
+    public void onPlayerDamage(EntityDamageByEntityEvent event){};
 
 }

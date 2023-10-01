@@ -5,5 +5,5 @@ public enum Classes {
     Archer,
     Executioner,
     Assassin,
-    Summoner
+    WolfTamer
 }

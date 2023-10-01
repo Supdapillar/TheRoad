@@ -1,7 +1,6 @@
 package me.supdapillar.theroad.gameClasses;
 
-import com.mojang.authlib.GameProfile;
-import me.supdapillar.theroad.Talisman.SummonerClassTalisman;
+import me.supdapillar.theroad.Talisman.WolfTamerClassTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import me.supdapillar.theroad.enums.Heads;
@@ -12,25 +11,20 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+public class WolfTamer extends GameClass {
 
-import java.lang.reflect.Field;
-import java.util.Properties;
-import java.util.UUID;
-
-public class Summoner extends GameClass {
-
-    public Summoner(TheRoadPlugin plugin) {
+    public WolfTamer(TheRoadPlugin plugin) {
         super(plugin);
-        super.className = "Summoner";
+        super.className = "Wolf Tamer";
 
         //Icon
-        ItemStack newItem = new ItemStack(Material.SILVERFISH_SPAWN_EGG);
+        ItemStack newItem = new ItemStack(Material.WOLF_SPAWN_EGG);
         ItemMeta newItemMeta = newItem.getItemMeta();
         //Name
         newItemMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.AQUA + className);
         newItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-        starterTalismans.add(new SummonerClassTalisman());
+        starterTalismans.add(new WolfTamerClassTalisman());
 
         //Starter Items
         classItems.add(new ItemStack(Material.WOODEN_AXE));
@@ -42,17 +36,17 @@ public class Summoner extends GameClass {
 
 
 
-        ItemStack silverFishHead = Heads.Silverfish.getItemStack();
-        SkullMeta skullMeta = (SkullMeta) silverFishHead.getItemMeta();
-        skullMeta.setDisplayName("Silverfish Helmet");
+        ItemStack wolfHead = Heads.Wolf.getItemStack();
+        SkullMeta skullMeta = (SkullMeta) wolfHead.getItemMeta();
+        skullMeta.setDisplayName("Wolf Helmet");
 
-        classArmor[3] = new ItemStack(silverFishHead);
+        classArmor[3] = new ItemStack(wolfHead);
 
         newItem.setItemMeta(newItemMeta);
 
         super.inventoryIcon = newItem;
         super.price = 0;
-        super.representingClass = Classes.Summoner;
+        super.representingClass = Classes.WolfTamer;
 
     }
 

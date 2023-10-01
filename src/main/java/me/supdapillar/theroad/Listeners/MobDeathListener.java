@@ -44,37 +44,6 @@ public class MobDeathListener implements Listener {
         }
 
 
-        //Retargeting any summon who is locked on to the dead mob
-        NamespacedKey summonedKey = new NamespacedKey(TheRoadPlugin.getInstance(), "summonedby");
-
-
-        for (Entity entity : event.getEntity().getNearbyEntities(20, 5, 20)) {
-            if (entity instanceof Mob){
-                Mob mob = (Mob) entity;
-                if (mob.getPersistentDataContainer().has(summonedKey, PersistentDataType.STRING)){
-
-                    //The mob that needs to be retargeted
-                    if (mob.getTarget() == event.getEntity() ){
-
-                        List<Entity> attackableList = new ArrayList<>();
-                        //List of entities its allowed to target
-                        for (Entity o : event.getEntity().getNearbyEntities(20, 5, 20)) {
-                            if (!(o instanceof HumanEntity)
-                                    && (o instanceof Mob)
-                                    && !(o.getPersistentDataContainer().has(summonedKey, PersistentDataType.STRING)
-                                    && !(o == event.getEntity()))) {
-                                attackableList.add(o);
-                            }
-                        }
-
-                        if (!attackableList.isEmpty()) {
-                            mob.setTarget((LivingEntity) attackableList.get(0));
-                        }
-                    }
-                }
-            }
-        }
-
         //Check to see if the mob died in the area of beacon event
         if (TheRoadPlugin.getInstance().respawnBeaconActive){
             if (event.getEntity().getWorld() == TheRoadPlugin.getInstance().beaconEventLoop.centerPointArmorStand.getWorld()){ // Make sure they are in the same world

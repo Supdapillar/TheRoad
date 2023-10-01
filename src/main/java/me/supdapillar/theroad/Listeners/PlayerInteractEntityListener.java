@@ -2,7 +2,9 @@ package me.supdapillar.theroad.Listeners;
 
 import me.supdapillar.theroad.TheRoadPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
@@ -13,6 +15,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
@@ -33,6 +36,8 @@ public class PlayerInteractEntityListener implements Listener {
             FallingBlock fallingBlock = (FallingBlock) event.getRightClicked();
             Inventory lootInventory = Bukkit.createInventory(player, InventoryType.CHEST, "Loot Chest");
 
+            player.playSound(player, Sound.BLOCK_CHEST_OPEN, 9999, 1);
+
             //Random Chest Generator
             Random random = new Random();
             int randomAmountOfItems = random.nextInt(2,5);
@@ -40,10 +45,9 @@ public class PlayerInteractEntityListener implements Listener {
 
                 ItemStack choosenItem = null;
 
-
                 //Generates a random item
                 while (choosenItem == null){
-                    switch (random.nextInt(7)){
+                    switch (random.nextInt(12)){
 
                         case 0:// Golden Apple
                             choosenItem = new ItemStack(Material.GOLDEN_APPLE, random.nextInt(2)+1);
@@ -55,59 +59,111 @@ public class PlayerInteractEntityListener implements Listener {
 
                             healingPotionStack.setItemMeta(healingPotionMeta);
                             choosenItem = healingPotionStack;
-
                             break;
                         case 2: // Arrows
                             choosenItem = new ItemStack(Material.ARROW, random.nextInt(16)+6);
                             break;
                         case 3://Mostly broken Fishing rod
-                            ItemStack fishingStack = new ItemStack(Material.FISHING_ROD, 1);
+                            if (random.nextInt(5) == 0){
+                                ItemStack fishingStack = new ItemStack(Material.FISHING_ROD, 1);
 
-                            Damageable fishingMeta = (Damageable) fishingStack.getItemMeta();
-                            fishingMeta.setDamage(random.nextInt(24, 59));
+                                Damageable fishingMeta = (Damageable) fishingStack.getItemMeta();
+                                fishingMeta.setDamage(random.nextInt(24, 59));
 
-                            fishingStack.setItemMeta(fishingMeta);
-                            choosenItem = fishingStack;
+                                fishingStack.setItemMeta(fishingMeta);
+                                choosenItem = fishingStack;
+                            }
                             break;
                         case 4://mostly broken bow
-                            ItemStack bowStack = new ItemStack(Material.BOW, 1);
+                            if (random.nextInt(5) == 0){
+                                ItemStack bowStack = new ItemStack(Material.BOW, 1);
 
-                            Damageable bowMeta = (Damageable) bowStack.getItemMeta();
-                            bowMeta.setDamage(random.nextInt(324, 377));
+                                Damageable bowMeta = (Damageable) bowStack.getItemMeta();
+                                bowMeta.setDamage(random.nextInt(324, 377));
 
-                            bowStack.setItemMeta(bowMeta);
-                            choosenItem = bowStack;
+                                bowStack.setItemMeta(bowMeta);
+                                choosenItem = bowStack;
+                            }
                             break;
                         case 5://mostly broken crossbow
-                            ItemStack crossbowStack = new ItemStack(Material.CROSSBOW, 1);
+                            if (random.nextInt(6) == 0){
+                                ItemStack crossbowStack = new ItemStack(Material.CROSSBOW, 1);
 
-                            Damageable crossbowMeta = (Damageable) crossbowStack.getItemMeta();
-                            crossbowMeta.setDamage(random.nextInt(425, 460));
+                                Damageable crossbowMeta = (Damageable) crossbowStack.getItemMeta();
+                                crossbowMeta.setDamage(random.nextInt(425, 460));
 
-                            crossbowStack.setItemMeta(crossbowMeta);
-                            choosenItem = crossbowStack;
+                                crossbowStack.setItemMeta(crossbowMeta);
+                                choosenItem = crossbowStack;
+                            }
                             break;
                         case 6://Cracked axe but damaged
-                            ItemStack sharpnessAxeStack = new ItemStack(Material.STONE_AXE, 1);
+                            if (random.nextInt(5) == 0){
+                                ItemStack sharpnessAxeStack = new ItemStack(Material.STONE_AXE, 1);
 
-                            Damageable sharpnessAxeMeta = (Damageable) sharpnessAxeStack.getItemMeta();
-                            sharpnessAxeMeta.setDamage(random.nextInt(122, 129));
-                            sharpnessAxeMeta.addEnchant(Enchantment.DAMAGE_ALL, 6, true);
+                                Damageable sharpnessAxeMeta = (Damageable) sharpnessAxeStack.getItemMeta();
+                                sharpnessAxeMeta.setDamage(random.nextInt(122, 129));
+                                sharpnessAxeMeta.addEnchant(Enchantment.DAMAGE_ALL, 6, true);
 
-                            sharpnessAxeStack.setItemMeta(sharpnessAxeMeta);
-                            choosenItem = sharpnessAxeStack;
+                                sharpnessAxeStack.setItemMeta(sharpnessAxeMeta);
+                                choosenItem = sharpnessAxeStack;
+                            }
                             break;
-                            ///// MAKE PERMINEST EXTRA HEART
-                            //MAKE EXTRA MONEY
-                        case 7:
+
+                        case 7: //Gives the player extra money
+                            ItemStack coins = new ItemStack(Material.SUNFLOWER, random.nextInt(2,8));
+                            ItemMeta coinsMeta = coins.getItemMeta();
+                            coinsMeta.setDisplayName(ChatColor.GOLD + "Extra Cash");
+                            coins.setItemMeta(coinsMeta);
+
+                            choosenItem = coins;
                             break;
                         case 8:
+                            //Insant extra heart
+                            ItemStack extraHealth = new ItemStack(Material.SWEET_BERRIES);
+                            ItemMeta extraHealthMeta = extraHealth.getItemMeta();
+
+                            extraHealthMeta.setDisplayName(ChatColor.RED + "+1 HP");
+                            extraHealth.setItemMeta(extraHealthMeta);
+
+                            choosenItem = extraHealth;
                             break;
                         case 9:
+                            /////Perminent extra health
+                            if (random.nextInt(7)==0){
+                                ItemStack permanentHealth = new ItemStack(Material.GLOW_BERRIES);
+                                ItemMeta permanentHealthMeta = permanentHealth.getItemMeta();
+
+                                permanentHealthMeta.setDisplayName(ChatColor.GOLD + "+1 MAX HP");
+                                permanentHealth.setItemMeta(permanentHealthMeta);
+
+                                choosenItem = permanentHealth;
+                            }
+
                             break;
                         case 10:
+                            //Extra revive but at half the health
+                            if (random.nextInt(16)==0){
+                                ItemStack extraRevive = new ItemStack(Material.NETHER_STAR);
+                                ItemMeta extraReviveMeta = extraRevive.getItemMeta();
+
+                                extraReviveMeta.setDisplayName(ChatColor.BOLD + "+1 Spare Revive");
+                                extraRevive.setItemMeta(extraReviveMeta);
+
+
+                                choosenItem = extraRevive;
+                            }
                             break;
                         case 11:
+                            //Wolf minions
+                            if (random.nextInt(1)==0){
+                                ItemStack wolfMinions = new ItemStack(Material.WOLF_SPAWN_EGG, random.nextInt(2, 4));
+                                ItemMeta wolfMinionsMeta = wolfMinions.getItemMeta();
+
+                                wolfMinionsMeta.setDisplayName(ChatColor.GREEN + "Wolf Summoner");
+                                wolfMinions.setItemMeta(wolfMinionsMeta);
+
+                                choosenItem = wolfMinions;
+                            }
                             break;
                         case 12:
                             break;
@@ -122,10 +178,10 @@ public class PlayerInteractEntityListener implements Listener {
 
 
 
-                int randomChestSlot = random.nextInt(27)+1;
+                int randomChestSlot = random.nextInt(27);
 
                 while(lootInventory.getItem(randomChestSlot) != null){
-                    randomChestSlot = random.nextInt(27)+1;
+                    randomChestSlot = random.nextInt(27);
                 }
 
                 lootInventory.setItem(randomChestSlot,choosenItem);
