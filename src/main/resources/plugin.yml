@@ -15,3 +15,5 @@ commands:
     description: Makes the armor stand the player has to click to enter the respawn event
   MakeLootGenerator:
       description: Makes and armorstand that has a chance to generator a falling chest entity that can be click for loot
+  Debug:
+      description: Debug command to help me test some things

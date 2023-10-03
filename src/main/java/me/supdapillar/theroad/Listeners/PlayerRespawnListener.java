@@ -3,6 +3,7 @@ package me.supdapillar.theroad.Listeners;
 import me.supdapillar.theroad.Helpers.StarterItems;
 import me.supdapillar.theroad.TheRoadPlugin;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,6 +35,7 @@ public class PlayerRespawnListener implements Listener {
                 break;
             case inGame:
                 player.setGameMode(GameMode.SPECTATOR);
+                player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
                 event.setRespawnLocation(TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)].spawnLocation);
                 break;
         }

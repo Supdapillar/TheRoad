@@ -79,6 +79,7 @@ public class GameManager {
             player.sendTitle(ChatColor.BOLD + currentSelectedArena.arenaName, "", 0 , 1, 1);
             player.setGameMode(GameMode.ADVENTURE);
             player.playSound(player, Sound.ENTITY_GUARDIAN_DEATH, 9999, 1);
+            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
 
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 

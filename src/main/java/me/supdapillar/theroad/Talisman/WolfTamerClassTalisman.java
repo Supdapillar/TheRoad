@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class WolfTamerClassTalisman extends Talisman{
 
     public WolfTamerClassTalisman(){
+        countsAsActive = false;
         name = "You shouldn't see this";
         price = 0;
         lores.add(ChatColor.LIGHT_PURPLE + "STILL SHOULDN'T SEE THIS");

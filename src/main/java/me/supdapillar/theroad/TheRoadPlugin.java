@@ -60,6 +60,7 @@ public final class TheRoadPlugin extends JavaPlugin {
             new AgonyTalisman(),
             new FrostTalisman(),
             new PlunderTalisman(),
+            new SoulTalisman(),
     };
 
     @Override
@@ -92,6 +93,7 @@ public final class TheRoadPlugin extends JavaPlugin {
         getCommand("ChangeWorld").setExecutor(new ChangeWorldCommand());
         getCommand("MakeRespawnBeacon").setExecutor(new RespawnBeaconCommand());
         getCommand("MakeLootGenerator").setExecutor(new MakeLootGeneratorCommand());
+        getCommand("Debug").setExecutor(new DebugCommand());
         counterLoop.runTaskTimer(this,0,10);
 
         World map1 = Bukkit.getServer().createWorld(new WorldCreator("SkyRoad"));

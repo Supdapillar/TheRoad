@@ -23,6 +23,7 @@ public class Talisman {
     public String name;
     public int price;
     public ArrayList<String> lores = new ArrayList<String>();
+    public boolean countsAsActive = true;
     public ItemStack makeIcon(Player player){
         ItemStack item = inventoryIcon;
 
@@ -54,14 +55,10 @@ public class Talisman {
     public void processClick(Player player){
         if (containsTalisman(TheRoadPlugin.getInstance().PlayerUnlockedTalisman.get(player)) || price == 0){
             if (containsTalisman(TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player))){
-                Talisman talismanToBeRemoved = null;
-                for (Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)) {
-                    if (talisman.equals(this)) talismanToBeRemoved = talisman;
-                }
-                TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).remove(talismanToBeRemoved);
+                TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).remove(this);
                 player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
                 player.sendMessage(ChatColor.RED + "You've deactivated the " + name);
-                talismanToBeRemoved.onTalismanDeselect(player);
+                this.onTalismanDeselect(player);
 
             }
             else {
@@ -69,12 +66,15 @@ public class Talisman {
                     player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
                     player.sendMessage(ChatColor.AQUA + "You've activated the " + name + "!");
                     TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(this);
+                    this.onTalismanSelect(player);
                 }
                 else {
+                    Talisman talismanToBeRemoved = TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).get(0);
                     player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
                     player.sendMessage(ChatColor.AQUA + "You've activated the " + name);
-                    player.sendMessage(ChatColor.RED + "but you've unactivated the " + name + "!");
-                    TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).get(0).onTalismanDeselect(player);
+                    this.onTalismanSelect(player);
+                    player.sendMessage(ChatColor.RED + "but you've unactivated the " + talismanToBeRemoved.name + "!");
+                    talismanToBeRemoved.onTalismanDeselect(player);
                     TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).remove(0);
                     TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(this);
                 }
@@ -97,12 +97,16 @@ public class Talisman {
         }
     }
 
+    public static int getPlayerActiveTalismans(Player player){
+        return TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).stream().filter(o -> o.countsAsActive).toArray().length;
+    }
+
     private boolean containsTalisman(final List<Talisman> list){
         return list.stream().anyMatch(o -> Objects.equals(o.name, name));
     }
 
     public void onTalismanDeselect(Player player) {};
-
+    public void onTalismanSelect(Player player) {};
 
 
     public void onMobDeath(EntityDeathEvent event) {};
