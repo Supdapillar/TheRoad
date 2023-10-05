@@ -13,6 +13,10 @@ public class SkyRoad extends Arena {
 
     public SkyRoad(){
         arenaName = "Sky Road";
+
+        iconLore.add(ChatColor.BLUE + "A torn city bound to the sky ");
+        iconLore.add(ChatColor.BLUE + "populated now with only the infected. ");
+
         iconLore.add(ChatColor.LIGHT_PURPLE + "Difficulty: Medium");
         iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 30 Rounds");
 

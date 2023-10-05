@@ -25,9 +25,15 @@ public class PlunderTalisman extends Talisman{
 
     @Override
     public void onMobDeath(EntityDeathEvent event) {
-        if (Math.random() < 0.075){
-            //Make loot chest appear
-            TheRoadPlugin.getInstance().gameManager.makeLootChest(event.getEntity());
+        if (Math.random() < 0.1){
+            if (event.getEntity().getLocation().getBlock().getType() == Material.AIR){
+                //Make loot chest appear
+                TheRoadPlugin.getInstance().gameManager.makeLootChest(event.getEntity());
+            }
+            else {
+                Bukkit.broadcastMessage("I wouldve delete a " + event.getEntity().getLocation().getBlock().getType());
+            }
+
         }
     }
 

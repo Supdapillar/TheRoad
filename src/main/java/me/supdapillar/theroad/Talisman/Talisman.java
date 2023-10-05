@@ -10,6 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -62,7 +63,7 @@ public class Talisman {
 
             }
             else {
-                if (TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).size() < 3){ // If the player hasnt hit the cap on talismans
+                if (getPlayerActiveTalismans(player) < 3){ // If the player hasnt hit the cap on talismans
                     player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
                     player.sendMessage(ChatColor.AQUA + "You've activated the " + name + "!");
                     TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(this);
@@ -72,11 +73,11 @@ public class Talisman {
                     Talisman talismanToBeRemoved = TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).get(0);
                     player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
                     player.sendMessage(ChatColor.AQUA + "You've activated the " + name);
-                    this.onTalismanSelect(player);
                     player.sendMessage(ChatColor.RED + "but you've unactivated the " + talismanToBeRemoved.name + "!");
-                    talismanToBeRemoved.onTalismanDeselect(player);
                     TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).remove(0);
+                    talismanToBeRemoved.onTalismanDeselect(player);
                     TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(this);
+                    this.onTalismanSelect(player);
                 }
             }
 
@@ -114,5 +115,6 @@ public class Talisman {
     public void onPlayerMove(PlayerMoveEvent event) {};
     public void onPlayerHealthRegain(EntityRegainHealthEvent event) {};
     public void onPlayerDamage(EntityDamageByEntityEvent event){};
+    public void onLootChestOpen(Inventory inventory){};
 
 }

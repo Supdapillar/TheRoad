@@ -42,7 +42,9 @@ public final class TheRoadPlugin extends JavaPlugin {
             new Archer(TheRoadPlugin.getInstance()),
             new Executioner(TheRoadPlugin.getInstance()),
             new Assassin(TheRoadPlugin.getInstance()),
-            new WolfTamer(TheRoadPlugin.getInstance())
+            new WolfTamer(TheRoadPlugin.getInstance()),
+            new Healer(TheRoadPlugin.getInstance()),
+            new Defender(TheRoadPlugin.getInstance())
     };
 
     public Talisman[] talismans = new Talisman[]{
@@ -61,6 +63,11 @@ public final class TheRoadPlugin extends JavaPlugin {
             new FrostTalisman(),
             new PlunderTalisman(),
             new SoulTalisman(),
+            new ShieldTalisman(),
+            new MendingTalisman(),
+            new VigorTalisman(),
+            new TreasureTalisman(),
+            new BarrageTalisman(),
     };
 
     @Override
@@ -85,6 +92,7 @@ public final class TheRoadPlugin extends JavaPlugin {
         new EntityRegainHealthListener(this);
         new PlayerInteractEntityListener(this);
         new InventoryOpenListener(this);
+        new EntityChangeBlockListener(this);
 
         ScoreboardHandler.updateScoreboard(this);
 

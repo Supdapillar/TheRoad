@@ -1,7 +1,7 @@
 package me.supdapillar.theroad.Managers;
 
 import me.supdapillar.theroad.Arenas.Arena;
-import me.supdapillar.theroad.Arenas.HauntedRoad;
+import me.supdapillar.theroad.Arenas.HauntedManor;
 import me.supdapillar.theroad.Arenas.SkyRoad;
 import me.supdapillar.theroad.Helpers.StarterItems;
 import me.supdapillar.theroad.Tasks.DelayedSpawn;
@@ -26,7 +26,7 @@ public class GameManager {
     public Gamestates gamestates = Gamestates.lobby;
     public Arena[] gameArenas = new Arena[]{
             new SkyRoad(),
-            new HauntedRoad(),
+            new HauntedManor(),
     };
     public int currentArena = 0;
     public int currentRound = 0;

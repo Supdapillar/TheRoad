@@ -45,7 +45,7 @@ public class Assassin extends GameClass {
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
         classArmor[0] = new ItemStack(Material.AIR);
         classArmor[1] = new ItemStack(Material.AIR);
-        classArmor[2] = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
+        classArmor[2] = new ItemStack(Material.LEATHER_CHESTPLATE);
         classArmor[3] = new ItemStack(Material.AIR);
 
         newItem.setItemMeta(newItemMeta);

@@ -31,7 +31,6 @@ public class MovementListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event){
-        //if (TheRoadPlugin.getInstance().gameManager.gamestates != Gamestates.inGame) return;
         Player player = event.getPlayer();
         GameManager gameManager = TheRoadPlugin.getInstance().gameManager;
 

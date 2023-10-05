@@ -20,7 +20,6 @@ public class GameEndDelayer extends BukkitRunnable {
     public void run() {
         timer++;
 
-
         //Spawns fireworks around the players
         for(Player player : Bukkit.getOnlinePlayers()){
             player.setGameMode(GameMode.SPECTATOR);
