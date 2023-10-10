@@ -51,7 +51,7 @@ public class Assassin extends GameClass {
         newItem.setItemMeta(newItemMeta);
 
         super.inventoryIcon = newItem;
-        super.price = 250;
+        super.price = 0;
         super.representingClass = Classes.Assassin;
 
     }

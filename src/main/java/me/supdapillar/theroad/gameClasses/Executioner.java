@@ -45,7 +45,7 @@ public class Executioner extends GameClass {
         newItem.setItemMeta(newItemMeta);
 
         super.inventoryIcon = newItem;
-        super.price = 100;
+        super.price = 0;
         super.representingClass = Classes.Executioner;
     }
 

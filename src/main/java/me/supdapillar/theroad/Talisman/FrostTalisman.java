@@ -35,7 +35,7 @@ public class FrostTalisman extends Talisman{
         Bukkit.broadcastMessage("Mob died with effect");
         double Angle = 0;
         for(int i = 0; i < 100; i++){
-            Angle -= Math.PI/50f + new Date(System.currentTimeMillis()).getTime()*80;;
+            Angle -= Math.PI/50f;;
 
             Location EntityLocation = mainEntity.getLocation();
             Location particleLocation = new Location(mainEntity.getWorld(), EntityLocation.getX() + (Math.cos(Angle) * 4f), EntityLocation.getY()+0.3, EntityLocation.getZ()+ (Math.sin(Angle) * 4f));

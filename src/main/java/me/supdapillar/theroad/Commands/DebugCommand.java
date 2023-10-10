@@ -1,6 +1,7 @@
 package me.supdapillar.theroad.Commands;
 
 import me.supdapillar.theroad.Talisman.Talisman;
+import me.supdapillar.theroad.Tasks.SkyGuardian.SkyGuardianUpdater;
 import me.supdapillar.theroad.TheRoadPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,7 +11,9 @@ import org.bukkit.block.data.type.Switch;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
 
 public class DebugCommand implements CommandExecutor {
     @Override
@@ -27,13 +30,20 @@ public class DebugCommand implements CommandExecutor {
                         }
 
                         break;
-                    case "ResetMoney":
+                    case "Summon":
+                        switch (args[1]){
+                            case "SkyGuardian":
+                                TheRoadPlugin.getInstance().nextMobIsBoss = true;
+                                Zombie zombie = (Zombie) player.getLocation().getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
+                                new SkyGuardianUpdater(zombie).runTaskTimer(TheRoadPlugin.getInstance(), 0, 0);
+                                break;
+                        }
                         break;
 
                 }
             }
             else {
-                player.sendMessage(ChatColor.RED + "/Debug <ListTalisman | ResetMoney>");
+                player.sendMessage(ChatColor.RED + "/Debug <ListTalisman | Summon>");
             }
         }
     return true;

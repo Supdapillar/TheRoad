@@ -3,7 +3,6 @@ package me.supdapillar.theroad.Talisman;
 import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.Listeners.MobDeathListener;
 import me.supdapillar.theroad.TheRoadPlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -12,9 +11,9 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class XPTalisman extends Talisman{
+public class PrizeTalisman extends Talisman{
 
-    public XPTalisman(){
+    public PrizeTalisman(){
         name = "Prize Talisman";
         price = 0;
         lores.add(ChatColor.LIGHT_PURPLE + "The lower your health");

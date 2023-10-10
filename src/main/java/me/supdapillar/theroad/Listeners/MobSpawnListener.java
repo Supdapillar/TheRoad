@@ -44,7 +44,8 @@ public class MobSpawnListener implements Listener {
             bossZombie.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(900);
             bossZombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3);
             Bukkit.broadcastMessage("Attack:" + bossZombie.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).getBaseValue() );
-            bossZombie.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(15);
+            bossZombie.setPersistent(true);
+            bossZombie.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
             bossZombie.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(15);
             bossZombie.setHealth(900);
             bossZombie.setCustomName(ChatColor.WHITE + "Sky Guardian");

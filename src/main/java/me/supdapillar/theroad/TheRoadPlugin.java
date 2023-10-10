@@ -44,13 +44,15 @@ public final class TheRoadPlugin extends JavaPlugin {
             new Assassin(TheRoadPlugin.getInstance()),
             new WolfTamer(TheRoadPlugin.getInstance()),
             new Healer(TheRoadPlugin.getInstance()),
-            new Defender(TheRoadPlugin.getInstance())
+            new Defender(TheRoadPlugin.getInstance()),
+            new Mage(TheRoadPlugin.getInstance()),
+            new Merchant(TheRoadPlugin.getInstance()),
     };
 
     public Talisman[] talismans = new Talisman[]{
             new CritTalisman(),
             new ArrowTalisman(),
-            new XPTalisman(),
+            new PrizeTalisman(),
             new SlownessTalisman(),
             new VampireTalisman(),
             new InfernoTalisman(),

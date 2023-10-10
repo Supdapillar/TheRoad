@@ -42,7 +42,7 @@ public class InfernoTalisman extends Talisman{
         Location pLocation = player.getLocation();
         double Angle = 0;
         for(int i = 0; i < 25; i++){
-            Angle -= Math.PI/12.5f + new Date(System.currentTimeMillis()).getTime()*80;;
+            Angle -= Math.PI/12.5f + new Date(System.currentTimeMillis()).getTime()*80;
 
             Location particleLocation = new Location(player.getWorld(), pLocation.getX() + (Math.cos(Angle) * 3.75f), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 3.75f));
             player.spawnParticle(Particle.FLAME, particleLocation, 1, 0 ,0 ,0 ,0);

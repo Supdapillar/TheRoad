@@ -1,5 +1,6 @@
 package me.supdapillar.theroad.Tasks;
 
+import me.supdapillar.theroad.Tasks.SkyGuardian.SkyGuardianUpdater;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Heads;
 import org.bukkit.*;
@@ -36,19 +37,22 @@ public class DelayedSpawn extends BukkitRunnable {
 
         //Summons the entity and ends the task
         if (tickCounter == 30){
+            ///// Boss Spawner
             PersistentDataContainer dataContainer = whereToSummon.getPersistentDataContainer();
-            ///// Handles all the fancy stuff for the boss
-            if (Objects.equals(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING), "BOSS1")){
-                //The Sky Guardian
-                TheRoadPlugin.getInstance().nextMobIsBoss = true;
-                whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.ZOMBIE);
 
+            if (Objects.equals(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING), "BOSS1")){
+                //////The Sky Guardian
+                TheRoadPlugin.getInstance().nextMobIsBoss = true;
+                Zombie zombie = (Zombie) whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.ZOMBIE);
+                new SkyGuardianUpdater(zombie).runTaskTimer(TheRoadPlugin.getInstance(), 0, 0);
 
 
 
 
 
             }
+            /////Normal mob spawn
+
             else {
                 whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.valueOf(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING)), true);
             }

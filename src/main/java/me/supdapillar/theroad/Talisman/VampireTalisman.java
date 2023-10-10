@@ -13,7 +13,7 @@ public class VampireTalisman extends Talisman{
 
     public VampireTalisman(){
         name = "Vampire Talisman";
-        price = 50;
+        price = 0;
         lores.add(ChatColor.LIGHT_PURPLE + "Hitting an enemy causes ");
         lores.add(ChatColor.LIGHT_PURPLE + "the player to regain health! ");
 

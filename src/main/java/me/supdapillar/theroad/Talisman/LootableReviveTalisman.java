@@ -21,7 +21,7 @@ public class LootableReviveTalisman extends Talisman{
     private boolean canRevive = true;
     public LootableReviveTalisman(){
         countsAsActive = false;
-        name = "You shouldn't see this";
+        name = "Internal Revive";
         price = 0;
         lores.add(ChatColor.LIGHT_PURPLE + "STILL SHOULDN'T SEE THIS");
 

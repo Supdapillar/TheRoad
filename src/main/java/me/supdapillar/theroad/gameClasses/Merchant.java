@@ -11,17 +11,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 
-public class Healer extends GameClass {
+public class Merchant extends GameClass {
 
-    public Healer(TheRoadPlugin plugin) {
+    public Merchant(TheRoadPlugin plugin) {
         super(plugin);
-        className = "Healer";
+        className = "Merchant";
         price = 0;
-        representingClass = Classes.Healer;
+        representingClass = Classes.Merchant;
 
 
 
-        ItemStack healingStaff = new ItemStack(Material.ALLIUM);
+        ItemStack healingStaff = new ItemStack(Material.CHEST);
         ItemMeta itemMeta = healingStaff.getItemMeta();
         itemMeta.setDisplayName(ChatColor.GREEN + "Healing Staff");
 
@@ -44,7 +44,7 @@ public class Healer extends GameClass {
 
 
         //For icon
-        ItemStack newItem = new ItemStack(Material.ALLIUM);
+        ItemStack newItem = new ItemStack(Material.CHEST);
         ItemMeta newItemMeta = newItem.getItemMeta();
 
         newItemMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.AQUA + className);

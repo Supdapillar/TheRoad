@@ -7,5 +7,7 @@ public enum Classes {
     Assassin,
     WolfTamer,
     Healer,
-    Defender
+    Defender,
+    Mage,
+    Merchant
 }

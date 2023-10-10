@@ -11,6 +11,9 @@ public class HauntedManor extends Arena {
 
     public HauntedManor(){
         arenaName = "Haunted Manor";
+        iconLore.add(ChatColor.BLUE + "Pretty spooky or somthing ");
+        iconLore.add(ChatColor.BLUE + "idk. ");
+
         iconLore.add(ChatColor.LIGHT_PURPLE + "Difficulty: Insane");
         iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 300 Rounds");
 

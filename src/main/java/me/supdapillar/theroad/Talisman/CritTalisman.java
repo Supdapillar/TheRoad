@@ -19,7 +19,7 @@ public class CritTalisman extends Talisman{
 
     public CritTalisman(){
         name = "Crit Talisman";
-        price = 50;
+        price = 0;
         lores.add(ChatColor.LIGHT_PURPLE + "Hits have a 25% chance of ");
         lores.add(ChatColor.LIGHT_PURPLE + "a critical hit dealing 2x damage!");
 
