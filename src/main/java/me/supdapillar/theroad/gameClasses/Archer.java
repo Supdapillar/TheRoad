@@ -20,12 +20,12 @@ public class Archer extends GameClass {
         classItems.add(new ItemStack(Material.WOODEN_SWORD));
         ItemStack bow = new ItemStack(Material.BOW);
         ItemMeta bowMeta = bow.getItemMeta();
-        bowMeta.addEnchant(Enchantment.ARROW_INFINITE, 1,true);
+        bowMeta.addEnchant(Enchantment.ARROW_DAMAGE, 0,true);
         bow.setItemMeta(bowMeta);
 
         classItems.add(bow);
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
-        classItems.add(new ItemStack(Material.ARROW));
+        classItems.add(new ItemStack(Material.ARROW, 32));
 
         classArmor[0] = new ItemStack(Material.LEATHER_BOOTS);
         classArmor[1] = new ItemStack(Material.CHAINMAIL_LEGGINGS);

@@ -26,7 +26,7 @@ public class Healer extends GameClass {
         itemMeta.setDisplayName(ChatColor.GREEN + "Healing Staff");
 
 
-        String[] healingLore = {ChatColor.GREEN + "[Left Click] for a healing beam! (1xp)", ChatColor.GREEN + "[Right Click] for a healing aura! (3xp)"};
+        String[] healingLore = {ChatColor.GREEN + "[Left Click]" + ChatColor.WHITE + " for a healing beam!" + ChatColor.BLUE + " (1xp)", ChatColor.GREEN + "[Right Click]" + ChatColor.WHITE +" for a healing aura!"+ ChatColor.BLUE+ " (3xp)"};
         itemMeta.setLore(Arrays.asList(healingLore));
         healingStaff.setItemMeta(itemMeta);
 

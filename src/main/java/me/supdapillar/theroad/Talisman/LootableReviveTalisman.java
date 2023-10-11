@@ -31,7 +31,7 @@ public class LootableReviveTalisman extends Talisman{
         ItemMeta itemMeta = inventoryIcon.getItemMeta();
         itemMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.AQUA + name);
         inventoryIcon.setItemMeta(itemMeta);
-
+        countsAsActive = false;
     }
 
 
@@ -42,9 +42,10 @@ public class LootableReviveTalisman extends Talisman{
         if (player.getHealth() - event.getDamage() <= 0){
             if (canRevive){
                 player.sendMessage(ChatColor.WHITE + "" + ChatColor.BOLD + "You Died! -1 Revive");
-                player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+                player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()/2);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 5, 0, true));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5, 2, true));
+                player.getWorld().spawnParticle(Particle.END_ROD, player.getLocation().add(0,0.5, 0), 25, 0.5, 1, 0.5, 0);
                 canRevive = false;
             }
         }

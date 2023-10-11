@@ -2,6 +2,7 @@ package me.supdapillar.theroad.Listeners;
 
 import me.supdapillar.theroad.Helpers.StarterItems;
 import me.supdapillar.theroad.TheRoadPlugin;
+import me.supdapillar.theroad.gameClasses.Merchant;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
@@ -54,6 +55,9 @@ public class InteractListener implements Listener {
                 break;
             case TOTEM_OF_UNDYING:
                 StarterItems.refreshTalismanMenu(player);
+                break;
+            case CHEST:
+                Merchant.openMerchantShop(player);
                 break;
             case ALLIUM:
                 if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK ){ // Shoots a beam and heals anything it touches
@@ -157,32 +161,41 @@ public class InteractListener implements Listener {
                 event.setCancelled(true);
                 ItemStack wolfStack = event.getItem();
                 if (wolfStack.getAmount() > 1) {
-
-                    wolfStack.setAmount(wolfStack.getAmount() - 1);
-                    summonWolf(player);
-
+                    if (summonWolf(player)){
+                        wolfStack.setAmount(wolfStack.getAmount() - 1);
+                    }
                 }
                 else {
-
-                    wolfStack.setAmount(0);
-                    summonWolf(player);
-
+                    if (summonWolf(player)){
+                        wolfStack.setAmount(0);
+                    }
                 }
                 break;
         }
     }
 
-    private void summonWolf(Player player){
+    private boolean summonWolf(Player player){
 
-        Wolf wolf = (Wolf) player.getWorld().spawnEntity(player.getLocation(), EntityType.WOLF);
+        //Gets the number of wolves owned by this player
+        Object[] allPlayerOwnedWolves = player.getWorld().getEntities().stream().filter(o -> o instanceof Wolf && ((Wolf) o).getOwner() == player).toArray();
+
+        if (allPlayerOwnedWolves.length < 5){
+            Wolf wolf = (Wolf) player.getWorld().spawnEntity(player.getLocation(), EntityType.WOLF);
 
 
-        wolf.setTamed(true);
-        wolf.setOwner(player);
+            wolf.setTamed(true);
+            wolf.setOwner(player);
+            wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
 
+            wolf.setCustomName(ChatColor.BLUE + "[" + wolf.getHealth() + "❤/" + wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
+            wolf.setCustomNameVisible(true);
+            return  true;
+        }
+        else {
+            player.sendMessage(ChatColor.RED + "You have too many wolves!");
+            return false;
+        }
 
-        wolf.setCustomName(ChatColor.BLUE + "[" + wolf.getHealth() + "❤/" + wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
-        wolf.setCustomNameVisible(true);
     }
 
 }

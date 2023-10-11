@@ -23,11 +23,13 @@ public class WolfTamerClassTalisman extends Talisman{
 
     @Override
     public void onMobDeath(EntityDeathEvent event) {
-        ItemStack wolfSpawner = new ItemStack(Material.WOLF_SPAWN_EGG);
-        ItemMeta wolfMeta = wolfSpawner.getItemMeta();
-        wolfMeta.setDisplayName(ChatColor.GREEN + "Wolf Summoner");
+        if (Math.random() > 0.5f){
+            ItemStack wolfSpawner = new ItemStack(Material.WOLF_SPAWN_EGG);
+            ItemMeta wolfMeta = wolfSpawner.getItemMeta();
+            wolfMeta.setDisplayName(ChatColor.GREEN + "Wolf Summoner");
 
-        wolfSpawner.setItemMeta(wolfMeta);
-        event.getEntity().getKiller().getInventory().addItem(wolfSpawner);
+            wolfSpawner.setItemMeta(wolfMeta);
+            event.getEntity().getKiller().getInventory().addItem(wolfSpawner);
+        }
     }
 }

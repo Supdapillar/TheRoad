@@ -2,6 +2,8 @@ package me.supdapillar.theroad.Listeners;
 
 import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
+import me.supdapillar.theroad.enums.Classes;
+import me.supdapillar.theroad.gameClasses.Merchant;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,6 +23,8 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 public class PlayerInteractEntityListener implements Listener {
@@ -32,7 +36,7 @@ public class PlayerInteractEntityListener implements Listener {
 
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event){
-        if (!(event.getRightClicked() instanceof FallingBlock)) return;
+        if ((event.getRightClicked() instanceof FallingBlock)){
             Player player = event.getPlayer();
             FallingBlock fallingBlock = (FallingBlock) event.getRightClicked();
             Inventory lootInventory = Bukkit.createInventory(player, InventoryType.CHEST, "Loot Chest");
@@ -63,6 +67,14 @@ public class PlayerInteractEntityListener implements Listener {
             for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
                 talisman.onLootChestOpen(lootInventory);
             }
+        }
+        else if (event.getRightClicked() instanceof Player){
+            //For the merchant class
+            Player clickedPlayer = (Player) event.getRightClicked();
+            if (TheRoadPlugin.getInstance().PlayerClass.get(clickedPlayer) == Classes.Merchant){
+                Merchant.openMerchantShop(event.getPlayer());
+            }
+        }
     }
 
     public static ItemStack GenerateRandomLoot() {
@@ -71,10 +83,10 @@ public class PlayerInteractEntityListener implements Listener {
 
         //Generates a random item
         while (choosenItem == null) {
-            switch (random.nextInt(12)) {
+            switch (random.nextInt(14)) {
 
                 case 0:// Golden Apple
-                    choosenItem = new ItemStack(Material.GOLDEN_APPLE, random.nextInt(2) + 1);
+                    choosenItem = new ItemStack(Material.GOLDEN_APPLE, random.nextInt(1) + 1);
                     break;
                 case 1://Potion of healing
                     ItemStack healingPotionStack = new ItemStack(Material.POTION, 1);
@@ -166,7 +178,7 @@ public class PlayerInteractEntityListener implements Listener {
                     break;
                 case 10:
                     //Extra revive but at half the health
-                    if (random.nextInt(16) == 0) {
+                    if (random.nextInt(20) == 0) {
                         ItemStack extraRevive = new ItemStack(Material.NETHER_STAR);
                         ItemMeta extraReviveMeta = extraRevive.getItemMeta();
 
@@ -179,8 +191,8 @@ public class PlayerInteractEntityListener implements Listener {
                     break;
                 case 11:
                     //Wolf minions
-                    if (random.nextInt(1) == 0) {
-                        ItemStack wolfMinions = new ItemStack(Material.WOLF_SPAWN_EGG, random.nextInt(2, 4));
+                    if (random.nextInt(13) == 0) {
+                        ItemStack wolfMinions = new ItemStack(Material.WOLF_SPAWN_EGG, random.nextInt(1, 3));
                         ItemMeta wolfMinionsMeta = wolfMinions.getItemMeta();
 
                         wolfMinionsMeta.setDisplayName(ChatColor.GREEN + "Wolf Summoner");
@@ -190,10 +202,20 @@ public class PlayerInteractEntityListener implements Listener {
                     }
                     break;
                 case 12:
+                    //Xp bottles
+                    choosenItem = new ItemStack(Material.EXPERIENCE_BOTTLE, random.nextInt(1,7));
                     break;
                 case 13:
-                    break;
-                case 14:
+                    //Echo Shield
+                    if (random.nextInt(10) == 0) {
+                        ItemStack echoShield = new ItemStack(Material.ECHO_SHARD);
+                        ItemMeta echoMeta = echoShield.getItemMeta();
+                        echoMeta.setDisplayName(ChatColor.DARK_BLUE + "Echo Shield");
+                        echoMeta.setLore(Collections.singletonList(ChatColor.LIGHT_PURPLE + "This crystal makes the next hit, hit the enemy instead!"));
+                        echoShield.setItemMeta(echoMeta);
+
+                        choosenItem = echoShield;
+                    }
                     break;
             }
 

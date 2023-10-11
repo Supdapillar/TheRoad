@@ -40,14 +40,16 @@ public class BarrageTalisman extends Talisman{
         if (!(event.getEntity() instanceof LivingEntity)) return;
         Player player = (Player) event.getDamager();
 
-        if (event.getEntity() instanceof Mob){
-            if (currentActiveTimers.stream().filter(o -> o.Victim == event.getEntity()).toArray().length == 0)
-            {
-                BarrageTimer barrageTimer = new BarrageTimer(player, (Mob) event.getEntity());
-                barrageTimer.runTaskTimer(TheRoadPlugin.getInstance(),0, 10);
-                currentActiveTimers.add(barrageTimer);
-            }
+        if (Math.random() > 0.66f){
+            if (event.getEntity() instanceof Mob){
+                if (currentActiveTimers.stream().filter(o -> o.Victim == event.getEntity()).toArray().length == 0)
+                {
+                    BarrageTimer barrageTimer = new BarrageTimer(player, (Mob) event.getEntity());
+                    barrageTimer.runTaskTimer(TheRoadPlugin.getInstance(),0, 10);
+                    currentActiveTimers.add(barrageTimer);
+                }
 
+            }
         }
 
 

@@ -1,15 +1,22 @@
 package me.supdapillar.theroad.gameClasses;
 
-import me.supdapillar.theroad.Talisman.HealerClassTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Merchant extends GameClass {
 
@@ -21,26 +28,25 @@ public class Merchant extends GameClass {
 
 
 
-        ItemStack healingStaff = new ItemStack(Material.CHEST);
-        ItemMeta itemMeta = healingStaff.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.GREEN + "Healing Staff");
+        ItemStack merchantShop = new ItemStack(Material.CHEST);
+        ItemMeta itemMeta = merchantShop.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.YELLOW + "Merchant Shop");
 
-
-        String[] healingLore = {ChatColor.GREEN + "[Left Click] for a healing beam! (1xp)", ChatColor.GREEN + "[Right Click] for a healing aura! (3xp)"};
-        itemMeta.setLore(Arrays.asList(healingLore));
-        healingStaff.setItemMeta(itemMeta);
+        //Merchant shop
+        String[] merchantLore = {ChatColor.GREEN + "[Right Click]" + ChatColor.WHITE +" to open a shop to spend your xp!"};
+        itemMeta.setLore(Arrays.asList(merchantLore));
+        merchantShop.setItemMeta(itemMeta);
 
 
         classItems.add(new ItemStack(Material.STONE_SWORD));
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
-        classItems.add(healingStaff);
+        classItems.add(merchantShop);
 
-        starterTalismans.add(new HealerClassTalisman());
 
-        classArmor[0] = new ItemStack(Material.IRON_BOOTS);
-        classArmor[1] = new ItemStack(Material.LEATHER_LEGGINGS);
-        classArmor[2] = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
-        classArmor[3] = new ItemStack(Material.PEONY);
+        classArmor[0] = new ItemStack(Material.GOLDEN_BOOTS);
+        classArmor[1] = new ItemStack(Material.GOLDEN_LEGGINGS);
+        classArmor[2] = new ItemStack(Material.GOLDEN_CHESTPLATE);
+        classArmor[3] = new ItemStack(Material.CHEST);
 
 
         //For icon
@@ -53,6 +59,88 @@ public class Merchant extends GameClass {
         newItem.setItemMeta(newItemMeta);
 
         super.inventoryIcon = newItem;
+    }
+
+    public static void openMerchantShop(Player player ){
+
+        Inventory inventory = Bukkit.createInventory(player, 9, "Merchant Shop");
+
+        //Resistance potion
+        ItemStack ResistancePotion = new ItemStack(Material.SPLASH_POTION);
+        PotionMeta ResistanceMeta = (PotionMeta) ResistancePotion.getItemMeta();
+        ResistanceMeta.setColor(Color.fromRGB(139, 128, 227));
+        ResistanceMeta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 400, 1, true, true, true),true  );
+        ResistanceMeta.setLore(Arrays.asList("Lasts 20 Seconds!", ChatColor.GREEN + "(7xp)"));
+        ResistanceMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Resistance");
+        ResistancePotion.setItemMeta(ResistanceMeta);
+        inventory.addItem(ResistancePotion);
+        //Swift potion
+        ItemStack SpeedPotion = new ItemStack(Material.SPLASH_POTION);
+        PotionMeta SpeedMeta = (PotionMeta) SpeedPotion.getItemMeta();
+        SpeedMeta.setColor(Color.fromRGB(51, 235, 255));
+        SpeedMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 600, 2, true, true, true),true  );
+        SpeedMeta.setLore(Arrays.asList("Lasts 30 Seconds!", ChatColor.GREEN + "(7xp)"));
+        SpeedMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Swiftness");
+        SpeedPotion.setItemMeta(SpeedMeta);
+        inventory.addItem(SpeedPotion);
+        //Strength Potion
+        ItemStack StrengthPotion = new ItemStack(Material.SPLASH_POTION);
+        PotionMeta StrengthMeta = (PotionMeta) StrengthPotion.getItemMeta();
+        StrengthMeta.setColor(Color.fromRGB(255, 199, 0));
+        StrengthMeta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0, true, true, true),true  );
+        StrengthMeta.setLore(Arrays.asList("Lasts 20 Seconds!", ChatColor.GREEN + "(10xp)"));
+        StrengthMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Strength");
+        StrengthPotion.setItemMeta(StrengthMeta);
+        inventory.addItem(StrengthPotion);
+        //Invis Potion
+        ItemStack InvisPotion = new ItemStack(Material.SPLASH_POTION);
+        PotionMeta InvisMeta = (PotionMeta) InvisPotion.getItemMeta();
+        InvisMeta.setColor(Color.fromRGB(246, 246, 246));
+        InvisMeta.addCustomEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 400, 0, true, true, true),true  );
+        InvisMeta.setLore(Arrays.asList("Last 20 Seconds!", ChatColor.GREEN + "(8xp)"));
+        InvisMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Invisibility");
+        InvisPotion.setItemMeta(InvisMeta);
+        inventory.addItem(InvisPotion);
+        //Arrows
+        ItemStack Arrows = new ItemStack(Material.ARROW, 16);
+        ItemMeta ArrowMeta = Arrows.getItemMeta();
+        ArrowMeta.setLore(Collections.singletonList(ChatColor.GREEN + "(4xp)"));
+        Arrows.setItemMeta(ArrowMeta);
+        inventory.addItem(Arrows);
+        //Hp Berry
+        ItemStack extraHp = new ItemStack(Material.GLOW_BERRIES);
+        ItemMeta extraHpMeta = extraHp.getItemMeta();
+        extraHpMeta.setDisplayName(ChatColor.GOLD + "+1 MAX HP");
+        extraHpMeta.setLore(Collections.singletonList(ChatColor.GREEN + "(10xp)"));
+        extraHp.setItemMeta(extraHpMeta);
+        inventory.addItem(extraHp);
+        //FireThing
+        ItemStack fireRoot = new ItemStack(Material.TORCHFLOWER);
+        ItemMeta fireRootMeta = fireRoot.getItemMeta();
+        fireRootMeta.setDisplayName(ChatColor.GOLD + "Fire Root");
+        fireRootMeta.setLore(Arrays.asList(ChatColor.LIGHT_PURPLE + "Eating this root causes your attacks",ChatColor.LIGHT_PURPLE + "to ignite all enemies permanently! ","Lasts 30 Attacks" + ChatColor.GREEN + " (10xp)"));
+        fireRoot.setItemMeta(fireRootMeta);
+        inventory.addItem(fireRoot);
+        //Echo Shard
+        ItemStack echoShield = new ItemStack(Material.ECHO_SHARD);
+        ItemMeta echoMeta = echoShield.getItemMeta();
+        echoMeta.setDisplayName(ChatColor.DARK_BLUE + "Echo Shield");
+        echoMeta.setLore(Arrays.asList(ChatColor.LIGHT_PURPLE + "This crystal makes the next hit, hit the enemy instead!","1 Use" + ChatColor.GREEN + " (6xp)"));
+        echoShield.setItemMeta(echoMeta);
+        inventory.addItem(echoShield);
+        //Revive
+        ItemStack extraRevive = new ItemStack(Material.NETHER_STAR);
+        ItemMeta extraReviveMeta = extraRevive.getItemMeta();
+        extraReviveMeta.setDisplayName(ChatColor.BOLD + "+1 Spare Revive");
+        extraReviveMeta.setLore(Collections.singletonList(ChatColor.LIGHT_PURPLE + "Revives the player and is consumed on death!" + ChatColor.GREEN + " (50xp)"));
+        extraRevive.setItemMeta(extraReviveMeta);
+        inventory.addItem(extraRevive);
+
+
+
+
+
+        player.openInventory(inventory);
     }
 
 
