@@ -20,6 +20,12 @@ public class CustomHead {
         //eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUv ZGE5MWRhYjgzOTFhZjVmZGE1NGFjZDJjMGIxOGZiZDgxOWI4NjVlMWE4ZjFkNjIzODEzZmE3NjFlOTI0NTQwIn19fQ==
         GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "jimmy");
         gameProfile.getProperties().put("textures", new Property("textures", url));
+
+
+
+
+
+
         try {
             Field profileField = headMeta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);

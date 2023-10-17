@@ -1,6 +1,9 @@
 package me.supdapillar.theroad.Listeners;
 
 import me.supdapillar.theroad.Helpers.StarterItems;
+import me.supdapillar.theroad.Tasks.CrystalLightningAttackTimer;
+import me.supdapillar.theroad.Tasks.FireShotgunAttackTimer;
+import me.supdapillar.theroad.Tasks.RootOvergrowthAttackTimer;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.gameClasses.Merchant;
 import org.bukkit.*;
@@ -11,11 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 
-import java.sql.DataTruncation;
 import java.util.Date;
 
 public class InteractListener implements Listener {
@@ -118,7 +118,7 @@ public class InteractListener implements Listener {
                         for(int i = 0; i < 36; i++){
                             Angle -= Math.PI/18f + new Date(System.currentTimeMillis()).getTime()*80;;
 
-                            Location particleLocation = new Location(player.getWorld(), pLocation.getX() + (Math.cos(Angle) * 3.75f), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 4f));
+                            Location particleLocation = new Location(player.getWorld(), pLocation.getX() + (Math.cos(Angle) * 4f), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 4f));
                             player.spawnParticle(Particle.REDSTONE, particleLocation, 3, 0.2 ,0.4 ,0.2 ,new Particle.DustOptions(Color.GREEN, 2));
                             player.spawnParticle(Particle.COMPOSTER, particleLocation, 2, 0.2 ,0.3 ,0.2);
                         }
@@ -155,6 +155,52 @@ public class InteractListener implements Listener {
                     else {
                         player.sendMessage(ChatColor.RED + "You lack the experience to heal!");
                     }
+                }
+                break;
+            case BLAZE_ROD:
+                if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
+                    if (player.getLevel() >= 9){
+                        player.setLevel(player.getLevel()-9);
+                        new FireShotgunAttackTimer(player).runTask(TheRoadPlugin.getInstance());
+                        player.playSound(player, Sound.ITEM_FIRECHARGE_USE, 9, 1);
+                    }
+                    else {
+                        player.sendMessage(ChatColor.RED + "You don't have enough xp for this spell!");
+                    }
+                }
+                break;
+            case AMETHYST_SHARD:
+                if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
+                    if (player.getLevel() >= 12){
+                        player.setLevel(player.getLevel()-12);
+                        new CrystalLightningAttackTimer(player).runTaskTimer(TheRoadPlugin.getInstance(), 0 ,2);
+                        player.playSound(player, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1,2);
+                    }
+                    else {
+                        player.sendMessage(ChatColor.RED + "You don't have enough xp for this spell!");
+                    }
+                }
+                break;
+            case MANGROVE_PROPAGULE:
+                if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
+                    if (player.getLevel() >= 9){
+                        if (player.getTargetBlockExact(25) != null){
+                            player.setLevel(player.getLevel()-9);
+                            new RootOvergrowthAttackTimer(player).runTaskTimer(TheRoadPlugin.getInstance(), 0 ,2);
+                            player.playSound(player, Sound.ITEM_TRIDENT_RETURN, 1,2);
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "Out of range!");
+
+                        }
+                    }
+                    else {
+                        player.sendMessage(ChatColor.RED + "You don't have enough xp for this spell!");
+                    }
+                }
+                break;
+            case WARPED_DOOR:
+                if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
                 }
                 break;
             case WOLF_SPAWN_EGG:

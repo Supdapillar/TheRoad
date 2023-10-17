@@ -241,12 +241,12 @@ public class InventoryInteractionListener implements Listener {
 
                         case NETHER_STAR: // Extra Revive
                             if (player.getLevel() >= 50){
-                                player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_RESONATE, 9999 ,1);
+                                player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 9999 ,1);
                                 player.setLevel(player.getLevel() - 50);
                                 TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(new LootableReviveTalisman());
                             }
                             else {
-                                player.playSound(player,Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,1);
+                                player.playSound(player,Sound.ENTITY_VILLAGER_NO,999,1);
                                 player.sendMessage(ChatColor.RED + "You don't have enough xp!");
                             }
 
