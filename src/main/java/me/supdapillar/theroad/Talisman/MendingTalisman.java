@@ -21,7 +21,7 @@ public class MendingTalisman extends Talisman{
 
     public MendingTalisman(){
         name = "Mending Talisman";
-        price = 0;
+        price = 175;
         lores.add(ChatColor.LIGHT_PURPLE + "All healing also gives the ");
         lores.add(ChatColor.LIGHT_PURPLE + "player absorption hearts! ");
 

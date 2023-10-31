@@ -1,11 +1,13 @@
 package me.supdapillar.theroad.gameClasses;
 
+import me.supdapillar.theroad.Talisman.HealerClassTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -23,42 +25,58 @@ public class Merchant extends GameClass {
     public Merchant(TheRoadPlugin plugin) {
         super(plugin);
         className = "Merchant";
-        price = 0;
-        representingClass = Classes.Merchant;
 
 
-
+        //Merchant Shop
         ItemStack merchantShop = new ItemStack(Material.CHEST);
         ItemMeta itemMeta = merchantShop.getItemMeta();
         itemMeta.setDisplayName(ChatColor.YELLOW + "Merchant Shop");
-
-        //Merchant shop
         String[] merchantLore = {ChatColor.GREEN + "[Right Click]" + ChatColor.WHITE +" to open a shop to spend your xp!"};
         itemMeta.setLore(Arrays.asList(merchantLore));
         merchantShop.setItemMeta(itemMeta);
-
-
-        classItems.add(new ItemStack(Material.STONE_SWORD));
-        classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
         classItems.add(merchantShop);
-
-
-        classArmor[0] = new ItemStack(Material.GOLDEN_BOOTS);
-        classArmor[1] = new ItemStack(Material.GOLDEN_LEGGINGS);
-        classArmor[2] = new ItemStack(Material.GOLDEN_CHESTPLATE);
-        classArmor[3] = new ItemStack(Material.CHEST);
-
-
+        //Sword
+        ItemStack stoneSword = new ItemStack(Material.STONE_SWORD);
+        ItemMeta stoneSwordMeta = stoneSword.getItemMeta();
+        stoneSwordMeta.setUnbreakable(true);
+        stoneSword.setItemMeta(stoneSwordMeta);
+        stoneSwordMeta.addEnchant(Enchantment.DAMAGE_ALL, 0,true);
+        classItems.add(new ItemStack(stoneSword));
+        //Boots
+        ItemStack boots = new ItemStack(Material.GOLDEN_BOOTS);
+        ItemMeta bootsMeta = boots.getItemMeta();
+        bootsMeta.setUnbreakable(true);
+        boots.setItemMeta(bootsMeta);
+        classArmor[0] = boots;
+        //Legs
+        ItemStack legs = new ItemStack(Material.GOLDEN_LEGGINGS);
+        ItemMeta legsMeta = legs.getItemMeta();
+        legsMeta.setUnbreakable(true);
+        legs.setItemMeta(legsMeta);
+        classArmor[1] = legs;
+        //Chest
+        ItemStack chest = new ItemStack(Material.GOLDEN_CHESTPLATE);
+        ItemMeta chestMeta = chest.getItemMeta();
+        chestMeta.setUnbreakable(true);
+        chest.setItemMeta(chestMeta);
+        classArmor[2] = chest;
+        //Hel
+        ItemStack helmet = new ItemStack(Material.CHEST);
+        classArmor[3] = helmet;
+        //Extra
+        classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
+        //Talisman
+        starterTalismans.add(new HealerClassTalisman());
         //For icon
         ItemStack newItem = new ItemStack(Material.CHEST);
         ItemMeta newItemMeta = newItem.getItemMeta();
-
         newItemMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.AQUA + className);
         newItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-
         newItem.setItemMeta(newItemMeta);
 
         super.inventoryIcon = newItem;
+        price = 400;
+        representingClass = Classes.Merchant;
     }
 
     public static void openMerchantShop(Player player ){

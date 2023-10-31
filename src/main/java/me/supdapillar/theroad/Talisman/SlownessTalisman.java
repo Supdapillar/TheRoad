@@ -13,7 +13,7 @@ public class SlownessTalisman extends Talisman{
 
     public SlownessTalisman(){
         name = "Slowness Talisman";
-        price = 0;
+        price = 100;
         lores.add(ChatColor.LIGHT_PURPLE + "Every hit an enemy takes ");
         lores.add(ChatColor.LIGHT_PURPLE + "makes them move 10% slower!");
 

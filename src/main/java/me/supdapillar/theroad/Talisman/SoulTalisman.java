@@ -16,7 +16,7 @@ public class SoulTalisman extends Talisman{
 
     public SoulTalisman(){
         name = "Soul Talisman";
-        price = 0;
+        price = 750;
         lores.add(ChatColor.LIGHT_PURPLE + "If an ally takes fatal ");
         lores.add(ChatColor.LIGHT_PURPLE + "damage then you permanently ");
         lores.add(ChatColor.LIGHT_PURPLE + "Sacrifice 1♥ to save them!");
@@ -47,7 +47,6 @@ public class SoulTalisman extends Talisman{
         for(Player player1 : Bukkit.getOnlinePlayers() ){
             //Checks all the talisman
             for (int i = 0; i < TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player1).size(); i++){
-                Bukkit.broadcastMessage(TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player1).get(i).name);
                 //Finds any soul Checkers
                 if (TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player1).get(i) instanceof SoulChecker){
                     SoulChecker soulChecker  = (SoulChecker) TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player1).get(i);

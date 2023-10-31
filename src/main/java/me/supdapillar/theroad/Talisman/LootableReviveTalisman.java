@@ -42,10 +42,11 @@ public class LootableReviveTalisman extends Talisman{
         if (player.getHealth() - event.getDamage() <= 0){
             if (canRevive){
                 player.sendMessage(ChatColor.WHITE + "" + ChatColor.BOLD + "You Died! -1 Revive");
+                player.playSound(player,Sound.ITEM_TOTEM_USE,9,1);
                 player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()/2);
-                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 5, 0, true));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5, 2, true));
-                player.getWorld().spawnParticle(Particle.END_ROD, player.getLocation().add(0,0.5, 0), 25, 0.5, 1, 0.5, 0);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 0, true));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 2, true));
+                player.getWorld().spawnParticle(Particle.END_ROD, player.getLocation().add(0,0.5, 0), 40, 2, 2, 2, 0);
                 canRevive = false;
             }
         }

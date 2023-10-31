@@ -68,11 +68,10 @@ public class CounterLoop extends BukkitRunnable {
                         if (entity instanceof FallingBlock){
                             entity.setTicksLived(1);
                         }
-
                     }
 
-                    boolean areZombiesLeft = false;
                     //Check for remaining zombies
+                    boolean areZombiesLeft = false;
                     for (Entity entity : currentArena.spawnLocation.getWorld().getEntities()){
                         if (entity instanceof Zombie){
                             areZombiesLeft = true;
@@ -87,28 +86,40 @@ public class CounterLoop extends BukkitRunnable {
                             break;
                         }
                     }
+
                     if (!areZombiesLeft && TheRoadPlugin.getInstance().gameManager.currentActiveSpawners.isEmpty()){
                         if (counter > 0){
                             if (counter == 5){
                                 TheRoadPlugin.getInstance().gameManager.currentRound++;
                             }
-                            Bukkit.broadcastMessage(ChatColor.YELLOW + "Next round in: " + counter);
+                            //Normal Round text
+                            if (TheRoadPlugin.getInstance().gameManager.currentRound < currentArena.finalRound-1){
+                                Bukkit.broadcastMessage(ChatColor.YELLOW + "Next round in: " + counter);
+                            }
+                            //Boss round text
+                            else if (TheRoadPlugin.getInstance().gameManager.currentRound == (currentArena.finalRound-1)){
+                                Bukkit.broadcastMessage(ChatColor.YELLOW + "Boss round in: " + counter);
+                            }
+                            //Last round text
+                            else {
+                                Bukkit.broadcastMessage(ChatColor.YELLOW + "Game finish in: " + counter);
+                            }
                             counter--;
                         }
                         else
                         {
-                            Bukkit.broadcastMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "ROUND " + TheRoadPlugin.getInstance().gameManager.currentRound);
-                            TheRoadPlugin.getInstance().gameManager.summonWave();
-                            counter = 5;
-
-                            ////////  ENDING THE GAME /////////
-                            if (TheRoadPlugin.getInstance().gameManager.currentRound == currentArena.finalRound){
+                            //Normal Round
+                            if (TheRoadPlugin.getInstance().gameManager.currentRound != currentArena.finalRound){
+                                Bukkit.broadcastMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "ROUND " + TheRoadPlugin.getInstance().gameManager.currentRound);
+                                counter = 5;
+                            }
+                            //// ENDING THE GAME
+                            else {
                                 Bukkit.broadcastMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "YOU'VE ESCAPED THE ROAD");
                                 TheRoadPlugin.getInstance().gameManager.resetGame(true);
                             }
-                            else {
+                            TheRoadPlugin.getInstance().gameManager.summonWave();
 
-                            }
 
                         }
 

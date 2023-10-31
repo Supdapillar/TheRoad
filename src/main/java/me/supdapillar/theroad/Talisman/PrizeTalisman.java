@@ -15,7 +15,7 @@ public class PrizeTalisman extends Talisman{
 
     public PrizeTalisman(){
         name = "Prize Talisman";
-        price = 0;
+        price = 400;
         lores.add(ChatColor.LIGHT_PURPLE + "The lower your health");
         lores.add(ChatColor.LIGHT_PURPLE + "the more money you get!");
 

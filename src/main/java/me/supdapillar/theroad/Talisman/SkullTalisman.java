@@ -14,7 +14,7 @@ public class SkullTalisman extends Talisman{
 
     public SkullTalisman(){
         name = "Skull Talisman";
-        price = 0;
+        price = 200;
         lores.add(ChatColor.LIGHT_PURPLE + "The faster you move the higher ");
         lores.add(ChatColor.LIGHT_PURPLE + "chance you have of launching ");
         lores.add(ChatColor.LIGHT_PURPLE + "a skull at the nearest enemy! ");

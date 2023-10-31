@@ -18,7 +18,7 @@ public class ShieldTalisman extends Talisman{
     public List<ShieldTimer> currentActiveTimers = new ArrayList<>();
     public ShieldTalisman(){
         name = "Shield Talisman";
-        price = 0;
+        price = 200;
         lores.add(ChatColor.LIGHT_PURPLE + "Every 10 seconds you charge ");
         lores.add(ChatColor.LIGHT_PURPLE + "a shield that can block enemy damage! ");
 

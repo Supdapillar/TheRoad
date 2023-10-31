@@ -16,7 +16,7 @@ public class FrostTalisman extends Talisman{
 
     public FrostTalisman(){
         name = "Frost Talisman";
-        price = 0;
+        price = 300;
         lores.add(ChatColor.LIGHT_PURPLE + "When an enemy gets killed ");
         lores.add(ChatColor.LIGHT_PURPLE + "it freezes the enemies around them! ");
 
@@ -32,7 +32,6 @@ public class FrostTalisman extends Talisman{
     @Override
     public void onMobDeath(EntityDeathEvent event) {
         LivingEntity mainEntity = event.getEntity();
-        Bukkit.broadcastMessage("Mob died with effect");
         double Angle = 0;
         for(int i = 0; i < 100; i++){
             Angle -= Math.PI/50f;;
@@ -68,7 +67,6 @@ public class FrostTalisman extends Talisman{
                     Mob mob = (Mob) entity;
                     //mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.00);
                     new FrostTalismanUpdater(mob).runTaskTimer(TheRoadPlugin.getInstance(), 0, 10);
-                    Bukkit.broadcastMessage(mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getDefaultValue() + "");
                     for (int i = 0; i< 5; i++){
                         mob.getWorld().spawnParticle(Particle.BLOCK_CRACK,mob.getEyeLocation().add(0,-0.5,0),8,0.5,1,0.5, Material.ICE.createBlockData());
 

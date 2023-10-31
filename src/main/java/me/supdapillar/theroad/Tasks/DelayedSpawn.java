@@ -1,6 +1,7 @@
 package me.supdapillar.theroad.Tasks;
 
 import me.supdapillar.theroad.Tasks.SkyGuardian.SkyGuardianUpdater;
+import me.supdapillar.theroad.Tasks.TheEnlightener.TheEnlightenerUpdater;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Heads;
 import org.bukkit.*;
@@ -40,9 +41,9 @@ public class DelayedSpawn extends BukkitRunnable {
             ///// Boss Spawner
             PersistentDataContainer dataContainer = whereToSummon.getPersistentDataContainer();
 
-            if (Objects.equals(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING), "BOSS1")){
+            if (Objects.equals(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING), "SKYGUARDIAN")){
                 //////The Sky Guardian
-                TheRoadPlugin.getInstance().nextMobIsBoss = true;
+                TheRoadPlugin.getInstance().nextBossIs = "SKYGUARDIAN";
                 Zombie zombie = (Zombie) whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.ZOMBIE);
                 new SkyGuardianUpdater(zombie).runTaskTimer(TheRoadPlugin.getInstance(), 0, 0);
 
@@ -51,8 +52,14 @@ public class DelayedSpawn extends BukkitRunnable {
 
 
             }
-            /////Normal mob spawn
+            else if (Objects.equals(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING), "THEENLIGHTENER")){
+                //////THE ENLIGHTENER
+                TheRoadPlugin.getInstance().nextBossIs = "THEENLIGHTENER";
+                Zombie zombie = (Zombie) whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.ZOMBIE);
+                new TheEnlightenerUpdater(zombie).runTaskTimer(TheRoadPlugin.getInstance(), 0, 0);
 
+            }
+            /////Normal mob spawn
             else {
                 whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.valueOf(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING)), true);
             }

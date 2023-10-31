@@ -26,9 +26,8 @@ public class GameClass {
     public Classes representingClass;
     protected ArrayList<ItemStack> classItems = new ArrayList<ItemStack>();
     protected ItemStack[] classArmor = new ItemStack[4];
-    protected List<Talisman> starterTalismans = new ArrayList<>();
+    public List<Talisman> starterTalismans = new ArrayList<>();
 
-    /**/
 
     public ItemStack makeIcon(Player player){
         ItemStack item = inventoryIcon;

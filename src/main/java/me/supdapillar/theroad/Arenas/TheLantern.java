@@ -13,14 +13,14 @@ public class TheLantern extends Arena {
         arenaName = "The Lantern";
 
         iconLore.add(ChatColor.BLUE + "The heart of all knowledge, may ");
-        iconLore.add(ChatColor.BLUE + "it act as your beacon of hope. ");
+        iconLore.add(ChatColor.BLUE + "it guild you towards enlightenment! ");
         iconLore.add(ChatColor.BLUE + "[Tutorial]. ");
 
         iconLore.add(ChatColor.LIGHT_PURPLE + "Difficulty: Easy");
         iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 10 Rounds");
 
-        spawnLocation = new Location(Bukkit.getWorld("SkyRoad"), -7.5, 10, -6.5 );
-        finalRound = 20;
+        spawnLocation = new Location(Bukkit.getWorld("minigame_the_end"), 0.5, 33, 0.5 );
+        finalRound = 11;
 
         ItemStack skyroadIcon = new ItemStack(Material.SOUL_LANTERN);
         ItemMeta skyroadIconMeta = skyroadIcon.getItemMeta();

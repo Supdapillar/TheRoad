@@ -18,7 +18,7 @@ public class PotionTalisman extends Talisman{
 
     public PotionTalisman(){
         name = "Potion Talisman";
-        price = 0;
+        price = 200;
         lores.add(ChatColor.LIGHT_PURPLE + "Killing an enemy has a chance ");
         lores.add(ChatColor.LIGHT_PURPLE + "of spawning a splash potion! ");
 
@@ -83,11 +83,9 @@ public class PotionTalisman extends Talisman{
             }
             potion.setItemMeta(potionMeta);
 
-            Bukkit.broadcastMessage(potionMeta.getCustomEffects() + "");
             ThrownPotion thrownPotion = (ThrownPotion) event.getEntity().getWorld().spawnEntity(event.getEntity().getLocation(), EntityType.SPLASH_POTION);
             thrownPotion.setItem(potion);
             thrownPotion.setShooter(event.getEntity().getKiller());
-            Bukkit.broadcastMessage(thrownPotion.getEffects() + "");
         }
     }
 }

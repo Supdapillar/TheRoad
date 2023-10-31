@@ -15,7 +15,7 @@ public class VigorTalisman extends Talisman{
 
     public VigorTalisman(){
         name = "Vigor Talisman";
-        price = 0;
+        price = 500;
 
         lores.add(ChatColor.LIGHT_PURPLE + "Hitting an enemy causes ");
         lores.add(ChatColor.LIGHT_PURPLE + "explosions to appear, and the ");

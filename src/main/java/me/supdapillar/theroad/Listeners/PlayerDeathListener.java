@@ -29,13 +29,11 @@ public class PlayerDeathListener implements Listener {
             if (alivePlayer.getGameMode() != GameMode.SPECTATOR) {
                 if (alivePlayer != event.getEntity()){
                     NumberOfAlivePlayer++;
-                    Bukkit.broadcastMessage(alivePlayer.getDisplayName() + " Is alive");
                 }
 
             }
         }
 
-        Bukkit.broadcastMessage(NumberOfAlivePlayer + "");
         //Checks if the dead player should become a ghost
         if (NumberOfAlivePlayer < 1){
             TheRoadPlugin.getInstance().gameManager.resetGame(false);

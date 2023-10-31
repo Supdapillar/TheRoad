@@ -13,7 +13,7 @@ public class VampireTalisman extends Talisman{
 
     public VampireTalisman(){
         name = "Vampire Talisman";
-        price = 0;
+        price = 350;
         lores.add(ChatColor.LIGHT_PURPLE + "Hitting an enemy causes ");
         lores.add(ChatColor.LIGHT_PURPLE + "the player to regain health! ");
 
@@ -30,8 +30,15 @@ public class VampireTalisman extends Talisman{
         if (!(event.getEntity() instanceof LivingEntity)) return;
         Player player = (Player) event.getDamager();
 
-        if (player.getHealth() >= player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()) return;
-        player.setHealth(player.getHealth()+0.5f);
+        if (player.getHealth()+0.5f >= player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue())
+        {
+            player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+        }
+        else
+        {
+            player.setHealth(player.getHealth()+0.5f);
+
+        }
         event.getEntity().getWorld().spawnParticle(Particle.HEART, player.getLocation(), 5, 0.5, 1, 0.5);
 
     }

@@ -10,7 +10,7 @@ public class PlunderTalisman extends Talisman{
 
     public PlunderTalisman(){
         name = "Plunder Talisman";
-        price = 0;
+        price = 150;
         lores.add(ChatColor.LIGHT_PURPLE + "Every kill has a small ");
         lores.add(ChatColor.LIGHT_PURPLE + "chance to spawn a loot chest! ");
 
@@ -31,7 +31,6 @@ public class PlunderTalisman extends Talisman{
                 TheRoadPlugin.getInstance().gameManager.makeLootChest(event.getEntity());
             }
             else {
-                Bukkit.broadcastMessage("I wouldve delete a " + event.getEntity().getLocation().getBlock().getType());
             }
 
         }

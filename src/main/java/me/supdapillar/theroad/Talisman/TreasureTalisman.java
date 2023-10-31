@@ -19,7 +19,7 @@ public class TreasureTalisman extends Talisman{
 
     public TreasureTalisman(){
         name = "Treasure Talisman";
-        price = 0;
+        price = 225;
         lores.add(ChatColor.LIGHT_PURPLE + "All loot chests generate ");
         lores.add(ChatColor.LIGHT_PURPLE + "50% more loot!");
 

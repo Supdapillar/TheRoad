@@ -25,8 +25,8 @@ public class GameManager {
     public Arena[] gameArenas = new Arena[]{
             new TheLantern(),
             new SkyRoad(),
-            new HauntedManor(),
-            new TheCore(),
+            //new HauntedManor(),
+            //new TheCore(),
     };
     public int currentArena = 0;
     public int currentRound = 0;
@@ -67,6 +67,12 @@ public class GameManager {
             }
         }
 
+
+        //Removes all votes from maps
+        for(Arena arena : gameArenas){
+            arena.votedPlayers.clear();
+        }
+
         for (Player player : Bukkit.getOnlinePlayers()){
             //Teleport the player to selected arena
             Arena currentSelectedArena = TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)];
@@ -82,6 +88,8 @@ public class GameManager {
             player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
 
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+            TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).removeAll(GameClass.getClassFromEnum(TheRoadPlugin.getInstance().PlayerClass.get(player)).starterTalismans);
+            TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).addAll(GameClass.getClassFromEnum(TheRoadPlugin.getInstance().PlayerClass.get(player)).starterTalismans);
 
         }
 
@@ -123,11 +131,12 @@ public class GameManager {
         fallingBlock.setDropItem(true);
     }
 
-    public void respawnPlayer(Player player){
+    public void respawnPlayer(Player player,Location location){
         //Teleport the player to selected arena
         TheRoadPlugin plugin = TheRoadPlugin.getInstance();
         player.getInventory().clear();
         GameClass.getClassFromEnum(plugin.PlayerClass.get(player)).givePlayerClassItems(player);
+        player.teleport(location);
         player.sendTitle(ChatColor.LIGHT_PURPLE + "You have been respawned", "", 0 , 1, 1);
         player.setGameMode(GameMode.ADVENTURE);
     }
@@ -160,6 +169,7 @@ public class GameManager {
                 player.getInventory().clear();
                 player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
                 player.setGameMode(GameMode.ADVENTURE);
+                player.setLevel(0);
                 StarterItems.GiveClassCompass(player);
 
                 StarterItems.GiveUnreadyConcrete(player);
@@ -180,12 +190,30 @@ public class GameManager {
         for(Entity entity : (world.getEntities())){
             if (entity instanceof ArmorStand){
                 ArmorStand armorstand = (ArmorStand) entity;
-                System.out.println("Attempted to spawn");
                 PersistentDataContainer data = armorstand.getPersistentDataContainer();
                 if (Objects.equals(data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "Round"), PersistentDataType.INTEGER), currentRound)) {
+                    //Spawns enemies based on players
+                    String enemyType = data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING);
+                    boolean isBoss = (enemyType.equals("SKYGUARDIAN") || enemyType.equals("THEENLIGHTENER") || enemyType.equals("THEGRANDMASTER"));
+                    if (!isBoss){
+                        currentActiveSpawners.add(new DelayedSpawn(armorstand));
+                    }
 
-                    currentActiveSpawners.add(new DelayedSpawn(armorstand));
-
+                    //Extra spawns if there are more players
+                    //if (!Bukkit.getOnlinePlayers().isEmpty()){
+                    //    for(int i = 1; i<Bukkit.getOnlinePlayers().size(); i++){
+                    //        if (!isBoss){
+                    //            if (Math.random() > 0.9) {
+                    //                currentActiveSpawners.add(new DelayedSpawn(armorstand));
+//
+                    //            }
+                    //        }
+                    //    }
+                    //}
+                    //Only spawn 1 boss
+                    if (isBoss){
+                        currentActiveSpawners.add(new DelayedSpawn(armorstand));
+                    }
                 }
             }
         }
@@ -193,7 +221,7 @@ public class GameManager {
         //Activate all the delayed spawners
         for (DelayedSpawn delayedSpawn : currentActiveSpawners){
             Random random = new Random();
-            delayedSpawn.runTaskTimer(TheRoadPlugin.getInstance(), random.nextInt(0,100), 1);
+            delayedSpawn.runTaskTimer(TheRoadPlugin.getInstance(), random.nextInt(0,100*Bukkit.getOnlinePlayers().size()), 1);
         }
     }
 }

@@ -21,7 +21,7 @@ public class InfernoTalisman extends Talisman{
 
     public InfernoTalisman(){
         name = "Inferno Talisman";
-        price = 0;
+        price = 500;
         lores.add(ChatColor.LIGHT_PURPLE + "Create an inferno while ");
         lores.add(ChatColor.LIGHT_PURPLE + "walking, burning all enemies ");
         lores.add(ChatColor.LIGHT_PURPLE + "in the range! ");

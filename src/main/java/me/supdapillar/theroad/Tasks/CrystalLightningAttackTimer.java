@@ -28,7 +28,6 @@ public class CrystalLightningAttackTimer extends BukkitRunnable {
 
         if (!alreadyHitMobs.isEmpty()){
             lightningStart = alreadyHitMobs.get(alreadyHitMobs.size()-1);
-            Bukkit.broadcastMessage("the start is a mob");
         }
 
         ArrayList<Mob> nearbyMobs = new ArrayList<>();

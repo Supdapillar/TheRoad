@@ -2,6 +2,7 @@ package me.supdapillar.theroad.Listeners;
 
 import me.supdapillar.theroad.Helpers.StarterItems;
 import me.supdapillar.theroad.Tasks.CrystalLightningAttackTimer;
+import me.supdapillar.theroad.Tasks.DefenderShieldTimer;
 import me.supdapillar.theroad.Tasks.FireShotgunAttackTimer;
 import me.supdapillar.theroad.Tasks.RootOvergrowthAttackTimer;
 import me.supdapillar.theroad.TheRoadPlugin;
@@ -171,8 +172,8 @@ public class InteractListener implements Listener {
                 break;
             case AMETHYST_SHARD:
                 if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
-                    if (player.getLevel() >= 12){
-                        player.setLevel(player.getLevel()-12);
+                    if (player.getLevel() >= 10){
+                        player.setLevel(player.getLevel()-10);
                         new CrystalLightningAttackTimer(player).runTaskTimer(TheRoadPlugin.getInstance(), 0 ,2);
                         player.playSound(player, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1,2);
                     }
@@ -183,9 +184,9 @@ public class InteractListener implements Listener {
                 break;
             case MANGROVE_PROPAGULE:
                 if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
-                    if (player.getLevel() >= 9){
+                    if (player.getLevel() >= 10){
                         if (player.getTargetBlockExact(25) != null){
-                            player.setLevel(player.getLevel()-9);
+                            player.setLevel(player.getLevel()-10);
                             new RootOvergrowthAttackTimer(player).runTaskTimer(TheRoadPlugin.getInstance(), 0 ,2);
                             player.playSound(player, Sound.ITEM_TRIDENT_RETURN, 1,2);
                         }
@@ -199,8 +200,18 @@ public class InteractListener implements Listener {
                     }
                 }
                 break;
-            case WARPED_DOOR:
+            case PRISMARINE_SHARD:
                 if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
+                    if (player.getLevel() >= 1){
+                        player.setLevel(player.getLevel()-1);
+                        if (player.getTargetBlockExact(10) != null){
+                            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_SET_SPAWN, 1f, 2);
+                            new DefenderShieldTimer(player).runTaskTimer(TheRoadPlugin.getInstance(),0,0);
+                        }
+                    }
+                    else {
+                        player.sendMessage(ChatColor.RED + "You don't have enough xp to manifest a shield!");
+                    }
                 }
                 break;
             case WOLF_SPAWN_EGG:

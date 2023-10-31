@@ -11,11 +11,10 @@ public class HauntedManor extends Arena {
 
     public HauntedManor(){
         arenaName = "Haunted Manor";
-        iconLore.add(ChatColor.BLUE + "Pretty spooky or somthing ");
-        iconLore.add(ChatColor.BLUE + "idk. ");
-
+        iconLore.add(ChatColor.BLUE + "Surrounded by dead trees with windows that leave shadows dancing in your eyes, ");
+        iconLore.add(ChatColor.BLUE + "this map will lead you down a winding road of undead fun.");
         iconLore.add(ChatColor.LIGHT_PURPLE + "Difficulty: Insane");
-        iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 300 Rounds");
+        iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 20ish Rounds");
 
 
         spawnLocation = new Location(Bukkit.getWorld("HauntedRoad"), 4.5, -59, 1.5 );

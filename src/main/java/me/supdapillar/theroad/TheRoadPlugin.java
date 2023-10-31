@@ -12,6 +12,7 @@ import me.supdapillar.theroad.gameClasses.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -35,7 +36,7 @@ public final class TheRoadPlugin extends JavaPlugin {
     public BeaconEventLoop beaconEventLoop = new BeaconEventLoop();
 
     public GameManager gameManager;
-    public boolean nextMobIsBoss = false;
+    public String nextBossIs = "";
     public boolean respawnBeaconActive = false;
     public GameClass[] gameClasses = new GameClass[]{
             new Swordsman(TheRoadPlugin.getInstance()),
@@ -75,6 +76,9 @@ public final class TheRoadPlugin extends JavaPlugin {
     @Override
     public void onEnable()
     {
+
+
+
         //createWorld();
         mainPlugin = this;
         new PlayerJoinListener(this);
@@ -112,10 +116,12 @@ public final class TheRoadPlugin extends JavaPlugin {
 
         World map2 = Bukkit.getServer().createWorld(new WorldCreator("HauntedRoad"));
         Bukkit.getServer().getWorlds().add(map2);
+
+        World map3 = Bukkit.getServer().createWorld(new WorldCreator("TheCore"));
+        Bukkit.getServer().getWorlds().add(map3);
+
+
         gameManager = new GameManager();
-
-
-
         //So I get no null exceptions
         for(Player player : Bukkit.getOnlinePlayers()){
             PlayerClass.putIfAbsent(player, Classes.Swordsman);
@@ -127,15 +133,17 @@ public final class TheRoadPlugin extends JavaPlugin {
     }
 
     public void createWorld(){
-        WorldCreator worldCreator = new WorldCreator("HauntedRoad");
+        WorldCreator worldCreator = new WorldCreator("TheCore");
         worldCreator.generateStructures(false);
-        worldCreator.copy(Bukkit.getWorld("minigame"));
+        //worldCreator.copy(Bukkit.getWorld("minigame"));
+        worldCreator.type(WorldType.FLAT);
+
 
         worldCreator.createWorld();
 
-    }
 
-    @Override
+    }
+@Override
     public void onDisable() {
     }
 }

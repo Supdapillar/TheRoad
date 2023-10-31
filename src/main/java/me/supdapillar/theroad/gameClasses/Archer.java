@@ -1,5 +1,6 @@
 package me.supdapillar.theroad.gameClasses;
 
+import me.supdapillar.theroad.Talisman.HealerClassTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import org.bukkit.ChatColor;
@@ -17,27 +18,56 @@ public class Archer extends GameClass {
         price = 0;
         representingClass = Classes.Archer;
 
-        classItems.add(new ItemStack(Material.WOODEN_SWORD));
+
+        //Sword
+        ItemStack woodSword = new ItemStack(Material.WOODEN_SWORD);
+        ItemMeta woodSwordMeta = woodSword.getItemMeta();
+        woodSwordMeta.setUnbreakable(true);
+        woodSword.setItemMeta(woodSwordMeta);
+        classItems.add(new ItemStack(woodSword));
+        //Bow
         ItemStack bow = new ItemStack(Material.BOW);
         ItemMeta bowMeta = bow.getItemMeta();
-        bowMeta.addEnchant(Enchantment.ARROW_DAMAGE, 0,true);
+        bowMeta.setUnbreakable(true);
+        bowMeta.addEnchant(Enchantment.ARROW_DAMAGE, 1,true);
         bow.setItemMeta(bowMeta);
-
         classItems.add(bow);
+
+        //Boots
+        ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
+        ItemMeta bootsMeta = boots.getItemMeta();
+        bootsMeta.setUnbreakable(true);
+        boots.setItemMeta(bootsMeta);
+        classArmor[0] = boots;
+        //Legs
+        ItemStack legs = new ItemStack(Material.CHAINMAIL_LEGGINGS);
+        ItemMeta legsMeta = legs.getItemMeta();
+        legsMeta.setUnbreakable(true);
+        legs.setItemMeta(legsMeta);
+        classArmor[1] = legs;
+        //Chest
+        ItemStack chest = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
+        ItemMeta chestMeta = chest.getItemMeta();
+        chestMeta.setUnbreakable(true);
+        chest.setItemMeta(chestMeta);
+        classArmor[2] = chest;
+        //Hel
+        ItemStack helmet = new ItemStack(Material.CHAINMAIL_HELMET);
+        ItemMeta helmetMeta = helmet.getItemMeta();
+        helmetMeta.setUnbreakable(true);
+        helmet.setItemMeta(helmetMeta);
+        classArmor[3] = helmet;
+        //Other
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
-        classItems.add(new ItemStack(Material.ARROW, 32));
+        classItems.add(new ItemStack(Material.ARROW, 64));
+        //Talisman
+        starterTalismans.add(new HealerClassTalisman());
 
-        classArmor[0] = new ItemStack(Material.LEATHER_BOOTS);
-        classArmor[1] = new ItemStack(Material.CHAINMAIL_LEGGINGS);
-        classArmor[2] = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
-        classArmor[3] = new ItemStack(Material.CHAINMAIL_HELMET);
-
+        //Icon
         ItemStack newItem = new ItemStack(Material.BOW);
         ItemMeta newItemMeta = newItem.getItemMeta();
-
         newItemMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.AQUA + className);
         newItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-
         newItem.setItemMeta(newItemMeta);
 
         super.inventoryIcon = newItem;

@@ -36,16 +36,12 @@ public class SoulChecker extends Talisman{
 
         //Checks if the player would've died
         if (player.getHealth() - event.getDamage() <= 0) {
-            Bukkit.broadcastMessage("Soul: Player died");
             //Checks if the player can be revived
             if (Host != null){
-                Bukkit.broadcastMessage("Soul: Dead player is not Host");
                 //Checkc if the host is able to revive
-                Bukkit.broadcastMessage("Soul: Host is well");
                 if (Host.getHealth() > 10 && Host.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() > 10){
                     //Revives the player
                     if (Host.getLocation().distance(player.getLocation()) < 6 ){
-                        Bukkit.broadcastMessage("Soul: Within location");
                         //Particles
                         Location pLocation = Host.getLocation();
                         double Angle = 0;
@@ -56,7 +52,6 @@ public class SoulChecker extends Talisman{
                             player.getWorld().spawnParticle(Particle.HEART, particleLocation, 2, 0 ,0 ,0.5 ,0);
                         }
                         //The revive
-                        Bukkit.broadcastMessage("reviving");
                         event.setCancelled(true);
 
                         if (player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() >= 4){
@@ -74,7 +69,6 @@ public class SoulChecker extends Talisman{
                     }
                 }
                 else {
-                    Bukkit.broadcastMessage("Soul: Host is not well");
                     Host.sendMessage(ChatColor.RED + "You were too weak to save " + player.getDisplayName());
                 }
 
@@ -88,7 +82,6 @@ public class SoulChecker extends Talisman{
         //Makes sure all the temperary talismans are deleted
         for(Player player1 : Bukkit.getOnlinePlayers() ){
             for (int i = 0; i < TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player1).size(); i++){
-                Bukkit.broadcastMessage(TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player1).get(i).name);
 
                 if (TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player1).get(i) instanceof SoulChecker){
                     SoulChecker soulTalisman = (SoulChecker) TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player1).get(i);

@@ -18,6 +18,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MobSpawnListener implements Listener {
 
@@ -31,25 +32,58 @@ public class MobSpawnListener implements Listener {
         if (event.getEntity() instanceof Player) return;
         if (event.getEntity() instanceof ArmorStand) return;
         Mob mobEntity = (Mob) event.getEntity();
-
         //For Bosses
-        if (TheRoadPlugin.getInstance().nextMobIsBoss){
-            TheRoadPlugin.getInstance().nextMobIsBoss = false;
-
+        if (!Objects.equals(TheRoadPlugin.getInstance().nextBossIs, "")){
             Zombie bossZombie = (Zombie) mobEntity;
+            switch (TheRoadPlugin.getInstance().nextBossIs){
+                case "SKYGUARDIAN":
+                    bossZombie.getEquipment().clear();
+                    bossZombie.setAdult();
+                    bossZombie.getEquipment().setHelmet(Heads.Cloud.getItemStack());
+                    bossZombie.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(600 + (Bukkit.getOnlinePlayers().size()*300));
+                    bossZombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3);
+                    bossZombie.setPersistent(true);
+                    bossZombie.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+                    bossZombie.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(15);
+                    bossZombie.setHealth(600 + (Bukkit.getOnlinePlayers().size()*300));
+                    bossZombie.setCustomName(ChatColor.WHITE + "Sky Guardian");
+                    bossZombie.setCustomNameVisible(true);
+                    bossZombie.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "BossName"),PersistentDataType.STRING, "Sky Guardian");
+                    break;
 
-            bossZombie.getEquipment().clear();
-            bossZombie.setAdult();
-            bossZombie.getEquipment().setHelmet(Heads.Cloud.getItemStack());
-            bossZombie.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(900);
-            bossZombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3);
-            Bukkit.broadcastMessage("Attack:" + bossZombie.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).getBaseValue() );
-            bossZombie.setPersistent(true);
-            bossZombie.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
-            bossZombie.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(15);
-            bossZombie.setHealth(900);
-            bossZombie.setCustomName(ChatColor.WHITE + "Sky Guardian");
-            bossZombie.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "IsBoss"),PersistentDataType.BOOLEAN, true);
+                case "THEENLIGHTENER":
+                    bossZombie.getEquipment().clear();
+                    bossZombie.setAdult();
+                    bossZombie.getEquipment().setHelmet(Heads.Lantern.getItemStack());
+                    bossZombie.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(400 + (Bukkit.getOnlinePlayers().size()*200));
+                    bossZombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.26);
+                    bossZombie.setPersistent(true);
+                    bossZombie.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+                    bossZombie.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(10);
+                    bossZombie.setHealth(400 + (Bukkit.getOnlinePlayers().size()*200));
+                    bossZombie.setCustomName(ChatColor.WHITE + "The Enlightener");
+                    bossZombie.setCustomNameVisible(true);
+                    bossZombie.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "BossName"),PersistentDataType.STRING, "The Enlightener");
+                    break;
+                case "THEGRANDMASTER":
+                    bossZombie.getEquipment().clear();
+                    bossZombie.setAdult();
+                    bossZombie.getEquipment().setHelmet(Heads.ChessHead.getItemStack());
+                    bossZombie.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(600 + (Bukkit.getOnlinePlayers().size()*300));
+                    bossZombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.26);
+                    bossZombie.setPersistent(true);
+                    bossZombie.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+                    bossZombie.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(10);
+                    bossZombie.setHealth(600 + (Bukkit.getOnlinePlayers().size()*300));
+                    bossZombie.setCustomName(ChatColor.WHITE + "The Grandmaster");
+                    bossZombie.setCustomNameVisible(true);
+                    bossZombie.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "BossName"),PersistentDataType.STRING, "The Grandmaster");
+                    break;
+            }
+            TheRoadPlugin.getInstance().nextBossIs = "";
+
+
+
         }
         else {
             mobEntity.setCustomName("[" + Math.round(mobEntity.getHealth()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");

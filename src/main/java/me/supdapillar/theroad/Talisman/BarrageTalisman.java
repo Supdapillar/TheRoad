@@ -22,7 +22,7 @@ public class BarrageTalisman extends Talisman{
 
     public BarrageTalisman(){
         name = "Barrage Talisman";
-        price = 0;
+        price = 250;
         lores.add(ChatColor.LIGHT_PURPLE + "Hitting an enemy has a 33% ");
         lores.add(ChatColor.LIGHT_PURPLE + "chance to cause the enemy to ");
         lores.add(ChatColor.LIGHT_PURPLE + "take multiple hits over time! ");

@@ -19,7 +19,7 @@ public class CritTalisman extends Talisman{
 
     public CritTalisman(){
         name = "Crit Talisman";
-        price = 0;
+        price = 100;
         lores.add(ChatColor.LIGHT_PURPLE + "Hits have a 25% chance of ");
         lores.add(ChatColor.LIGHT_PURPLE + "a critical hit dealing 2x damage!");
 
@@ -35,9 +35,9 @@ public class CritTalisman extends Talisman{
         if ((int)(Math.random()*4) == 0){
             Player player = (Player) event.getDamager();
             event.setDamage(event.getDamage()*2);
-            player.sendMessage(ChatColor.GOLD + "CRITICAL HIT " + event.getDamage());
+            player.sendMessage(ChatColor.GOLD + "CRITICAL HIT " + Math.ceil(event.getDamage()));
             player.playSound(player.getLocation(),Sound.BLOCK_NOTE_BLOCK_CHIME,9999, 1 );
-            player.getWorld().spawnParticle(Particle.WAX_ON, event.getEntity().getLocation(), 200, 0.5f ,1 ,0.5 ,0);
+            player.getWorld().spawnParticle(Particle.WAX_ON, event.getEntity().getLocation(), 20, 0.5f ,1 ,0.5 ,0);
 
             LivingEntity livingEntity = (LivingEntity) event.getEntity();
 

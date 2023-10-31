@@ -11,7 +11,7 @@ public class ArrowTalisman extends Talisman{
 
     public ArrowTalisman(){
         name = "Arrow Talisman";
-        price = 50;
+        price = 150;
         lores.add(ChatColor.LIGHT_PURPLE + "Killing an enemy causes a ");
         lores.add(ChatColor.LIGHT_PURPLE + "arrow to shoot out at the ");
         lores.add(ChatColor.LIGHT_PURPLE + "nearest enemy!");
@@ -29,15 +29,14 @@ public class ArrowTalisman extends Talisman{
         LivingEntity victim = event.getEntity();
         Player player = victim.getKiller();
 
-        Object[] array = victim.getWorld().getEntities().stream().filter(o -> o instanceof LivingEntity && !(o instanceof Player)).toArray();
+        Object[] array = victim.getNearbyEntities(20,20,20).stream().filter(o -> !(o instanceof Tameable) && !(o instanceof ArmorStand)  && !(o instanceof Player)).toArray();
 
         if (!(array.length < 1)){
-
             LivingEntity ClosestEnemy = (LivingEntity) array[0];
-            for (Entity entity : victim.getWorld().getEntities()){
+            for (Entity entity : victim.getNearbyEntities(20,20,20)){
                 if (entity instanceof LivingEntity){
                     if (entity != event.getEntity()){
-                        if (!(entity instanceof HumanEntity)){
+                        if (!(entity instanceof HumanEntity || entity instanceof Tameable || entity instanceof ArmorStand)){
                             if (victim.getLocation().distance(entity.getLocation()) < victim.getLocation().distance(ClosestEnemy.getLocation())){
                                 ClosestEnemy = (LivingEntity) entity;
                             }
@@ -49,7 +48,6 @@ public class ArrowTalisman extends Talisman{
             Vector vector = new Vector(ClosestEnemy.getLocation().subtract(victim.getLocation()).getX(), ClosestEnemy.getLocation().subtract(victim.getLocation()).getY(), ClosestEnemy.getLocation().subtract(victim.getLocation()).getZ());
             Arrow arrow = event.getEntity().getLocation().getWorld().spawnArrow(victim.getEyeLocation(), vector.normalize(), 7, 0);
             arrow.setShooter(player);
-            Bukkit.broadcastMessage("Killed a " + ClosestEnemy.getName());
 
             //Spawn particles
             for(int i = 0; i < (int)victim.getLocation().distance(ClosestEnemy.getLocation()) * 4; i++){

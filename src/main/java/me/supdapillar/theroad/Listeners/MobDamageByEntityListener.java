@@ -8,6 +8,7 @@ import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.data.type.Switch;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -56,8 +57,6 @@ public class MobDamageByEntityListener implements Listener {
         if (mobEntity instanceof Tameable) {
             if (event.getDamager() instanceof Player){
                 event.setCancelled(true);
-                Bukkit.broadcastMessage("Get cancelled nerd: " + mobEntity.getHealth());
-                Bukkit.broadcastMessage(mobEntity.getTarget() + "");
             }
             else {
                 mobEntity.setCustomName(ChatColor.BLUE + "[" + Math.ceil(mobEntity.getHealth() - event.getDamage()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
@@ -66,8 +65,11 @@ public class MobDamageByEntityListener implements Listener {
         }
 
         //For bosses
-        else if (mobEntity.getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(), "IsBoss"),PersistentDataType.BOOLEAN)){
-            mobEntity.setCustomName(ChatColor.WHITE + "Sky Guardian" + "[" + Math.ceil(mobEntity.getHealth() - event.getDamage()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
+        else if (mobEntity.getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(), "BossName"),PersistentDataType.STRING)){
+
+
+
+            mobEntity.setCustomName(ChatColor.WHITE + mobEntity.getPersistentDataContainer().get(new NamespacedKey(TheRoadPlugin.getInstance(),"BossName"),PersistentDataType.STRING) + " [" + Math.ceil(mobEntity.getHealth() - event.getDamage()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
             mobEntity.setCustomNameVisible(true);
         }
         else { // everything that isn't a boss

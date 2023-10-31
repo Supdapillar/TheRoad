@@ -17,7 +17,6 @@ public class PlayerRespawnListener implements Listener {
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event){
-        Bukkit.broadcastMessage("Respawned");
         Player player = event.getPlayer();
         player.getInventory().clear();
 

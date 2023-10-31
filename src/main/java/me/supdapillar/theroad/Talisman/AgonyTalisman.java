@@ -19,7 +19,7 @@ public class AgonyTalisman extends Talisman{
 
     public AgonyTalisman(){
         name = "Agony Talisman";
-        price = 0;
+        price = 100;
         lores.add(ChatColor.LIGHT_PURPLE + "When the player heals it ");
         lores.add(ChatColor.LIGHT_PURPLE + "damages enemies around them! ");
 

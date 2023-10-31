@@ -16,7 +16,7 @@ public class HellFireTalisman extends Talisman{
 
     public HellFireTalisman(){
         name = "Hellfire Talisman";
-        price = 0;
+        price = 300;
         lores.add(ChatColor.LIGHT_PURPLE + "When an enemy takes damage ");
         lores.add(ChatColor.LIGHT_PURPLE + "it sets all nearby creatures ");
         lores.add(ChatColor.LIGHT_PURPLE + "ablaze! ");
@@ -51,7 +51,6 @@ public class HellFireTalisman extends Talisman{
                 if (livingEntity != damagedEntity && !(livingEntity instanceof Player)){
                     if (livingEntity.getLocation().distance(damagedEntity.getLocation()) < 2.5f){
                         livingEntity.setFireTicks(livingEntity.getFireTicks() + 40);
-                        Bukkit.broadcastMessage("I set this ablaze: " + livingEntity);
                     }
                 }
             }

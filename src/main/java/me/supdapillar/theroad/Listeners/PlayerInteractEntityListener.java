@@ -37,36 +37,39 @@ public class PlayerInteractEntityListener implements Listener {
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event){
         if ((event.getRightClicked() instanceof FallingBlock)){
-            Player player = event.getPlayer();
             FallingBlock fallingBlock = (FallingBlock) event.getRightClicked();
-            Inventory lootInventory = Bukkit.createInventory(player, InventoryType.CHEST, "Loot Chest");
+            if (fallingBlock.getBlockData().getMaterial() == Material.BARREL){
+                Player player = event.getPlayer();
+                Inventory lootInventory = Bukkit.createInventory(player, InventoryType.CHEST, "Loot Chest");
 
-            player.playSound(player, Sound.BLOCK_CHEST_OPEN, 9999, 1);
+                player.playSound(player, Sound.BLOCK_CHEST_OPEN, 9999, 1);
 
-            //Random Chest Generator
-            Random random = new Random();
-            int randomAmountOfItems = random.nextInt(2,5);
+                //Random Chest Generator
+                Random random = new Random();
+                int randomAmountOfItems = random.nextInt(2,5);
 
-            for (int i = 0; i < randomAmountOfItems; i++){
+                for (int i = 0; i < randomAmountOfItems; i++){
 
-                int randomChestSlot = random.nextInt(27);
+                    int randomChestSlot = random.nextInt(27);
 
-                while(lootInventory.getItem(randomChestSlot) != null){
-                    randomChestSlot = random.nextInt(27);
+                    while(lootInventory.getItem(randomChestSlot) != null){
+                        randomChestSlot = random.nextInt(27);
+                    }
+
+                    lootInventory.setItem(randomChestSlot,GenerateRandomLoot());
                 }
 
-                lootInventory.setItem(randomChestSlot,GenerateRandomLoot());
+
+
+                player.openInventory(lootInventory);
+                fallingBlock.remove();
+
+                //Talisman
+                for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
+                    talisman.onLootChestOpen(lootInventory);
+                }
             }
 
-
-
-            player.openInventory(lootInventory);
-            fallingBlock.remove();
-
-            //Talisman
-            for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
-                talisman.onLootChestOpen(lootInventory);
-            }
         }
         else if (event.getRightClicked() instanceof Player){
             //For the merchant class

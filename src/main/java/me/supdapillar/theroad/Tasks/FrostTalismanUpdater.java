@@ -31,7 +31,6 @@ public class FrostTalismanUpdater extends BukkitRunnable {
         Double dividedSpeed = defaultSpeed/20;
         
         effectedMob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(dividedSpeed * (20-HalfSecondCounter) );
-        Bukkit.broadcastMessage(effectedMob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue() + "");
 
 
         //Spawn epic particles
@@ -60,7 +59,6 @@ public class FrostTalismanUpdater extends BukkitRunnable {
 
         if (HalfSecondCounter == 0){
             this.cancel();
-            Bukkit.broadcastMessage("CANCELD");
         }
     }
 }

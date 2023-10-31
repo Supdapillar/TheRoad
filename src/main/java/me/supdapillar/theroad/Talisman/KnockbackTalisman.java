@@ -14,7 +14,7 @@ public class KnockbackTalisman extends Talisman{
 
     public KnockbackTalisman(){
         name = "Knockback Talisman";
-        price = 0;
+        price = 100;
         lores.add(ChatColor.LIGHT_PURPLE + "Killing an enemy causes all ");
         lores.add(ChatColor.LIGHT_PURPLE + "nearby enemies to get ");
         lores.add(ChatColor.LIGHT_PURPLE + "launched back! ");

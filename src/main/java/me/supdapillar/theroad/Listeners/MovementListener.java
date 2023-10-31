@@ -35,8 +35,10 @@ public class MovementListener implements Listener {
         GameManager gameManager = TheRoadPlugin.getInstance().gameManager;
 
         //Talisman
-        for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
-            talisman.onPlayerMove(event);
+        if (TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player) != null){
+            for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
+                talisman.onPlayerMove(event);
+            }
         }
 
         if (player.getGameMode() == GameMode.CREATIVE){
@@ -89,6 +91,7 @@ public class MovementListener implements Listener {
                         NamespacedKey namespacedKeyAxis = new NamespacedKey(TheRoadPlugin.getInstance(),"Axis");
                         float DistanceTilParticles = 9;
                         int length = armorStand.getPersistentDataContainer().get(new NamespacedKey(TheRoadPlugin.getInstance(), "Length"), PersistentDataType.INTEGER);
+                        //X axis check
                         if (Objects.equals(armorStand.getPersistentDataContainer().get(namespacedKeyAxis, PersistentDataType.STRING), "X")){ // X Axis Check
                             if (event.getTo().getZ() > armorStand.getLocation().getZ()-DistanceTilParticles && event.getTo().getZ() < armorStand.getLocation().getZ()+DistanceTilParticles){
                                 boolean withinX = event.getTo().getX() > armorStand.getLocation().getX()-length && event.getTo().getX() < armorStand.getLocation().getX()+length;

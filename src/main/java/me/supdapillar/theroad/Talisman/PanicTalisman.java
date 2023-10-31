@@ -13,7 +13,7 @@ public class PanicTalisman extends Talisman{
 
     public PanicTalisman(){
         name = "Panic Talisman";
-        price = 0;
+        price = 200;
         lores.add(ChatColor.LIGHT_PURPLE + "The less health the player ");
         lores.add(ChatColor.LIGHT_PURPLE + "has the faster they move ");
 
@@ -33,6 +33,5 @@ public class PanicTalisman extends Talisman{
     @Override
     public void onTalismanDeselect(Player player){
         player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1f);
-        Bukkit.broadcastMessage("Reset the player speed to: " + player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue());
     }
 }

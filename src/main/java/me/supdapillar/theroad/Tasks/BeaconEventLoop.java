@@ -91,7 +91,7 @@ public class BeaconEventLoop extends BukkitRunnable {
                 }
             }
             Random random = new Random();
-            TheRoadPlugin.getInstance().gameManager.respawnPlayer(deadPlayers.get(random.nextInt(deadPlayers.size())));
+            TheRoadPlugin.getInstance().gameManager.respawnPlayer(deadPlayers.get(random.nextInt(deadPlayers.size())),centerPointArmorStand.getLocation());
 
 
 

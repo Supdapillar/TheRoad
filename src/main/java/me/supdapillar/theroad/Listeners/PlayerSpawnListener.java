@@ -21,7 +21,6 @@ public class PlayerSpawnListener implements Listener {
             case lobby:
             case starting:
                 double randomAngle = (Math.PI*2) * Math.random();
-                Bukkit.broadcastMessage("Spawned");
                 Location location = new Location(Bukkit.getWorld("minigame"),165.5 + Math.cos(randomAngle)*15,-49,31.5 + Math.sin(randomAngle)*15);
                 event.setSpawnLocation(location);
                 event.getPlayer().setBedSpawnLocation(location);

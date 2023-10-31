@@ -179,6 +179,8 @@ public class InventoryInteractionListener implements Listener {
                                     break;
                                 case "Splash Potion of Invisibility":
                                     if (player.getLevel() >= 8){
+                                        player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 9999 ,1);
+                                        player.setLevel(player.getLevel()-8);
                                         ItemStack InvisPotion = new ItemStack(Material.SPLASH_POTION);
                                         PotionMeta InvisMeta = (PotionMeta) InvisPotion.getItemMeta();
                                         InvisMeta.setColor(Color.fromRGB(246, 246, 246));

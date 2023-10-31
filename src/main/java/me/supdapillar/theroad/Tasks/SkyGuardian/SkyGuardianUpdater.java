@@ -23,6 +23,12 @@ public class SkyGuardianUpdater extends BukkitRunnable {
         AttackCooldown--;
         Boolean bossEnraged = bossToUpdate.getHealth() < (bossToUpdate.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() / 3);
 
+
+        if (bossToUpdate.isDead()){
+            this.cancel();
+        }
+
+
         //Cool hip flame particles
         if (bossEnraged){
             bossToUpdate.getWorld().spawnParticle(Particle.SMALL_FLAME, bossToUpdate.getLocation().add(0,0.5,0), 1,0.5,1,0.5, 0);

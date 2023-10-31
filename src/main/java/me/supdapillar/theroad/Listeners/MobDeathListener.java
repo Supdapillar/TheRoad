@@ -20,8 +20,9 @@ public class MobDeathListener implements Listener {
     private TheRoadPlugin mainPlugin;
     public static final HashMap<EntityType, Integer> moneyValues = new HashMap<EntityType, Integer>() {{
         put(EntityType.ZOMBIE, 5);
-        put(EntityType.SKELETON, 10);
-        put(EntityType.WITHER_SKELETON, 15);
+        put(EntityType.SKELETON, 8);
+        put(EntityType.WITHER_SKELETON, 7);
+        put(EntityType.STRAY, 10);
     }};
     public MobDeathListener(TheRoadPlugin plugin){
         Bukkit.getServer().getPluginManager().registerEvents(this,plugin);
