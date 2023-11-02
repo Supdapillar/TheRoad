@@ -57,7 +57,13 @@ public class BeaconEventLoop extends BukkitRunnable {
             if (Math.random() < 0.085f) {
                 Angle = (Math.PI * 2) * Math.random();
                 Location ArmorstandLocation = centerPointArmorStand.getLocation();
-                Zombie zombie = (Zombie) centerPointArmorStand.getWorld().spawnEntity(new Location(ArmorstandLocation.getWorld(), ArmorstandLocation.getX() + Math.cos(Angle) * 11, ArmorstandLocation.getY(), ArmorstandLocation.getZ() + Math.sin(Angle) * 11), EntityType.ZOMBIE);
+
+                Location zombieSpawnLocation = new Location(ArmorstandLocation.getWorld(), ArmorstandLocation.getX() + Math.cos(Angle) * 11, ArmorstandLocation.getY(), ArmorstandLocation.getZ() + Math.sin(Angle) * 11);
+                while(zombieSpawnLocation.getBlock() != Material.AIR.createBlockData()){
+                    zombieSpawnLocation =new Location(ArmorstandLocation.getWorld(), ArmorstandLocation.getX() + Math.cos(Angle) * 11, ArmorstandLocation.getY(), ArmorstandLocation.getZ() + Math.sin(Angle) * 11);
+                }
+
+                Zombie zombie = (Zombie) centerPointArmorStand.getWorld().spawnEntity(zombieSpawnLocation, EntityType.ZOMBIE);
                 zombie.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20 + Math.ceil(counter / 20));
                 zombie.setHealth(20 + Math.ceil(counter / 20));
                 zombie.damage(0);

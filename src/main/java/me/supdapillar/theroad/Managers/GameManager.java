@@ -1,7 +1,9 @@
 package me.supdapillar.theroad.Managers;
 
 import me.supdapillar.theroad.Arenas.*;
+import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.Helpers.StarterItems;
+import me.supdapillar.theroad.Tasks.CursedTreasureEventLoop;
 import me.supdapillar.theroad.Tasks.DelayedSpawn;
 import me.supdapillar.theroad.Tasks.GameEndDelayer;
 import me.supdapillar.theroad.TheRoadPlugin;
@@ -25,7 +27,7 @@ public class GameManager {
     public Arena[] gameArenas = new Arena[]{
             new TheLantern(),
             new SkyRoad(),
-            //new HauntedManor(),
+            new HauntedManor(),
             //new TheCore(),
     };
     public int currentArena = 0;
@@ -101,7 +103,7 @@ public class GameManager {
                 ArmorStand armorStand = (ArmorStand) entity;
                 Random random = new Random();
                 if (random.nextInt(100)+1 < armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.INTEGER) ){
-                    makeLootChest(entity);
+                    makeLootChest(entity.getLocation());
                 }
 
             }
@@ -110,16 +112,20 @@ public class GameManager {
                 entity.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "IsAbleToRespawn"), PersistentDataType.BOOLEAN, true);
                 entity.setCustomName(ChatColor.BOLD + "" + ChatColor.LIGHT_PURPLE + "RESPAWN BEACON [CLICK] TO START EVENT");
             }
-
+            //Resets all Cursed treasure names
+            if (entity.getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(), "CanUseTreasure"), PersistentDataType.BOOLEAN)){
+                entity.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "CanUseTreasure"), PersistentDataType.BOOLEAN, true);
+                entity.setCustomName(ChatColor.BOLD + "" + ChatColor.LIGHT_PURPLE + "CURSED TREASURE [CLICK] TO START EVENT");
+            }
         }
 
     }
 
-    public void makeLootChest(Entity entity){
+    public void makeLootChest(Location location){
 
         BlockData barrelData = Material.BARREL.createBlockData();
 
-        FallingBlock fallingBlock = entity.getWorld().spawnFallingBlock(entity.getLocation(), barrelData);
+        FallingBlock fallingBlock = location.getWorld().spawnFallingBlock(location, barrelData);
         fallingBlock.setVelocity(new Vector(0,0,0));
         fallingBlock.setGravity(false);
         fallingBlock.setInvulnerable(true);
@@ -142,6 +148,11 @@ public class GameManager {
     }
 
     public void resetGame(boolean gameWasWon){
+        //Stops all active events
+        TheRoadPlugin.getInstance().beaconEventLoop.cancel();
+        CursedTreasureEventLoop.activeCursedTreasure.cancel();
+        CursedTreasureEventLoop.activeCursedTreasure = null;
+
         //Stuff to reset nomatter the win case
         for(Entity entity : gameArenas[currentArena].spawnLocation.getWorld().getEntities()){
             if (entity instanceof FallingBlock){
@@ -158,7 +169,15 @@ public class GameManager {
 
         if (gameWasWon){
             gamestates = Gamestates.endGame;
+            //Gives game end cash
+            for (Player player : Bukkit.getOnlinePlayers()){
+                if (player.getGameMode() == GameMode.ADVENTURE){
 
+                    TheRoadPlugin.getInstance().PlayerScores.put(player,TheRoadPlugin.getInstance().PlayerScores.get(player) + gameArenas[currentArena].victoryCash);
+                    ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
+                    player.sendMessage(ChatColor.GREEN + "VICTORY +" + TheRoadPlugin.getInstance().PlayerScores.get(player) + gameArenas[currentArena].victoryCash+"$");
+                }
+            }
             new GameEndDelayer(this).runTaskTimer(TheRoadPlugin.getInstance(), 0, 20);
         }
         else
@@ -200,16 +219,15 @@ public class GameManager {
                     }
 
                     //Extra spawns if there are more players
-                    //if (!Bukkit.getOnlinePlayers().isEmpty()){
-                    //    for(int i = 1; i<Bukkit.getOnlinePlayers().size(); i++){
-                    //        if (!isBoss){
-                    //            if (Math.random() > 0.9) {
-                    //                currentActiveSpawners.add(new DelayedSpawn(armorstand));
-//
-                    //            }
-                    //        }
-                    //    }
-                    //}
+                    if (!Bukkit.getOnlinePlayers().isEmpty()){
+                        for(int i = 0; i<Bukkit.getOnlinePlayers().size()-1; i++){
+                            if (!isBoss){
+                                if (Math.random() > 0.9) {
+                                    currentActiveSpawners.add(new DelayedSpawn(armorstand));
+                                }
+                            }
+                        }
+                    }
                     //Only spawn 1 boss
                     if (isBoss){
                         currentActiveSpawners.add(new DelayedSpawn(armorstand));

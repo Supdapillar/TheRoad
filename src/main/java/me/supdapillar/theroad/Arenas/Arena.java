@@ -26,6 +26,7 @@ public class Arena {
     public ItemStack inventoryIcon;
     public ArrayList<String> iconLore = new ArrayList<String>();
     public String arenaName;
+    public int victoryCash = 50;
 
     //Ingame stuff
     public Location spawnLocation = new Location(Bukkit.getWorld("HauntedRoad"), 4.5, -59, 1.5 );

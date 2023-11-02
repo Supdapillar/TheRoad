@@ -29,7 +29,7 @@ public class ArrowTalisman extends Talisman{
         LivingEntity victim = event.getEntity();
         Player player = victim.getKiller();
 
-        Object[] array = victim.getNearbyEntities(20,20,20).stream().filter(o -> !(o instanceof Tameable) && !(o instanceof ArmorStand)  && !(o instanceof Player)).toArray();
+        Object[] array = victim.getNearbyEntities(20,20,20).stream().filter(o -> !(o instanceof Tameable) && !(o instanceof ArmorStand)&& (o instanceof LivingEntity) && !(o instanceof Player)).toArray();
 
         if (!(array.length < 1)){
             LivingEntity ClosestEnemy = (LivingEntity) array[0];

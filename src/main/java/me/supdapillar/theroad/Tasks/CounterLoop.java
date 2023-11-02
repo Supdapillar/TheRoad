@@ -72,7 +72,7 @@ public class CounterLoop extends BukkitRunnable {
 
                     //Check for remaining zombies
                     boolean areZombiesLeft = false;
-                    for (Entity entity : currentArena.spawnLocation.getWorld().getEntities()){
+                    for (Entity entity : currentArena.spawnLocation.getWorld().getLivingEntities()){
                         if (entity instanceof Zombie){
                             areZombiesLeft = true;
                             break;
@@ -82,6 +82,14 @@ public class CounterLoop extends BukkitRunnable {
                             break;
                         }
                         if (entity instanceof WitherSkeleton){
+                            areZombiesLeft = true;
+                            break;
+                        }
+                        if (entity instanceof Spider){
+                            areZombiesLeft = true;
+                            break;
+                        }
+                        if (entity instanceof Stray){
                             areZombiesLeft = true;
                             break;
                         }

@@ -28,9 +28,7 @@ public class PlunderTalisman extends Talisman{
         if (Math.random() < 0.1){
             if (event.getEntity().getLocation().getBlock().getType() == Material.AIR){
                 //Make loot chest appear
-                TheRoadPlugin.getInstance().gameManager.makeLootChest(event.getEntity());
-            }
-            else {
+                TheRoadPlugin.getInstance().gameManager.makeLootChest(event.getEntity().getLocation());
             }
 
         }

@@ -2,11 +2,9 @@ package me.supdapillar.theroad.Listeners;
 
 import me.supdapillar.theroad.Tasks.BeaconEventLoop;
 import me.supdapillar.theroad.Tasks.CounterLoop;
+import me.supdapillar.theroad.Tasks.CursedTreasureEventLoop;
 import me.supdapillar.theroad.TheRoadPlugin;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -25,6 +23,36 @@ public class InventoryOpenListener implements Listener {
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event){
+        //Cursed Treasure
+        if (event.getInventory().getType() == InventoryType.BLAST_FURNACE){
+            Player player = (Player) event.getPlayer();
+            ArmorStand armorStand = null;
+            NamespacedKey cursedKey = new NamespacedKey(TheRoadPlugin.getInstance(),"CanUseTreasure");
+            //Gets the armorstand
+            for (Entity entity : player.getNearbyEntities(5,5,5)){
+                if (entity.getPersistentDataContainer().has(cursedKey, PersistentDataType.BOOLEAN)){
+                    armorStand = (ArmorStand) entity;
+                }
+            }
+            //Check if cursed treasure can be summoned
+            if (armorStand.getPersistentDataContainer().get(cursedKey, PersistentDataType.BOOLEAN)){
+                if (CursedTreasureEventLoop.activeCursedTreasure == null){
+                    //Start timer
+                    player.getWorld().playSound(player, Sound.ENTITY_GUARDIAN_DEATH, 9999, 0.5f);
+                    armorStand.getPersistentDataContainer().set(cursedKey, PersistentDataType.BOOLEAN, false);
+                    new CursedTreasureEventLoop(armorStand).runTaskTimer(TheRoadPlugin.getInstance(),0,10);
+                }
+                else {
+
+                    Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "A Cursed Treasure is already active!");
+                }
+            }
+            else {
+                Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "The Cursed Treasure has already been activated!");
+            }
+            event.setCancelled(true);
+        }
+        //Beacon stuff
         if (event.getInventory().getType() != InventoryType.BEACON) return;
 
         //Tells the player its active
@@ -39,7 +67,8 @@ public class InventoryOpenListener implements Listener {
             ArmorStand armorStand = null;
             NamespacedKey namespacedKey = new NamespacedKey(TheRoadPlugin.getInstance(),"IsAbleToRespawn");
 
-            for (Entity entity : player.getNearbyEntities(7,7,7)){
+            //Gets the armorstand
+            for (Entity entity : player.getNearbyEntities(5,5,5)){
                 if (entity.getPersistentDataContainer().has(namespacedKey, PersistentDataType.BOOLEAN)){
                     armorStand = (ArmorStand) entity;
                 }
@@ -50,8 +79,7 @@ public class InventoryOpenListener implements Listener {
                 if (armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.BOOLEAN)){
                     TheRoadPlugin.getInstance().respawnBeaconActive = true;
 
-                    int SoulsNeeded = (int) Math.floor( Math.random()*15+23);
-                    SoulsNeeded = 4;
+                    int SoulsNeeded = (int) Math.floor(Math.random()*3+5) + (Bukkit.getOnlinePlayers().size() );
                     armorStand.setCustomName(ChatColor.LIGHT_PURPLE + "Souls Needed: " + SoulsNeeded);
 
                     TheRoadPlugin.getInstance().beaconEventLoop.SoulsNeeded = SoulsNeeded;
