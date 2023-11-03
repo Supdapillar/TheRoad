@@ -108,6 +108,7 @@ public final class TheRoadPlugin extends JavaPlugin {
         getCommand("ChangeWorld").setExecutor(new ChangeWorldCommand());
         getCommand("MakeRespawnBeacon").setExecutor(new RespawnBeaconCommand());
         getCommand("MakeCursedTreasure").setExecutor(new CursedTreasureCommand());
+        getCommand("MakeChallenge").setExecutor(new ChallengeCommand());
         getCommand("MakeLootGenerator").setExecutor(new MakeLootGeneratorCommand());
         getCommand("Debug").setExecutor(new DebugCommand());
         counterLoop.runTaskTimer(this,0,10);

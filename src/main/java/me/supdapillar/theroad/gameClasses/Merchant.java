@@ -143,7 +143,7 @@ public class Merchant extends GameClass {
         ItemStack echoShield = new ItemStack(Material.ECHO_SHARD);
         ItemMeta echoMeta = echoShield.getItemMeta();
         echoMeta.setDisplayName(ChatColor.DARK_BLUE + "Echo Shield");
-        echoMeta.setLore(Arrays.asList(ChatColor.LIGHT_PURPLE + "This crystal makes the next hit, hit the enemy instead!","1 Use" + ChatColor.GREEN + " (6xp)"));
+        echoMeta.setLore(Arrays.asList(ChatColor.LIGHT_PURPLE + "This crystal makes the next time your hit, damage the enemy instead!","1 Use" + ChatColor.GREEN + " (6xp)"));
         echoShield.setItemMeta(echoMeta);
         inventory.addItem(echoShield);
         //Revive

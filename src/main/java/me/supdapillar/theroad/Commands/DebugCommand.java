@@ -14,6 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.util.Transformation;
 
@@ -62,6 +63,12 @@ public class DebugCommand implements CommandExecutor {
                         Transformation transformation = textDisplay.getTransformation();
                         textDisplay.setTransformation(transformation);
                         textDisplay.setBackgroundColor(Color.fromARGB(0,0,0,0));
+                        textDisplay.setCustomName("THIS IS A TEST");
+
+
+
+
+
                         break;
                     case "Money":
                         if (args.length > 2){

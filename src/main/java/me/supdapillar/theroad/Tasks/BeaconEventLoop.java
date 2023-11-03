@@ -78,7 +78,6 @@ public class BeaconEventLoop extends BukkitRunnable {
             for(Player player : Bukkit.getOnlinePlayers()){
                 player.playSound(player,Sound.ENTITY_GENERIC_EXPLODE, 9999, 0.75f);
             }
-
             //Spawn Particles
             Location centerLocation = centerPointArmorStand.getLocation();
             double Angle = 0;

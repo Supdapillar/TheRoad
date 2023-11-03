@@ -4,10 +4,7 @@ import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import me.supdapillar.theroad.gameClasses.Merchant;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
@@ -37,39 +34,40 @@ public class PlayerInteractEntityListener implements Listener {
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event){
         if ((event.getRightClicked() instanceof FallingBlock)){
-            FallingBlock fallingBlock = (FallingBlock) event.getRightClicked();
-            if (fallingBlock.getBlockData().getMaterial() == Material.BARREL){
-                Player player = event.getPlayer();
-                Inventory lootInventory = Bukkit.createInventory(player, InventoryType.CHEST, "Loot Chest");
+            if (event.getPlayer().getGameMode() == GameMode.ADVENTURE){
+                FallingBlock fallingBlock = (FallingBlock) event.getRightClicked();
+                if (fallingBlock.getBlockData().getMaterial() == Material.BARREL){
+                    Player player = event.getPlayer();
+                    Inventory lootInventory = Bukkit.createInventory(player, InventoryType.CHEST, "Loot Chest");
 
-                player.playSound(player, Sound.BLOCK_CHEST_OPEN, 9999, 1);
+                    player.playSound(player, Sound.BLOCK_CHEST_OPEN, 9999, 1);
 
-                //Random Chest Generator
-                Random random = new Random();
-                int randomAmountOfItems = random.nextInt(2,5);
+                    //Random Chest Generator
+                    Random random = new Random();
+                    int randomAmountOfItems = random.nextInt(2,5);
 
-                for (int i = 0; i < randomAmountOfItems; i++){
+                    for (int i = 0; i < randomAmountOfItems; i++){
 
-                    int randomChestSlot = random.nextInt(27);
+                        int randomChestSlot = random.nextInt(27);
 
-                    while(lootInventory.getItem(randomChestSlot) != null){
-                        randomChestSlot = random.nextInt(27);
+                        while(lootInventory.getItem(randomChestSlot) != null){
+                            randomChestSlot = random.nextInt(27);
+                        }
+
+                        lootInventory.setItem(randomChestSlot,GenerateRandomLoot());
                     }
 
-                    lootInventory.setItem(randomChestSlot,GenerateRandomLoot());
-                }
 
 
+                    player.openInventory(lootInventory);
+                    fallingBlock.remove();
 
-                player.openInventory(lootInventory);
-                fallingBlock.remove();
-
-                //Talisman
-                for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
-                    talisman.onLootChestOpen(lootInventory);
+                    //Talisman
+                    for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
+                        talisman.onLootChestOpen(lootInventory);
+                    }
                 }
             }
-
         }
         else if (event.getRightClicked() instanceof Player){
             //For the merchant class
@@ -214,7 +212,7 @@ public class PlayerInteractEntityListener implements Listener {
                         ItemStack echoShield = new ItemStack(Material.ECHO_SHARD);
                         ItemMeta echoMeta = echoShield.getItemMeta();
                         echoMeta.setDisplayName(ChatColor.DARK_BLUE + "Echo Shield");
-                        echoMeta.setLore(Collections.singletonList(ChatColor.LIGHT_PURPLE + "This crystal makes the next hit, hit the enemy instead!"));
+                        echoMeta.setLore(Collections.singletonList(ChatColor.LIGHT_PURPLE + "This crystal makes the next time your hit, damage the enemy instead!"));
                         echoShield.setItemMeta(echoMeta);
 
                         choosenItem = echoShield;

@@ -1,5 +1,9 @@
 package me.supdapillar.theroad.Listeners;
 
+import me.supdapillar.theroad.Talisman.Challenges.FistChallengeTalisman;
+import me.supdapillar.theroad.Talisman.Challenges.HealingTouchChallengeTalisman;
+import me.supdapillar.theroad.Talisman.Challenges.PoisonChallengeTalisman;
+import me.supdapillar.theroad.Talisman.Challenges.WeaknessChallengeTalisman;
 import me.supdapillar.theroad.Tasks.BeaconEventLoop;
 import me.supdapillar.theroad.Tasks.CounterLoop;
 import me.supdapillar.theroad.Tasks.CursedTreasureEventLoop;
@@ -23,8 +27,50 @@ public class InventoryOpenListener implements Listener {
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event){
+        //Challenge
+        if (event.getInventory().getType() == InventoryType.SHULKER_BOX){
+
+            Player player = (Player) event.getPlayer();
+            ArmorStand armorStand = null;
+            NamespacedKey challengeKey = new NamespacedKey(TheRoadPlugin.getInstance(),"ChallengeType");
+
+            //Gets the armorstand
+            for (Entity entity : player.getNearbyEntities(5,5,5)){
+                if (entity.getPersistentDataContainer().has(challengeKey, PersistentDataType.STRING)){
+                    armorStand = (ArmorStand) entity;
+                }
+            }
+
+            if (TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).stream().filter(o -> o.isChallenge).toArray().length > 0){
+                player.sendMessage(ChatColor.RED + "You've already activated a challenge this round!");
+            }
+            else {
+                //Activates the challenge
+                player.playSound(player, Sound.ENTITY_ELDER_GUARDIAN_CURSE, 6, 1);
+                switch (armorStand.getPersistentDataContainer().get(challengeKey, PersistentDataType.STRING)){
+                    case "Poison":
+                        TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(new PoisonChallengeTalisman(player)   );
+                        break;
+                    case "Fist":
+                        TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(new FistChallengeTalisman(player)   );
+                        break;
+                    case "Healing":
+                        TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(new HealingTouchChallengeTalisman(player)   );
+                        break;
+                    case "Weakness":
+                        TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(new WeaknessChallengeTalisman(player)   );
+                        break;
+                }
+            }
+
+
+
+
+
+            event.setCancelled(true);
+        }
         //Cursed Treasure
-        if (event.getInventory().getType() == InventoryType.BLAST_FURNACE){
+        else if (event.getInventory().getType() == InventoryType.BLAST_FURNACE){
             Player player = (Player) event.getPlayer();
             ArmorStand armorStand = null;
             NamespacedKey cursedKey = new NamespacedKey(TheRoadPlugin.getInstance(),"CanUseTreasure");
@@ -52,6 +98,14 @@ public class InventoryOpenListener implements Listener {
             }
             event.setCancelled(true);
         }
+
+
+
+
+
+
+
+
         //Beacon stuff
         if (event.getInventory().getType() != InventoryType.BEACON) return;
 

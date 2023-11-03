@@ -24,6 +24,7 @@ public class Talisman {
     public String name;
     public int price;
     public ArrayList<String> lores = new ArrayList<String>();
+    public boolean isChallenge = false;
     public boolean countsAsActive = true;
     public ItemStack makeIcon(Player player){
         ItemStack item = inventoryIcon;
