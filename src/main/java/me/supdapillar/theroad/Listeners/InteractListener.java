@@ -27,10 +27,16 @@ public class InteractListener implements Listener {
 
     @EventHandler
     public void OnPlayerInteract(PlayerInteractEvent event){
-        if (event.getItem() == null) return;
         if (event.getAction() == Action.PHYSICAL) return;
-
+        //Block trapdoor opens and fence opens
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getClickedBlock().getType().name().contains("TRAP") || event.getClickedBlock().getType().name().contains("FENCE")){
+                event.setCancelled(true);
+            }
+        }
+        if (event.getItem() == null) return;
         Player player = event.getPlayer();
+
 
 
 
@@ -47,6 +53,13 @@ public class InteractListener implements Listener {
                 StarterItems.GiveReadyConcrete(player);
                 player.sendMessage(ChatColor.GREEN + "You are now ready!");
                 player.playSound(player, Sound.ENCHANT_THORNS_HIT, 9999, 1);
+                int totalReadiedPlayers = 0;
+                for(Player player1 : Bukkit.getOnlinePlayers()){
+                    if (player1.getInventory().contains(Material.GREEN_CONCRETE)){
+                        totalReadiedPlayers++;
+                    }
+                }
+                Bukkit.broadcastMessage(ChatColor.YELLOW + player.getDisplayName() + " is ready! (" + totalReadiedPlayers + "/" + Bukkit.getOnlinePlayers().size() + ")");
                 break;
             case GREEN_CONCRETE:
                 player.getInventory().remove(Material.GREEN_CONCRETE);

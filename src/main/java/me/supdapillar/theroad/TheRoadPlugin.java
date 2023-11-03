@@ -33,11 +33,9 @@ public final class TheRoadPlugin extends JavaPlugin {
     public HashMap<Player, List<Talisman>> PlayerActiveTalismans = new HashMap<Player, List<Talisman>>();
     public HashMap<Player, List<Talisman>> PlayerUnlockedTalisman = new HashMap<Player, List<Talisman>>();
     public CounterLoop counterLoop = new CounterLoop();
-    public BeaconEventLoop beaconEventLoop = new BeaconEventLoop();
 
     public GameManager gameManager;
     public String nextBossIs = "";
-    public boolean respawnBeaconActive = false;
     public GameClass[] gameClasses = new GameClass[]{
             new Swordsman(TheRoadPlugin.getInstance()),
             new Archer(TheRoadPlugin.getInstance()),

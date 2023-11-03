@@ -3,6 +3,7 @@ package me.supdapillar.theroad.Listeners;
 import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.Talisman.CritTalisman;
 import me.supdapillar.theroad.Talisman.Talisman;
+import me.supdapillar.theroad.Tasks.BeaconEventLoop;
 import me.supdapillar.theroad.TheRoadPlugin;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -22,7 +23,8 @@ public class MobDeathListener implements Listener {
         put(EntityType.ZOMBIE, 5);
         put(EntityType.SKELETON, 8);
         put(EntityType.WITHER_SKELETON, 7);
-        put(EntityType.STRAY, 10);
+        put(EntityType.STRAY, 9);
+        put(EntityType.SPIDER, 5);
     }};
     public MobDeathListener(TheRoadPlugin plugin){
         Bukkit.getServer().getPluginManager().registerEvents(this,plugin);
@@ -46,12 +48,12 @@ public class MobDeathListener implements Listener {
 
 
         //Check to see if the mob died in the area of beacon event
-        if (TheRoadPlugin.getInstance().respawnBeaconActive){
-            if (event.getEntity().getWorld() == TheRoadPlugin.getInstance().beaconEventLoop.centerPointArmorStand.getWorld()){ // Make sure they are in the same world
-                if (event.getEntity().getLocation().distance(TheRoadPlugin.getInstance().beaconEventLoop.centerPointArmorStand.getLocation()) < 12){
-                    TheRoadPlugin.getInstance().beaconEventLoop.SoulsNeeded--;
-                    TheRoadPlugin.getInstance().beaconEventLoop.centerPointArmorStand.setCustomName(ChatColor.LIGHT_PURPLE + "Souls Needed: " + TheRoadPlugin.getInstance().beaconEventLoop.SoulsNeeded);
-                    Vibration vibration = new Vibration(event.getEntity().getLocation(), new Vibration.Destination.EntityDestination(TheRoadPlugin.getInstance().beaconEventLoop.centerPointArmorStand), 5);
+        if (BeaconEventLoop.beaconEventLoop != null){
+            if (event.getEntity().getWorld() == BeaconEventLoop.beaconEventLoop.centerPointArmorStand.getWorld()){ // Make sure they are in the same world
+                if (event.getEntity().getLocation().distance(BeaconEventLoop.beaconEventLoop.centerPointArmorStand.getLocation()) < 12){
+                    BeaconEventLoop.beaconEventLoop.SoulsNeeded--;
+                    BeaconEventLoop.beaconEventLoop.centerPointArmorStand.setCustomName(ChatColor.LIGHT_PURPLE + "Souls Needed: " + BeaconEventLoop.beaconEventLoop.SoulsNeeded);
+                    Vibration vibration = new Vibration(event.getEntity().getLocation(), new Vibration.Destination.EntityDestination(BeaconEventLoop.beaconEventLoop.centerPointArmorStand), 5);
                     event.getEntity().getWorld().spawnParticle(Particle.VIBRATION, event.getEntity().getLocation(), 1, vibration);
                 }
             }

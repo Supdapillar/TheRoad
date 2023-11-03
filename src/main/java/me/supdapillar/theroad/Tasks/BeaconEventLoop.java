@@ -20,8 +20,15 @@ public class BeaconEventLoop extends BukkitRunnable {
 
     public ArmorStand centerPointArmorStand = null;
     public int SoulsNeeded = 0;
+    public static BeaconEventLoop beaconEventLoop = null;
 
     private float counter = 0;
+
+    public BeaconEventLoop(ArmorStand armorStand){
+
+        centerPointArmorStand = armorStand;
+        beaconEventLoop = this;
+    }
     @Override
     public void run() {
         counter += 0.25f;
@@ -41,13 +48,15 @@ public class BeaconEventLoop extends BukkitRunnable {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getGameMode() != GameMode.SPECTATOR) {
                     if ((player.getLocation().getY() < centerPointArmorStand.getLocation().getY() + 10)) {
-                        if (player.getLocation().distance(centerPointArmorStand.getLocation()) > 12) {
-                            Location PlayerLocation = player.getLocation();
-                            Location ArmorstandLocation = centerPointArmorStand.getLocation();
-                            player.sendMessage("Pushed back nerd");
-                            Vector vector = new Vector(PlayerLocation.getX() - ArmorstandLocation.getX(), -2, PlayerLocation.getZ() - ArmorstandLocation.getZ()).normalize();
+                        if (player.getWorld() == centerPointArmorStand.getWorld()){
+                            if (player.getLocation().distance(centerPointArmorStand.getLocation()) > 12) {
+                                Location PlayerLocation = player.getLocation();
+                                Location ArmorstandLocation = centerPointArmorStand.getLocation();
+                                player.sendMessage("Pushed back nerd");
+                                Vector vector = new Vector(PlayerLocation.getX() - ArmorstandLocation.getX(), -2, PlayerLocation.getZ() - ArmorstandLocation.getZ()).normalize();
 
-                            player.setVelocity(vector.multiply(-0.75f));
+                                player.setVelocity(vector.multiply(-0.75f));
+                            }
                         }
                     }
                 }
@@ -59,7 +68,10 @@ public class BeaconEventLoop extends BukkitRunnable {
                 Location ArmorstandLocation = centerPointArmorStand.getLocation();
 
                 Location zombieSpawnLocation = new Location(ArmorstandLocation.getWorld(), ArmorstandLocation.getX() + Math.cos(Angle) * 11, ArmorstandLocation.getY(), ArmorstandLocation.getZ() + Math.sin(Angle) * 11);
-                while(zombieSpawnLocation.getBlock() != Material.AIR.createBlockData()){
+                Bukkit.broadcastMessage(zombieSpawnLocation.getBlock().getType() + "");
+
+                while(zombieSpawnLocation.getBlock().getType() != Material.AIR){
+                    Angle = (Math.PI * 2) * Math.random();
                     zombieSpawnLocation =new Location(ArmorstandLocation.getWorld(), ArmorstandLocation.getX() + Math.cos(Angle) * 11, ArmorstandLocation.getY(), ArmorstandLocation.getZ() + Math.sin(Angle) * 11);
                 }
 
@@ -70,7 +82,6 @@ public class BeaconEventLoop extends BukkitRunnable {
             }
         }
         else { // Ends the event
-            TheRoadPlugin.getInstance().respawnBeaconActive = false;
             SoulsNeeded = 0;
             centerPointArmorStand.setCustomName(ChatColor.GRAY + "RESPAWN BEACON ALREADY USED");
             centerPointArmorStand.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "IsAbleToRespawn"), PersistentDataType.BOOLEAN, false);
@@ -100,8 +111,8 @@ public class BeaconEventLoop extends BukkitRunnable {
 
 
 
-            TheRoadPlugin.getInstance().beaconEventLoop.cancel();
-            TheRoadPlugin.getInstance().beaconEventLoop = new BeaconEventLoop();
+            BeaconEventLoop.beaconEventLoop.cancel();
+            BeaconEventLoop.beaconEventLoop = null;
         }
     }
 }

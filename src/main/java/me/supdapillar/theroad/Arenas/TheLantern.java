@@ -12,9 +12,8 @@ public class TheLantern extends Arena {
     public TheLantern(){
         arenaName = "The Lantern";
 
-        iconLore.add(ChatColor.BLUE + "The heart of all knowledge, may ");
-        iconLore.add(ChatColor.BLUE + "it guild you towards enlightenment! ");
-        iconLore.add(ChatColor.BLUE + "[Tutorial]. ");
+        iconLore.add(ChatColor.BLUE + "The heart of all knowledge, may it ");
+        iconLore.add(ChatColor.BLUE + "guild you on your journey to save humanity! ");
 
         iconLore.add(ChatColor.LIGHT_PURPLE + "Difficulty: Easy");
         iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 10 Rounds");

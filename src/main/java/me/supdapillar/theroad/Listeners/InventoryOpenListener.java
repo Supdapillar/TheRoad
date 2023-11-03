@@ -9,6 +9,7 @@ import me.supdapillar.theroad.Tasks.CounterLoop;
 import me.supdapillar.theroad.Tasks.CursedTreasureEventLoop;
 import me.supdapillar.theroad.TheRoadPlugin;
 import org.bukkit.*;
+import org.bukkit.block.Beacon;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -110,7 +111,7 @@ public class InventoryOpenListener implements Listener {
         if (event.getInventory().getType() != InventoryType.BEACON) return;
 
         //Tells the player its active
-        if (TheRoadPlugin.getInstance().respawnBeaconActive){
+        if (BeaconEventLoop.beaconEventLoop != null){
             Bukkit.broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "The Beacon is already active!");
             event.setCancelled(true);
         }
@@ -128,20 +129,45 @@ public class InventoryOpenListener implements Listener {
                 }
             }
 
-            //Check if the reviving process can be started
-            if (Bukkit.getOnlinePlayers().stream().filter(o -> o.getGameMode() == GameMode.SPECTATOR).toArray().length > 0){ //Checks if it can start
-                if (armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.BOOLEAN)){
-                    TheRoadPlugin.getInstance().respawnBeaconActive = true;
-
-                    int SoulsNeeded = (int) Math.floor(Math.random()*3+5) + (Bukkit.getOnlinePlayers().size() );
-                    armorStand.setCustomName(ChatColor.LIGHT_PURPLE + "Souls Needed: " + SoulsNeeded);
-
-                    TheRoadPlugin.getInstance().beaconEventLoop.SoulsNeeded = SoulsNeeded;
-                    TheRoadPlugin.getInstance().beaconEventLoop.centerPointArmorStand = armorStand;
-                    TheRoadPlugin.getInstance().beaconEventLoop.runTaskTimer(TheRoadPlugin.getInstance(), 0 , 5);
+            boolean arePlayersCloseEnough = true;
+            for (Player checkedPlayer : Bukkit.getOnlinePlayers()){
+                if (checkedPlayer.getWorld() == armorStand.getWorld()){
+                    if (!(checkedPlayer.getLocation().distance(armorStand.getLocation()) < 12)){
+                        if (checkedPlayer.getGameMode() == GameMode.ADVENTURE){
+                            checkedPlayer.sendMessage(ChatColor.RED + "You need to be closer to the respawn beacon for it to start!");
+                            arePlayersCloseEnough = false;
+                        }
+                    }
                 }
                 else {
-                    Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "The respawn beacon has already been used!");
+                    arePlayersCloseEnough = false;
+                }
+
+            }
+
+            //Check if the reviving process can be started
+            if (Bukkit.getOnlinePlayers().stream().filter(o -> o.getGameMode() == GameMode.SPECTATOR).toArray().length > 0){ //Checks if it can start
+                if (BeaconEventLoop.beaconEventLoop == null){
+                    if (armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.BOOLEAN)){
+                        if (arePlayersCloseEnough){
+                            int SoulsNeeded = (int) Math.floor(Math.random()*3+5) + (Bukkit.getOnlinePlayers().size() );
+                            armorStand.setCustomName(ChatColor.LIGHT_PURPLE + "Souls Needed: " + SoulsNeeded);
+
+                            new BeaconEventLoop(armorStand);
+                            BeaconEventLoop.beaconEventLoop.SoulsNeeded = SoulsNeeded;
+                            BeaconEventLoop.beaconEventLoop.runTaskTimer(TheRoadPlugin.getInstance(), 0 , 5);
+                        }
+                        else {
+                            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "Not all players are close enough!");
+                        }
+                    }
+                    else {
+                        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "The respawn beacon has already been used!");
+                    }
+                }
+                else {
+                    Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "A respawn beacon is already active!");
+
                 }
             }
             else {

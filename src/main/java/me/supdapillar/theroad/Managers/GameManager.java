@@ -121,7 +121,7 @@ public class GameManager {
                 itemDisplay.setTransformation(transformation);
                 itemDisplay.teleport(itemDisplay.getLocation().add(0,-0.5,0));
                 itemDisplay.setBillboard(Display.Billboard.CENTER);
-                switch (random.nextInt(3,4)){
+                switch (random.nextInt(0,4)){
                     case 0:
                         entity.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "ChallengeType"), PersistentDataType.STRING, "Poison");
                         itemDisplay.setItemStack(new ItemStack(Material.SPIDER_EYE));
@@ -166,7 +166,7 @@ public class GameManager {
         fallingBlock.setGravity(false);
         fallingBlock.setInvulnerable(true);
         fallingBlock.setRotation(90,33);
-        fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.YELLOW + "GOODIES");
+        fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.YELLOW + "GOODIES [█░░]");
         fallingBlock.setCustomNameVisible(true);
         fallingBlock.setPersistent(true);
         fallingBlock.setCancelDrop(true);
@@ -185,7 +185,10 @@ public class GameManager {
 
     public void resetGame(boolean gameWasWon){
         //Stops all active events
-        TheRoadPlugin.getInstance().beaconEventLoop = new BeaconEventLoop();
+        if (BeaconEventLoop.beaconEventLoop != null){
+            BeaconEventLoop.beaconEventLoop.cancel();
+            BeaconEventLoop.beaconEventLoop = null;
+        }
         if (CursedTreasureEventLoop.activeCursedTreasure != null){
             CursedTreasureEventLoop.activeCursedTreasure.cancel();
             CursedTreasureEventLoop.activeCursedTreasure = null;
@@ -205,11 +208,6 @@ public class GameManager {
         }
         currentRound = 0;
         TheRoadPlugin.getInstance().counterLoop.counter = 10;
-
-
-
-
-
 
         if (gameWasWon){
             gamestates = Gamestates.endGame;
@@ -258,15 +256,17 @@ public class GameManager {
                     //Spawns enemies based on players
                     String enemyType = data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING);
                     boolean isBoss = (enemyType.equals("SKYGUARDIAN") || enemyType.equals("THEENLIGHTENER") || enemyType.equals("THEGRANDMASTER"));
+                    //Normal Spawn
                     if (!isBoss){
                         currentActiveSpawners.add(new DelayedSpawn(armorstand));
                     }
 
                     //Extra spawns if there are more players
-                    if (!Bukkit.getOnlinePlayers().isEmpty()){
+                    if (Bukkit.getOnlinePlayers().size() > 1){
                         for(int i = 0; i<Bukkit.getOnlinePlayers().size()-1; i++){
                             if (!isBoss){
-                                if (Math.random() > 0.9) {
+                                if (Math.random() > 0.1) {
+                                    Bukkit.broadcastMessage(i+ "st wave spawn");
                                     currentActiveSpawners.add(new DelayedSpawn(armorstand));
                                 }
                             }

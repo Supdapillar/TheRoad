@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
@@ -35,36 +36,37 @@ public class InventoryInteractionListener implements Listener {
     public void onInventoryInteraction(InventoryClickEvent event){
         if (event.getClickedInventory() == null) return;
         if (event.getCurrentItem() == null) return;
+        //Prevent players from storing items in shops
+        if (event.getCursor() == null) event.setCancelled(true);
+        if (event.getView().getTopInventory().getType() != InventoryType.CRAFTING && !event.getView().getTitle().equals("Loot Chest")){
+            event.setCancelled(true);
+        }
+
         Player player = (Player)event.getWhoClicked();
 
         switch (event.getClickedInventory().getType()){
             case HOPPER:
-
-                //else {
                     //Map selection UI
                     event.setCancelled(true);
-
                     for (Arena arena : TheRoadPlugin.getInstance().gameManager.gameArenas){
                         if (event.getCurrentItem().getType() == arena.inventoryIcon.getType()){
                             arena.processClick(player);
                         }
                     }
                     StarterItems.refreshMapInventory(player);
-
-                //}
-
-
-
                 break;
             case BARREL:
-                //Talisman picker
-                event.setCancelled(true);
-                for (Talisman talisman : TheRoadPlugin.getInstance().talismans){
-                    if (event.getCurrentItem().getType() == talisman.inventoryIcon.getType()){
-                        talisman.processClick(player);
+                if (event.getView().getTitle().equals(ChatColor.BOLD + "Talisman Chooser")){
+                    //Talisman picker
+                    event.setCancelled(true);
+                    for (Talisman talisman : TheRoadPlugin.getInstance().talismans){
+                        if (event.getCurrentItem().getType() == talisman.inventoryIcon.getType()){
+                            talisman.processClick(player);
+                        }
                     }
+                    StarterItems.refreshTalismanMenu(player);
                 }
-                StarterItems.refreshTalismanMenu(player);
+
                 break;
             case CHEST:
                 if (event.getView().getTitle().equals(ChatColor.BOLD + "Class Chooser"))
