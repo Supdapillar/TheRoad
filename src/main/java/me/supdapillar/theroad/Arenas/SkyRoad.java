@@ -18,10 +18,10 @@ public class SkyRoad extends Arena {
         iconLore.add(ChatColor.BLUE + "populated now with only the infected. ");
 
         iconLore.add(ChatColor.LIGHT_PURPLE + "Difficulty: Medium");
-        iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 16 Rounds");
+        iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 20 Rounds");
 
         spawnLocation = new Location(Bukkit.getWorld("SkyRoad"), -7.5, 10, -6.5 );
-        finalRound = 20;
+        finalRound = 21;
 
         ItemStack skyroadIcon = new ItemStack(Material.WHITE_WOOL);
         ItemMeta skyroadIconMeta = skyroadIcon.getItemMeta();

@@ -81,7 +81,7 @@ public class PlayerLeaveListener implements Listener {
         if (TheRoadPlugin.getInstance().gameManager.gamestates == Gamestates.inGame){
             int NumOfPlayers = 0;
             for (Player player1 : Bukkit.getOnlinePlayers()){
-                if (player1.getGameMode() == GameMode.SPECTATOR){
+                if (player1.getGameMode() == GameMode.ADVENTURE){
                     NumOfPlayers++;
                 }
             }

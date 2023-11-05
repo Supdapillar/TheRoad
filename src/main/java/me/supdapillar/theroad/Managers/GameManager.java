@@ -31,7 +31,7 @@ public class GameManager {
     public Arena[] gameArenas = new Arena[]{
             new TheLantern(),
             new SkyRoad(),
-            new HauntedManor(),
+            //new HauntedManor(),
             //new TheCore(),
     };
     public int currentArena = 0;
@@ -166,11 +166,31 @@ public class GameManager {
         fallingBlock.setGravity(false);
         fallingBlock.setInvulnerable(true);
         fallingBlock.setRotation(90,33);
-        fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.YELLOW + "GOODIES [█░░]");
         fallingBlock.setCustomNameVisible(true);
         fallingBlock.setPersistent(true);
         fallingBlock.setCancelDrop(true);
         fallingBlock.setDropItem(true);
+
+        //Loot chest teir
+        NamespacedKey teirKey = new NamespacedKey(TheRoadPlugin.getInstance(), "LootTier");
+        if (Math.random() > 0.95){
+            fallingBlock.getPersistentDataContainer().set(teirKey, PersistentDataType.INTEGER, 2);
+        } else if (Math.random() > 0.7){
+            fallingBlock.getPersistentDataContainer().set(teirKey, PersistentDataType.INTEGER, 1);
+        }
+        else {
+            fallingBlock.getPersistentDataContainer().set(teirKey, PersistentDataType.INTEGER, 0);
+        }
+
+
+        switch (fallingBlock.getPersistentDataContainer().get(teirKey,PersistentDataType.INTEGER)){
+            case 0:
+                fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.GRAY + "GOODIES [█░░]");
+            case 1:
+                fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.GREEN + "GOODIES [██░]");
+            case 2:
+                fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.GOLD + "GOODIES [███]");
+        }
     }
 
     public void respawnPlayer(Player player,Location location){
@@ -200,6 +220,9 @@ public class GameManager {
                 entity.remove();
             }
         }
+        //Resets stall counter
+        TheRoadPlugin.getInstance().counterLoop.mobStallCounter = 60;
+
         //Remove challenge displays
         for(Entity entity : gameArenas[currentArena].spawnLocation.getWorld().getEntities()){
             if (entity instanceof ItemDisplay){
@@ -240,7 +263,6 @@ public class GameManager {
                 Location location = new Location(Bukkit.getWorld("minigame"),165.5 + Math.cos(randomAngle)*15,-49,31.5 + Math.sin(randomAngle)*15);
                 player.teleport(location);
             }
-
         }
     }
 
@@ -265,8 +287,8 @@ public class GameManager {
                     if (Bukkit.getOnlinePlayers().size() > 1){
                         for(int i = 0; i<Bukkit.getOnlinePlayers().size()-1; i++){
                             if (!isBoss){
-                                if (Math.random() > 0.1) {
-                                    Bukkit.broadcastMessage(i+ "st wave spawn");
+                                if (Math.random() > 0.4) {
+                                    //Bukkit.broadcastMessage(i+ "st wave spawn");
                                     currentActiveSpawners.add(new DelayedSpawn(armorstand));
                                 }
                             }

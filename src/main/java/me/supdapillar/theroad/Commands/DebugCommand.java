@@ -58,12 +58,14 @@ public class DebugCommand implements CommandExecutor {
                         break;
                     case "Display":
                         TextDisplay textDisplay = (TextDisplay) player.getWorld().spawnEntity(player.getLocation(),EntityType.TEXT_DISPLAY,true);
-                        textDisplay.setText("Amount of enemies depends on your group");
+                        textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "⭐ Join our discord ⭐");
+                        textDisplay.setGlowing(true);
+                        textDisplay.setGlowColorOverride(Color.BLACK);
                         textDisplay.setLineWidth(Integer.parseInt(args[1]));
                         Transformation transformation = textDisplay.getTransformation();
+                        textDisplay.setRotation(270,0);
                         textDisplay.setTransformation(transformation);
                         textDisplay.setBackgroundColor(Color.fromARGB(0,0,0,0));
-                        textDisplay.setCustomName("THIS IS A TEST");
 
 
 

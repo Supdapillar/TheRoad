@@ -27,11 +27,14 @@ public class InteractListener implements Listener {
 
     @EventHandler
     public void OnPlayerInteract(PlayerInteractEvent event){
-        if (event.getAction() == Action.PHYSICAL) return;
         //Block trapdoor opens and fence opens
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (event.getClickedBlock().getType().name().contains("TRAP") || event.getClickedBlock().getType().name().contains("FENCE")){
                 event.setCancelled(true);
+            }
+            else if(event.getClickedBlock().getType() == Material.MANGROVE_BUTTON){
+                event.getPlayer().sendMessage(  ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "https://discord.gg/bjn5YEtFv");
+
             }
         }
         if (event.getItem() == null) return;

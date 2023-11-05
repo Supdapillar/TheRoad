@@ -86,13 +86,15 @@ public class SkyBeamAttack extends BukkitRunnable {
 
             //The attack
             for(Player player : Bukkit.getOnlinePlayers()){
-                if (player.getWorld() == beamCenter.getWorld()){
-                    if (player.getLocation().distance(beamCenter) < Radius){
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 5 * 20, 0, true));
-                        player.damage(5, bossToUpdate);
-                        player.setVelocity(player.getVelocity().add(new Vector(0,1,0)));
-                        if (bossEnraged){
-                            player.setFireTicks(40);
+                if (player.getGameMode() == GameMode.ADVENTURE){
+                    if (player.getWorld() == beamCenter.getWorld()){
+                        if (player.getLocation().distance(beamCenter) < Radius){
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 5 * 20, 0, true));
+                            player.damage(5, bossToUpdate);
+                            player.setVelocity(player.getVelocity().add(new Vector(0,1,0)));
+                            if (bossEnraged){
+                                player.setFireTicks(40);
+                            }
                         }
                     }
                 }

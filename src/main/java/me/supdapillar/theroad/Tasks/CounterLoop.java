@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class CounterLoop extends BukkitRunnable {
     public int counter = 10;
+    public int mobStallCounter = 80;
 
     @Override
     public void run() {
@@ -61,6 +62,24 @@ public class CounterLoop extends BukkitRunnable {
                 }
                 break;
                 case inGame:
+                    //Prevents players from stalling
+                    mobStallCounter--;
+                    if (mobStallCounter == 40){
+                        Bukkit.broadcastMessage(ChatColor.RED + "Damage enemies or game will restart in: 40");
+                        for(Player player : Bukkit.getOnlinePlayers()){
+                            player.playSound(player,Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO, 9999, 1);
+                        }
+                    }
+                    else if (mobStallCounter < 11){
+                        Bukkit.broadcastMessage(ChatColor.RED + "Damage enemies or game will restart in: " + mobStallCounter);
+                        for(Player player : Bukkit.getOnlinePlayers()){
+                            player.playSound(player,Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO, 9999, 1);
+                        }
+                        if (mobStallCounter == 0){
+                            Bukkit.broadcastMessage(ChatColor.RED + "Damage was not dealt to enemies game restarting...");
+                        }
+                    }
+
                     //Makes sure there are no zombies
                     Arena currentArena = TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)];
                     //Make sure all the loot containers dont despawn

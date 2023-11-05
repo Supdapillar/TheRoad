@@ -7,6 +7,7 @@ import me.supdapillar.theroad.gameClasses.Merchant;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -74,6 +75,11 @@ public class PlayerInteractEntityListener implements Listener {
             Player clickedPlayer = (Player) event.getRightClicked();
             if (TheRoadPlugin.getInstance().PlayerClass.get(clickedPlayer) == Classes.Merchant){
                 Merchant.openMerchantShop(event.getPlayer());
+            }
+        }
+        else if (event.getRightClicked() instanceof ItemFrame){
+            if (event.getPlayer().getGameMode() == GameMode.ADVENTURE){
+                event.setCancelled(true);
             }
         }
     }
@@ -212,7 +218,7 @@ public class PlayerInteractEntityListener implements Listener {
                         ItemStack echoShield = new ItemStack(Material.ECHO_SHARD);
                         ItemMeta echoMeta = echoShield.getItemMeta();
                         echoMeta.setDisplayName(ChatColor.DARK_BLUE + "Echo Shield");
-                        echoMeta.setLore(Collections.singletonList(ChatColor.LIGHT_PURPLE + "This crystal makes the next time your hit, damage the enemy instead!"));
+                        echoMeta.setLore(Collections.singletonList(ChatColor.LIGHT_PURPLE + "This crystal makes to where damage you take is given to the enemy instead!"));
                         echoShield.setItemMeta(echoMeta);
 
                         choosenItem = echoShield;

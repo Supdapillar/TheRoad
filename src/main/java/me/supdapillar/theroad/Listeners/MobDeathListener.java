@@ -25,6 +25,7 @@ public class MobDeathListener implements Listener {
         put(EntityType.WITHER_SKELETON, 7);
         put(EntityType.STRAY, 9);
         put(EntityType.SPIDER, 5);
+        put(EntityType.CHICKEN, 2);
     }};
     public MobDeathListener(TheRoadPlugin plugin){
         Bukkit.getServer().getPluginManager().registerEvents(this,plugin);

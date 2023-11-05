@@ -46,12 +46,20 @@ public class MobDamageByEntityListener implements Listener {
             }
             return;
         }
+        //Make Item frames unbreakable
+        if (event.getEntity() instanceof ItemFrame) {
+            if (event.getDamager() instanceof Player) {
+                Player player = (Player) event.getDamager();
+                if (player.getGameMode() == GameMode.ADVENTURE){
+                    event.setCancelled(true);
+                }
+            }
+        }
+
         if (!(event.getEntity() instanceof Mob)) return;
-
-
-
-
         Mob mobEntity = (Mob) event.getEntity();
+        //Resets stall counter
+        TheRoadPlugin.getInstance().counterLoop.mobStallCounter = 80;
 
         //For Wolves
         if (mobEntity instanceof Tameable) {

@@ -2,10 +2,7 @@ package me.supdapillar.theroad.Listeners;
 
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Heads;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
 import org.bukkit.entity.*;
@@ -19,6 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class MobSpawnListener implements Listener {
 
@@ -32,6 +30,11 @@ public class MobSpawnListener implements Listener {
         if (event.getEntity() instanceof Player) return;
         if (event.getEntity() instanceof ArmorStand) return;
         Mob mobEntity = (Mob) event.getEntity();
+        //Make sure the mob spawns with a player target
+        Object[] array = Bukkit.getOnlinePlayers().stream().filter(o -> o.getGameMode() == GameMode.ADVENTURE).toArray();
+        Random random = new Random();
+        mobEntity.setTarget((LivingEntity) array[random.nextInt(array.length)]);
+
         //For Bosses
         if (!Objects.equals(TheRoadPlugin.getInstance().nextBossIs, "")){
             Zombie bossZombie = (Zombie) mobEntity;

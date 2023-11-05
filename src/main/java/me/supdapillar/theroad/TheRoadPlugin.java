@@ -98,6 +98,7 @@ public final class TheRoadPlugin extends JavaPlugin {
         new InventoryOpenListener(this);
         new EntityChangeBlockListener(this);
         new PlayerToggleSneakListener(this);
+        new EntityTargetListener(this);
 
         ScoreboardHandler.updateScoreboard(this);
 

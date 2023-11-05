@@ -52,7 +52,6 @@ public class BeaconEventLoop extends BukkitRunnable {
                             if (player.getLocation().distance(centerPointArmorStand.getLocation()) > 12) {
                                 Location PlayerLocation = player.getLocation();
                                 Location ArmorstandLocation = centerPointArmorStand.getLocation();
-                                player.sendMessage("Pushed back nerd");
                                 Vector vector = new Vector(PlayerLocation.getX() - ArmorstandLocation.getX(), -2, PlayerLocation.getZ() - ArmorstandLocation.getZ()).normalize();
 
                                 player.setVelocity(vector.multiply(-0.75f));
@@ -68,7 +67,6 @@ public class BeaconEventLoop extends BukkitRunnable {
                 Location ArmorstandLocation = centerPointArmorStand.getLocation();
 
                 Location zombieSpawnLocation = new Location(ArmorstandLocation.getWorld(), ArmorstandLocation.getX() + Math.cos(Angle) * 11, ArmorstandLocation.getY(), ArmorstandLocation.getZ() + Math.sin(Angle) * 11);
-                Bukkit.broadcastMessage(zombieSpawnLocation.getBlock().getType() + "");
 
                 while(zombieSpawnLocation.getBlock().getType() != Material.AIR){
                     Angle = (Math.PI * 2) * Math.random();
@@ -82,37 +80,41 @@ public class BeaconEventLoop extends BukkitRunnable {
             }
         }
         else { // Ends the event
-            SoulsNeeded = 0;
-            centerPointArmorStand.setCustomName(ChatColor.GRAY + "RESPAWN BEACON ALREADY USED");
-            centerPointArmorStand.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "IsAbleToRespawn"), PersistentDataType.BOOLEAN, false);
-            //Plays a sound for the players
-            for(Player player : Bukkit.getOnlinePlayers()){
-                player.playSound(player,Sound.ENTITY_GENERIC_EXPLODE, 9999, 0.75f);
-            }
-            //Spawn Particles
-            Location centerLocation = centerPointArmorStand.getLocation();
-            double Angle = 0;
-            for (int i = 0; i < 100; i++) {
-                Angle -= Math.PI / 50f;
-
-
-                Location particleLocation = new Location(centerLocation.getWorld(), centerLocation.getX() + (Math.cos(Angle) * 12f), centerLocation.getY(), centerLocation.getZ() + (Math.sin(Angle) * 12f));
-                centerLocation.getWorld().spawnParticle(Particle.LAVA, particleLocation, 8, 0, 3, 0, 0);
-            }
-            //Respawning the player
-            List<Player> deadPlayers = new ArrayList<Player>();
-            for(Player player : Bukkit.getOnlinePlayers()){
-                if (player.getGameMode() == GameMode.SPECTATOR){
-                    deadPlayers.add(player);
+            //Every update revive a new player
+            if (Bukkit.getOnlinePlayers().stream().filter(o -> o.getGameMode() == GameMode.SPECTATOR).toArray().length > 0){
+                //Plays a sound for the players
+                for(Player player : Bukkit.getOnlinePlayers()){
+                    player.playSound(player,Sound.ENTITY_GENERIC_EXPLODE, 9999, 0.75f);
                 }
+                //Spawn Particles
+                Location centerLocation = centerPointArmorStand.getLocation();
+                double Angle = 0;
+                for (int i = 0; i < 100; i++) {
+                    Angle -= Math.PI / 50f;
+
+                    Location particleLocation = new Location(centerLocation.getWorld(), centerLocation.getX() + (Math.cos(Angle) * 12f), centerLocation.getY(), centerLocation.getZ() + (Math.sin(Angle) * 12f));
+                    centerLocation.getWorld().spawnParticle(Particle.LAVA, particleLocation, 8, 0, 3, 0, 0);
+                }
+                //Respawning the player
+                List<Player> deadPlayers = new ArrayList<Player>();
+                for(Player player : Bukkit.getOnlinePlayers()){
+                    if (player.getGameMode() == GameMode.SPECTATOR){
+                        deadPlayers.add(player);
+                    }
+                }
+                Random random = new Random();
+                TheRoadPlugin.getInstance().gameManager.respawnPlayer(deadPlayers.get(random.nextInt(deadPlayers.size())),centerPointArmorStand.getLocation());
             }
-            Random random = new Random();
-            TheRoadPlugin.getInstance().gameManager.respawnPlayer(deadPlayers.get(random.nextInt(deadPlayers.size())),centerPointArmorStand.getLocation());
+            //Ends the event
+            if (Bukkit.getOnlinePlayers().stream().filter(o -> o.getGameMode() == GameMode.SPECTATOR).toArray().length == 0){
+                SoulsNeeded = 0;
+                centerPointArmorStand.setCustomName(ChatColor.GRAY + "RESPAWN BEACON ALREADY USED");
+                centerPointArmorStand.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "IsAbleToRespawn"), PersistentDataType.BOOLEAN, false);
 
 
-
-            BeaconEventLoop.beaconEventLoop.cancel();
-            BeaconEventLoop.beaconEventLoop = null;
+                BeaconEventLoop.beaconEventLoop.cancel();
+                BeaconEventLoop.beaconEventLoop = null;
+            }
         }
     }
 }
