@@ -77,6 +77,8 @@ public class CounterLoop extends BukkitRunnable {
                         }
                         if (mobStallCounter == 0){
                             Bukkit.broadcastMessage(ChatColor.RED + "Damage was not dealt to enemies game restarting...");
+                            TheRoadPlugin.getInstance().gameManager.resetGame(false);
+
                         }
                     }
 

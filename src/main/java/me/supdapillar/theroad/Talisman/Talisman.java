@@ -116,6 +116,6 @@ public class Talisman {
     public void onPlayerMove(PlayerMoveEvent event) {};
     public void onPlayerHealthRegain(EntityRegainHealthEvent event) {};
     public void onPlayerDamage(EntityDamageByEntityEvent event){};
-    public void onLootChestOpen(Inventory inventory){};
+    public void onLootChestOpen(Inventory inventory, int tier){};
 
 }

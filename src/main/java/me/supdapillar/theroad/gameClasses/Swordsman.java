@@ -11,8 +11,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 public class Swordsman extends GameClass {
 
@@ -59,6 +61,7 @@ public class Swordsman extends GameClass {
         ItemStack strengthPot = new ItemStack(Material.POTION);
         PotionMeta strengthMeta = (PotionMeta) strengthPot.getItemMeta();
         strengthMeta.setColor(Color.fromRGB(255, 199, 0));
+        strengthMeta.setBasePotionData(new PotionData(PotionType.STRENGTH));
         strengthMeta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 600, 0, true, true, true),true);
         strengthMeta.setDisplayName("Potion of Strength");
         strengthPot.setItemMeta(strengthMeta);

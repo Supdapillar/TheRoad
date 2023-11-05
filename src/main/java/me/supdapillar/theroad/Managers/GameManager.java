@@ -92,8 +92,10 @@ public class GameManager {
             player.setGameMode(GameMode.ADVENTURE);
             player.playSound(player, Sound.ENTITY_GUARDIAN_DEATH, 9999, 1);
             player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
-
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+            //Adds health to name display
+            player.setCustomName(player.getName() + " [" +player.getHealth()+"❤/"+player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()+"❤]");
+
             TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).removeAll(TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).stream().filter(o -> !o.countsAsActive).collect(Collectors.toList()));
             TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).addAll(GameClass.getClassFromEnum(TheRoadPlugin.getInstance().PlayerClass.get(player)).starterTalismans);
 
@@ -108,10 +110,16 @@ public class GameManager {
             if (entity instanceof ArmorStand && entity.getPersistentDataContainer().has(namespacedKey, PersistentDataType.INTEGER)){
                 ArmorStand armorStand = (ArmorStand) entity;
                 Random random = new Random();
-                if (random.nextInt(100)+1 < armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.INTEGER) ){
+                boolean makeLoot = false;
+                //Loot chests scales with players
+                for (Player player : Bukkit.getOnlinePlayers()){
+                    if (random.nextInt(100)+1 < armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.INTEGER) ){
+                        makeLoot = true;
+                    }
+                }
+                if (makeLoot){
                     makeLootChest(entity.getLocation());
                 }
-
             }
             //Generates the challenges
             if (entity.getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(), "ChallengeType"), PersistentDataType.STRING)){
@@ -171,26 +179,28 @@ public class GameManager {
         fallingBlock.setCancelDrop(true);
         fallingBlock.setDropItem(true);
 
-        //Loot chest teir
-        NamespacedKey teirKey = new NamespacedKey(TheRoadPlugin.getInstance(), "LootTier");
-        if (Math.random() > 0.95){
-            fallingBlock.getPersistentDataContainer().set(teirKey, PersistentDataType.INTEGER, 2);
+        //Loot chest tier
+        NamespacedKey tierKey = new NamespacedKey(TheRoadPlugin.getInstance(), "LootTier");
+        if (Math.random() > 0.96){
+            fallingBlock.getPersistentDataContainer().set(tierKey, PersistentDataType.INTEGER, 2);
         } else if (Math.random() > 0.7){
-            fallingBlock.getPersistentDataContainer().set(teirKey, PersistentDataType.INTEGER, 1);
-        }
-        else {
-            fallingBlock.getPersistentDataContainer().set(teirKey, PersistentDataType.INTEGER, 0);
+            fallingBlock.getPersistentDataContainer().set(tierKey, PersistentDataType.INTEGER, 1);
+        } else {
+            fallingBlock.getPersistentDataContainer().set(tierKey, PersistentDataType.INTEGER, 0);
         }
 
+            switch (fallingBlock.getPersistentDataContainer().get(tierKey,PersistentDataType.INTEGER)){
+                case 0:
+                    fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.GRAY + "GOODIES [█░░]");
+                    break;
+                case 1:
+                    fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.GREEN + "GOODIES [██░]");
+                    break;
+                case 2:
+                    fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.GOLD + "GOODIES [███]");
+                    break;
+            }
 
-        switch (fallingBlock.getPersistentDataContainer().get(teirKey,PersistentDataType.INTEGER)){
-            case 0:
-                fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.GRAY + "GOODIES [█░░]");
-            case 1:
-                fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.GREEN + "GOODIES [██░]");
-            case 2:
-                fallingBlock.setCustomName(ChatColor.BOLD + "" + ChatColor.GOLD + "GOODIES [███]");
-        }
     }
 
     public void respawnPlayer(Player player,Location location){
@@ -249,11 +259,11 @@ public class GameManager {
         {
             gamestates = Gamestates.lobby;
             for (Player player : Bukkit.getOnlinePlayers()){
-
                 player.getInventory().clear();
                 player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
                 player.setGameMode(GameMode.ADVENTURE);
                 player.setLevel(0);
+                player.setCustomName(player.getName());
                 StarterItems.GiveClassCompass(player);
 
                 StarterItems.GiveUnreadyConcrete(player);

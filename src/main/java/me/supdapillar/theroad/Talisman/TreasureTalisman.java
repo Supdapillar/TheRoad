@@ -31,10 +31,10 @@ public class TreasureTalisman extends Talisman{
     }
 
     @Override
-    public void onLootChestOpen(Inventory inventory){
+    public void onLootChestOpen(Inventory inventory, int tier){
         //Random Chest Generator
         Random random = new Random();
-        int randomAmountOfItems = random.nextInt(2,3);
+        int randomAmountOfItems = random.nextInt(2+tier,3+(tier*2));
 
         for (int i = 0; i < randomAmountOfItems; i++){
 
@@ -44,7 +44,7 @@ public class TreasureTalisman extends Talisman{
                 randomChestSlot = random.nextInt(27);
             }
 
-            inventory.setItem(randomChestSlot, PlayerInteractEntityListener.GenerateRandomLoot());
+            inventory.setItem(randomChestSlot, PlayerInteractEntityListener.GenerateRandomLoot(tier));
         }
     }
 }

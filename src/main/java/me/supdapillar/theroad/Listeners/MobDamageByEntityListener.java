@@ -34,11 +34,14 @@ public class MobDamageByEntityListener implements Listener {
         //All stuff related to players
         if (event.getEntity() instanceof Player)
         {
+            Player player = (Player) event.getEntity();
             //Talisman
-            for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get((Player) event.getEntity())){
+            for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
                 talisman.onPlayerDamage(event);
             }
 
+            //Updates health display
+            player.setCustomName(player.getName() + " [" +Math.ceil(player.getHealth())+"❤/"+player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()+"❤]");
 
             //Player wither skull bug fix
             if (event.getDamager() instanceof WitherSkull ){
