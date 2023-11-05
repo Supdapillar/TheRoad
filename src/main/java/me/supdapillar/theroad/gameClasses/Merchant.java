@@ -87,8 +87,8 @@ public class Merchant extends GameClass {
         ItemStack ResistancePotion = new ItemStack(Material.SPLASH_POTION);
         PotionMeta ResistanceMeta = (PotionMeta) ResistancePotion.getItemMeta();
         ResistanceMeta.setColor(Color.fromRGB(139, 128, 227));
-        ResistanceMeta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 400, 1, true, true, true),true  );
-        ResistanceMeta.setLore(Arrays.asList("Lasts 20 Seconds!", ChatColor.GREEN + "(7xp)"));
+        ResistanceMeta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 800, 1, true, true, true),true  );
+        ResistanceMeta.setLore(Arrays.asList("Lasts 40 Seconds!", ChatColor.GREEN + "(7xp)"));
         ResistanceMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Resistance");
         ResistancePotion.setItemMeta(ResistanceMeta);
         inventory.addItem(ResistancePotion);
@@ -96,8 +96,8 @@ public class Merchant extends GameClass {
         ItemStack SpeedPotion = new ItemStack(Material.SPLASH_POTION);
         PotionMeta SpeedMeta = (PotionMeta) SpeedPotion.getItemMeta();
         SpeedMeta.setColor(Color.fromRGB(51, 235, 255));
-        SpeedMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 600, 2, true, true, true),true  );
-        SpeedMeta.setLore(Arrays.asList("Lasts 30 Seconds!", ChatColor.GREEN + "(7xp)"));
+        SpeedMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 800, 2, true, true, true),true  );
+        SpeedMeta.setLore(Arrays.asList("Lasts 40 Seconds!", ChatColor.GREEN + "(7xp)"));
         SpeedMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Swiftness");
         SpeedPotion.setItemMeta(SpeedMeta);
         inventory.addItem(SpeedPotion);
@@ -105,20 +105,11 @@ public class Merchant extends GameClass {
         ItemStack StrengthPotion = new ItemStack(Material.SPLASH_POTION);
         PotionMeta StrengthMeta = (PotionMeta) StrengthPotion.getItemMeta();
         StrengthMeta.setColor(Color.fromRGB(255, 199, 0));
-        StrengthMeta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0, true, true, true),true  );
-        StrengthMeta.setLore(Arrays.asList("Lasts 20 Seconds!", ChatColor.GREEN + "(10xp)"));
+        StrengthMeta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 600, 0, true, true, true),true  );
+        StrengthMeta.setLore(Arrays.asList("Lasts 30 Seconds!", ChatColor.GREEN + "(10xp)"));
         StrengthMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Strength");
         StrengthPotion.setItemMeta(StrengthMeta);
         inventory.addItem(StrengthPotion);
-        //Invis Potion
-        ItemStack InvisPotion = new ItemStack(Material.SPLASH_POTION);
-        PotionMeta InvisMeta = (PotionMeta) InvisPotion.getItemMeta();
-        InvisMeta.setColor(Color.fromRGB(246, 246, 246));
-        InvisMeta.addCustomEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 400, 0, true, true, true),true  );
-        InvisMeta.setLore(Arrays.asList("Last 20 Seconds!", ChatColor.GREEN + "(8xp)"));
-        InvisMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Invisibility");
-        InvisPotion.setItemMeta(InvisMeta);
-        inventory.addItem(InvisPotion);
         //Arrows
         ItemStack Arrows = new ItemStack(Material.ARROW, 16);
         ItemMeta ArrowMeta = Arrows.getItemMeta();
@@ -132,6 +123,13 @@ public class Merchant extends GameClass {
         extraHpMeta.setLore(Collections.singletonList(ChatColor.GREEN + "(10xp)"));
         extraHp.setItemMeta(extraHpMeta);
         inventory.addItem(extraHp);
+        //Explosive Charge
+        ItemStack explosiveCharge = new ItemStack(Material.GUNPOWDER);
+        ItemMeta explosiveChargeMeta = explosiveCharge.getItemMeta();
+        explosiveChargeMeta.setDisplayName(ChatColor.GOLD + "Explosive Charge");
+        explosiveChargeMeta.setLore(Arrays.asList(ChatColor.LIGHT_PURPLE + "Next time you take damage you release a catastrophic explosion!","1 Use" + ChatColor.GREEN + " (9xp)"));
+        explosiveCharge.setItemMeta(explosiveChargeMeta);
+        inventory.addItem(explosiveCharge);
         //FireThing
         ItemStack fireRoot = new ItemStack(Material.TORCHFLOWER);
         ItemMeta fireRootMeta = fireRoot.getItemMeta();

@@ -93,8 +93,7 @@ public class GameManager {
             player.playSound(player, Sound.ENTITY_GUARDIAN_DEATH, 9999, 1);
             player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-            //Adds health to name display
-            player.setCustomName(player.getName() + " [" +player.getHealth()+"❤/"+player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()+"❤]");
+
 
             TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).removeAll(TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).stream().filter(o -> !o.countsAsActive).collect(Collectors.toList()));
             TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).addAll(GameClass.getClassFromEnum(TheRoadPlugin.getInstance().PlayerClass.get(player)).starterTalismans);
@@ -263,7 +262,6 @@ public class GameManager {
                 player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
                 player.setGameMode(GameMode.ADVENTURE);
                 player.setLevel(0);
-                player.setCustomName(player.getName());
                 StarterItems.GiveClassCompass(player);
 
                 StarterItems.GiveUnreadyConcrete(player);

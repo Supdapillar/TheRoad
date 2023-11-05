@@ -4,6 +4,7 @@ import me.supdapillar.theroad.TheRoadPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
@@ -19,10 +20,7 @@ public class EntityTargetListener implements Listener {
 
     @EventHandler
     public void onEntityTarget(EntityTargetEvent event){
-
-        //Bukkit.broadcastMessage("Reason: " + event.getReason());
-        //Bukkit.broadcastMessage(event.getTarget() + "");
-
+        if (event.getEntity() instanceof Tameable) return;
         if (event.getTarget() == null){
 
             Object[] array = Bukkit.getOnlinePlayers().stream().filter(o -> o.getGameMode() == GameMode.ADVENTURE).toArray();

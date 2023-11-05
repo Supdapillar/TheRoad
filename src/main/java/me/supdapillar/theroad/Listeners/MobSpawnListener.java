@@ -29,7 +29,9 @@ public class MobSpawnListener implements Listener {
         if (!(event.getEntity() instanceof Mob)) return;
         if (event.getEntity() instanceof Player) return;
         if (event.getEntity() instanceof ArmorStand) return;
+        if (event.getEntity() instanceof Tameable) return;
         Mob mobEntity = (Mob) event.getEntity();
+
         //Make sure the mob spawns with a player target
         Object[] array = Bukkit.getOnlinePlayers().stream().filter(o -> o.getGameMode() == GameMode.ADVENTURE).toArray();
         Random random = new Random();

@@ -3,10 +3,7 @@ package me.supdapillar.theroad.Listeners;
 import me.supdapillar.theroad.Arenas.Arena;
 import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.Helpers.StarterItems;
-import me.supdapillar.theroad.Talisman.LootableReviveTalisman;
-import me.supdapillar.theroad.Talisman.ShopEchoShieldTalisman;
-import me.supdapillar.theroad.Talisman.ShopFireRootTalisman;
-import me.supdapillar.theroad.Talisman.Talisman;
+import me.supdapillar.theroad.Talisman.*;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.gameClasses.GameClass;
 import org.bukkit.*;
@@ -106,7 +103,11 @@ public class InventoryInteractionListener implements Listener {
                             player.playSound(player, Sound.ENTITY_PLAYER_BURP, 9999 ,1);
                             player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + 2);
                             event.getCurrentItem().setAmount(0);
-
+                            break;
+                        case GUNPOWDER: // Explosive Charge
+                            player.playSound(player, Sound.ENTITY_TNT_PRIMED, 9999 ,2);
+                            TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(new ShopExplosiveChargeTalisman());
+                            event.getCurrentItem().setAmount(0);
                             break;
                         case ECHO_SHARD:
                             player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_RESONATE, 9999 ,1);
@@ -135,7 +136,7 @@ public class InventoryInteractionListener implements Listener {
                                         ItemStack ResistancePotion = new ItemStack(Material.SPLASH_POTION);
                                         PotionMeta ResistanceMeta = (PotionMeta) ResistancePotion.getItemMeta();
                                         ResistanceMeta.setColor(Color.fromRGB(139, 128, 227));
-                                        ResistanceMeta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 400, 1, true, true, true),true  );
+                                        ResistanceMeta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 800, 1, true, true, true),true  );
                                         ResistanceMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Resistance");
                                         ResistancePotion.setItemMeta(ResistanceMeta);
                                         player.getInventory().addItem(ResistancePotion);
@@ -152,7 +153,7 @@ public class InventoryInteractionListener implements Listener {
                                         ItemStack SpeedPotion = new ItemStack(Material.SPLASH_POTION);
                                         PotionMeta SpeedMeta = (PotionMeta) SpeedPotion.getItemMeta();
                                         SpeedMeta.setColor(Color.fromRGB(51, 235, 255));
-                                        SpeedMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 600, 2, true, true, true),true  );
+                                        SpeedMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 800, 2, true, true, true),true  );
                                         SpeedMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Swiftness");
                                         SpeedPotion.setItemMeta(SpeedMeta);
                                         player.getInventory().addItem(SpeedPotion);
@@ -169,27 +170,10 @@ public class InventoryInteractionListener implements Listener {
                                         ItemStack StrengthPotion = new ItemStack(Material.SPLASH_POTION);
                                         PotionMeta StrengthMeta = (PotionMeta) StrengthPotion.getItemMeta();
                                         StrengthMeta.setColor(Color.fromRGB(255, 199, 0));
-                                        StrengthMeta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0, true, true, true),true  );
+                                        StrengthMeta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 600, 0, true, true, true),true  );
                                         StrengthMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Strength");
                                         StrengthPotion.setItemMeta(StrengthMeta);
                                         player.getInventory().addItem(StrengthPotion);
-                                    }
-                                    else {
-                                        player.playSound(player,Sound.ENTITY_VILLAGER_NO,999,1);
-                                        player.sendMessage(ChatColor.RED + "You don't have enough xp!");
-                                    }
-                                    break;
-                                case "Splash Potion of Invisibility":
-                                    if (player.getLevel() >= 8){
-                                        player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 9999 ,1);
-                                        player.setLevel(player.getLevel()-8);
-                                        ItemStack InvisPotion = new ItemStack(Material.SPLASH_POTION);
-                                        PotionMeta InvisMeta = (PotionMeta) InvisPotion.getItemMeta();
-                                        InvisMeta.setColor(Color.fromRGB(246, 246, 246));
-                                        InvisMeta.addCustomEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 400, 0, true, true, true),true  );
-                                        InvisMeta.setDisplayName(ChatColor.RESET + "Splash Potion of Invisibility");
-                                        InvisPotion.setItemMeta(InvisMeta);
-                                        player.getInventory().addItem(InvisPotion);
                                     }
                                     else {
                                         player.playSound(player,Sound.ENTITY_VILLAGER_NO,999,1);
@@ -220,6 +204,17 @@ public class InventoryInteractionListener implements Listener {
                                 player.sendMessage(ChatColor.RED + "You don't have enough xp!");
                             }
                             break;
+                        case GUNPOWDER: // Explosive Charge
+                            if (player.getLevel() >= 9){
+                                player.playSound(player, Sound.ENTITY_TNT_PRIMED, 9999 ,2);
+                                player.setLevel(player.getLevel() - 9);
+                                TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(new ShopExplosiveChargeTalisman());
+                            }
+                            else {
+                                player.playSound(player,Sound.ENTITY_VILLAGER_NO,999,1);
+                                player.sendMessage(ChatColor.RED + "You don't have enough xp!");
+                            }
+                            break;
                         case TORCHFLOWER: // Permanent extra heart
                             if (player.getLevel() >= 10){
                                 player.playSound(player, Sound.ENTITY_PLAYER_BURP, 9999 ,1);
@@ -242,7 +237,6 @@ public class InventoryInteractionListener implements Listener {
                                 player.sendMessage(ChatColor.RED + "You don't have enough xp!");
                             }
                             break;
-
                         case NETHER_STAR: // Extra Revive
                             if (player.getLevel() >= 50){
                                 player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 9999 ,1);
@@ -253,8 +247,6 @@ public class InventoryInteractionListener implements Listener {
                                 player.playSound(player,Sound.ENTITY_VILLAGER_NO,999,1);
                                 player.sendMessage(ChatColor.RED + "You don't have enough xp!");
                             }
-
-
                             break;
                     }
                 }

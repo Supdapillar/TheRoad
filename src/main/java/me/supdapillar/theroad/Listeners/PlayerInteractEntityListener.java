@@ -232,12 +232,12 @@ public class PlayerInteractEntityListener implements Listener {
                 case 14: // Only tier 1+
                     //Explosive charge
                     if (random.nextInt(4-tier) == 0) {
-                        ItemStack echoShield = new ItemStack(Material.GUNPOWDER);
-                        ItemMeta echoMeta = echoShield.getItemMeta();
-                        echoMeta.setDisplayName(ChatColor.GOLD + "Explosive Charge");
-                        echoMeta.setLore(Collections.singletonList(ChatColor.LIGHT_PURPLE + "Next time you take damage you release a catastrophic explosion!"));
-                        echoShield.setItemMeta(echoMeta);
-                        choosenItem = echoShield;
+                        ItemStack explosiveCharge = new ItemStack(Material.GUNPOWDER);
+                        ItemMeta explosiveChargeMeta = explosiveCharge.getItemMeta();
+                        explosiveChargeMeta.setDisplayName(ChatColor.GOLD + "Explosive Charge");
+                        explosiveChargeMeta.setLore(Collections.singletonList(ChatColor.LIGHT_PURPLE + "Next time you take damage you release a catastrophic explosion!"));
+                        explosiveCharge.setItemMeta(explosiveChargeMeta);
+                        choosenItem = explosiveCharge;
                     }
                     break;
                 case 15:// Only max tier

@@ -40,9 +40,6 @@ public class MobDamageByEntityListener implements Listener {
                 talisman.onPlayerDamage(event);
             }
 
-            //Updates health display
-            player.setCustomName(player.getName() + " [" +Math.ceil(player.getHealth())+"❤/"+player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()+"❤]");
-
             //Player wither skull bug fix
             if (event.getDamager() instanceof WitherSkull ){
                 event.setCancelled(true);
