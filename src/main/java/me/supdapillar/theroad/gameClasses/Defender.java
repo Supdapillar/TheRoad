@@ -1,27 +1,24 @@
 package me.supdapillar.theroad.gameClasses;
 
-import me.supdapillar.theroad.Talisman.HealerClassTalisman;
+import me.supdapillar.theroad.Talisman.ClassExperienceTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collections;
-import java.util.UUID;
 
 public class Defender extends GameClass {
 
     public Defender(TheRoadPlugin plugin) {
         super(plugin);
         className = "Defender";
-
+        iconLore.add(ChatColor.BLUE + "The inventive defender can conjure a magic");
+        iconLore.add(ChatColor.BLUE + "shield to block enemies and projectiles! ");
 
         //Stone
         ItemStack stoneSword = new ItemStack(Material.STONE_SWORD);
@@ -64,7 +61,7 @@ public class Defender extends GameClass {
         //Extra
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
         //Talisman
-        starterTalismans.add(new HealerClassTalisman());
+        starterTalismans.add(new ClassExperienceTalisman());
         //For icon
         ItemStack newItem = new ItemStack(Material.WARPED_DOOR);
         ItemMeta newItemMeta = newItem.getItemMeta();
@@ -73,7 +70,7 @@ public class Defender extends GameClass {
         newItem.setItemMeta(newItemMeta);
 
         super.inventoryIcon = newItem;
-        price = 500;
+        price = 450;
         representingClass = Classes.Defender;
     }
 

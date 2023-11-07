@@ -38,18 +38,17 @@ public class TeleportBehindAttack extends BukkitRunnable {
         else
         {
             if (bossToUpdate.getTarget() != null){
-                double radians = Math.toRadians(bossToUpdate.getTarget().getLocation().getYaw()+90);
+                if (bossToUpdate.getTarget().getWorld() == bossToUpdate.getWorld()){
+                    double radians = Math.toRadians(bossToUpdate.getTarget().getLocation().getYaw()+90);
 
+                    Location newLocation = new Location(
+                            bossToUpdate.getTarget().getWorld(),
+                            bossToUpdate.getTarget().getLocation().getX()-(Math.cos(radians)*6),
+                            bossToUpdate.getTarget().getLocation().getY(),
+                            bossToUpdate.getTarget().getLocation().getZ()-(Math.sin(radians)*6));
 
-                Location BossLocation = bossToUpdate.getLocation();
-
-                Location newLocation = new Location(
-                        bossToUpdate.getTarget().getWorld(),
-                        bossToUpdate.getTarget().getLocation().getX()-(Math.cos(radians)*6),
-                        bossToUpdate.getTarget().getLocation().getY(),
-                        bossToUpdate.getTarget().getLocation().getZ()-(Math.sin(radians)*6));
-
-                bossToUpdate.teleport(newLocation);
+                    bossToUpdate.teleport(newLocation);
+                }
             }
 
             bossToUpdate.getWorld().playSound(bossToUpdate.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 3, 1);

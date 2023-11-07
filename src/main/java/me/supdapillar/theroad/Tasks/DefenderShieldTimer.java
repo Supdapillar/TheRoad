@@ -3,10 +3,7 @@ package me.supdapillar.theroad.Tasks;
 import me.supdapillar.theroad.Talisman.BarrageTalisman;
 import me.supdapillar.theroad.gameClasses.Defender;
 import org.bukkit.*;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -99,22 +96,27 @@ public class DefenderShieldTimer extends BukkitRunnable {
 
             //Collisions
             for (Entity entity: summonedBy.getNearbyEntities(25,10,25)){
-                if (entity instanceof Mob){
-                    Mob livingEntity = (Mob) entity;
-                    if (livingEntity.getLocation().distance(summonedAt) < 4 ){
-                        boolean withinX = livingEntity.getLocation().getX() > summonedAt.getX()-2 && livingEntity.getLocation().getX() < summonedAt.getX()+2;
-                        boolean withinZ = livingEntity.getLocation().getY() > summonedAt.getY()-1f && livingEntity.getLocation().getY() < summonedAt.getY()+2f;
-                        boolean withinY = livingEntity.getLocation().getZ() > summonedAt.getZ() - 0.5f && livingEntity.getLocation().getZ() < summonedAt.getZ()+ 0.5f;
+                if (entity instanceof Mob || entity instanceof Projectile){
+                    if (entity.getLocation().distance(summonedAt) < 4 ){
+                        boolean withinX = entity.getLocation().getX() > summonedAt.getX()-2 && entity.getLocation().getX() < summonedAt.getX()+2;
+                        boolean withinZ = entity.getLocation().getY() > summonedAt.getY()-1f && entity.getLocation().getY() < summonedAt.getY()+2f;
+                        boolean withinY = entity.getLocation().getZ() > summonedAt.getZ() - 1.5f && entity.getLocation().getZ() < summonedAt.getZ()+ 1.5f;
 
-                        if (withinX && withinZ && withinY){
-                            if (livingEntity.getLocation().getZ() > summonedAt.getZ() ){
-                                livingEntity.setVelocity(new Vector(0f, 0.1f, 0.75f  ));
-                                hitsRemaining--;
+                        if (entity instanceof Mob){
+                            if (withinX && withinZ && withinY){
+                                if (entity.getLocation().getZ() > summonedAt.getZ() ){
+                                    entity.setVelocity(new Vector(0f, 0.1f, 0.75f  ));
+                                    hitsRemaining--;
+                                }
+                                else {
+                                    entity.setVelocity(new Vector(0f, 0.1f, -0.75f  ));
+                                    hitsRemaining--;
+                                }
                             }
-                            else {
-                                livingEntity.setVelocity(new Vector(0f, 0.1f, -0.75f  ));
-                                hitsRemaining--;
-                            }
+                        }
+                        else{
+                            entity.remove();
+                            hitsRemaining--;
                         }
                     }
                 }
@@ -145,22 +147,27 @@ public class DefenderShieldTimer extends BukkitRunnable {
 
             //Collisions
             for (Entity entity: summonedBy.getNearbyEntities(25,10,25)){
-                if (entity instanceof Mob){
-                    Mob livingEntity = (Mob) entity;
-                    if (livingEntity.getLocation().distance(summonedAt) < 4 ){
-                        boolean withinX = livingEntity.getLocation().getX() > summonedAt.getX()-0.5f && livingEntity.getLocation().getX() < summonedAt.getX()+0.5f;
-                        boolean withinZ = livingEntity.getLocation().getY() > summonedAt.getY()-1f && livingEntity.getLocation().getY() < summonedAt.getY()+2f;
-                        boolean withinY = livingEntity.getLocation().getZ() > summonedAt.getZ() - 2f && livingEntity.getLocation().getZ() < summonedAt.getZ()+ 2f;
+                if (entity instanceof Mob || entity instanceof Projectile){
+                    if (entity.getLocation().distance(summonedAt) < 4 ){
+                        boolean withinX = entity.getLocation().getX() > summonedAt.getX()-1.5f && entity.getLocation().getX() < summonedAt.getX()+1.5f;
+                        boolean withinZ = entity.getLocation().getY() > summonedAt.getY()-1f && entity.getLocation().getY() < summonedAt.getY()+2f;
+                        boolean withinY = entity.getLocation().getZ() > summonedAt.getZ() - 2f && entity.getLocation().getZ() < summonedAt.getZ()+ 2f;
 
-                        if (withinX && withinZ && withinY){
-                            if (livingEntity.getLocation().getX() > summonedAt.getX() ){
-                                livingEntity.setVelocity(new Vector(0.75f, 0.1f, 0  ));
-                                hitsRemaining--;
+                        if (entity instanceof Mob){
+                            if (withinX && withinZ && withinY){
+                                if (entity.getLocation().getX() > summonedAt.getX() ){
+                                    entity.setVelocity(new Vector(0.75f, 0.1f, 0  ));
+                                    hitsRemaining--;
+                                }
+                                else {
+                                    entity.setVelocity(new Vector(-0.75f, 0.1f, 0  ));
+                                    hitsRemaining--;
+                                }
                             }
-                            else {
-                                livingEntity.setVelocity(new Vector(-0.75f, 0.1f, 0  ));
-                                hitsRemaining--;
-                            }
+                        }
+                        else{
+                            entity.remove();
+                            hitsRemaining--;
                         }
                     }
                 }

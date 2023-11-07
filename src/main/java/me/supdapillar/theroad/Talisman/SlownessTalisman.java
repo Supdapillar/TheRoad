@@ -1,5 +1,6 @@
 package me.supdapillar.theroad.Talisman;
 
+import me.supdapillar.theroad.TheRoadPlugin;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.data.BlockData;
@@ -8,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 public class SlownessTalisman extends Talisman{
 
@@ -27,9 +29,12 @@ public class SlownessTalisman extends Talisman{
     @Override
     public void onMobDamage(EntityDamageByEntityEvent event){
         if (!(event.getEntity() instanceof LivingEntity)) return;
-        LivingEntity entity = (LivingEntity) event.getEntity();
-        entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).
-                setBaseValue(entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue()*0.9f);
-                entity.getWorld().spawnParticle(Particle.BLOCK_CRACK,entity.getEyeLocation(),8, Material.ICE.createBlockData());
+        if (!event.getEntity().getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(), "BossName"), PersistentDataType.STRING)){
+            LivingEntity entity = (LivingEntity) event.getEntity();
+            entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).
+                setBaseValue(entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue()*0.9f);
+                entity.getWorld().spawnParticle(Particle.BLOCK_CRACK,entity.getEyeLocation(),12, Material.ICE.createBlockData());
+
+        }
     }
 }

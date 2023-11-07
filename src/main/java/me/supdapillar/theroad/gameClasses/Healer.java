@@ -1,6 +1,6 @@
 package me.supdapillar.theroad.gameClasses;
 
-import me.supdapillar.theroad.Talisman.HealerClassTalisman;
+import me.supdapillar.theroad.Talisman.ClassExperienceTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import org.bukkit.ChatColor;
@@ -17,7 +17,8 @@ public class Healer extends GameClass {
     public Healer(TheRoadPlugin plugin) {
         super(plugin);
         className = "Healer";
-
+        iconLore.add(ChatColor.BLUE + "Through the magic of nature, the healer");
+        iconLore.add(ChatColor.BLUE + "is able to mend their allies' wounds!");
 
 
 
@@ -62,7 +63,7 @@ public class Healer extends GameClass {
         //Other
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
         //Talisman
-        starterTalismans.add(new HealerClassTalisman());
+        starterTalismans.add(new ClassExperienceTalisman());
 
 
         //For icon

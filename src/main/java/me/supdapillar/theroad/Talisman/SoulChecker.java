@@ -60,7 +60,6 @@ public class SoulChecker extends Talisman{
                         else {
                             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
                         }
-
                         player.sendMessage("The soul of " + Host.getDisplayName() + " has saved you!");
 
                         Host.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(Host.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() - 2);

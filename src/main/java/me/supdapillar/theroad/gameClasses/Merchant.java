@@ -1,6 +1,6 @@
 package me.supdapillar.theroad.gameClasses;
 
-import me.supdapillar.theroad.Talisman.HealerClassTalisman;
+import me.supdapillar.theroad.Talisman.ClassExperienceTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import org.bukkit.Bukkit;
@@ -25,7 +25,8 @@ public class Merchant extends GameClass {
     public Merchant(TheRoadPlugin plugin) {
         super(plugin);
         className = "Merchant";
-
+        iconLore.add(ChatColor.BLUE + "A greedy merchant still charging");
+        iconLore.add(ChatColor.BLUE + "for his wares in times of calamity!");
 
         //Merchant Shop
         ItemStack merchantShop = new ItemStack(Material.CHEST);
@@ -66,7 +67,7 @@ public class Merchant extends GameClass {
         //Extra
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
         //Talisman
-        starterTalismans.add(new HealerClassTalisman());
+        starterTalismans.add(new ClassExperienceTalisman());
         //For icon
         ItemStack newItem = new ItemStack(Material.CHEST);
         ItemMeta newItemMeta = newItem.getItemMeta();

@@ -39,7 +39,6 @@ public class RookUpdater extends BukkitRunnable {
             //Finds the teleport location
             if (rookToUpdate.getTarget() != null){
                 LivingEntity target = rookToUpdate.getTarget();
-
                 Vector vector = new Vector(target.getLocation().subtract(rookToUpdate.getLocation()).getX(), target.getLocation().subtract(rookToUpdate.getLocation()).getY(), target.getLocation().subtract(rookToUpdate.getLocation()).getZ());
 
                 double angle = Math.atan2(vector.getX(),vector.getZ());

@@ -30,7 +30,9 @@ public class InteractListener implements Listener {
         //Block trapdoor opens and fence opens
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (event.getClickedBlock().getType().name().contains("TRAP") || event.getClickedBlock().getType().name().contains("FENCE")){
-                event.setCancelled(true);
+                if (event.getPlayer().getGameMode() != GameMode.CREATIVE){
+                    event.setCancelled(true);
+                }
             }
             else if(event.getClickedBlock().getType() == Material.MANGROVE_BUTTON){
                 event.getPlayer().sendMessage(  ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "https://discord.gg/bjn5YEtFv");

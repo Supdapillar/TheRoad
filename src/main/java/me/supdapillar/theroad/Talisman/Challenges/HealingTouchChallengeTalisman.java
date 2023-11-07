@@ -35,7 +35,7 @@ public class HealingTouchChallengeTalisman extends Talisman {
         challengeVictim = player;
         challengeVictim.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD  + "You hands are infused with the power of healing!");
         challengeVictim.sendMessage(ChatColor.GRAY +"- All damage you deal heals the enemy!");
-        challengeVictim.sendMessage(ChatColor.GRAY +"- Get an enemy to over 100hp!");
+        challengeVictim.sendMessage(ChatColor.GRAY +"- Get an enemy to over 80hp!");
     }
 
 
@@ -49,11 +49,11 @@ public class HealingTouchChallengeTalisman extends Talisman {
                 mob.setHealth(mob.getHealth()+Math.ceil(event.getDamage()));
 
                 //Challenge end
-                if (mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() >= 100){
+                if (mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() >= 80){
                     challengeEnded = true;
                     challengeVictim.sendMessage(ChatColor.GRAY + "- You survived the healing touch challenge, good luck with that enemy! ;)");
                     TheRoadPlugin.getInstance().PlayerScores.put(challengeVictim,TheRoadPlugin.getInstance().PlayerScores.get(challengeVictim) + 25);
-                    challengeVictim.sendMessage(ChatColor.GREEN + "+25$");
+                    challengeVictim.sendMessage(ChatColor.GREEN + "Challenge Complete +25$");
                     ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
                 }
                 event.setDamage(0);

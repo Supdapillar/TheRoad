@@ -55,7 +55,6 @@ public class MobSpawnListener implements Listener {
                     bossZombie.setCustomNameVisible(true);
                     bossZombie.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "BossName"),PersistentDataType.STRING, "Sky Guardian");
                     break;
-
                 case "THEENLIGHTENER":
                     bossZombie.getEquipment().clear();
                     bossZombie.setAdult();

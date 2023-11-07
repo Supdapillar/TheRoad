@@ -1,6 +1,6 @@
 package me.supdapillar.theroad.gameClasses;
 
-import me.supdapillar.theroad.Talisman.HealerClassTalisman;
+import me.supdapillar.theroad.Talisman.ClassExperienceTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import me.supdapillar.theroad.enums.Heads;
@@ -8,7 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +22,8 @@ public class Mage extends GameClass {
     public Mage(TheRoadPlugin plugin) {
         super(plugin);
         className = "Mage";
-
+        iconLore.add(ChatColor.BLUE + "Magic, nature, or fire bends with");
+        iconLore.add(ChatColor.BLUE + "ease at the hands of the mage!");
 
         AttributeModifier fourDamage = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
         AttributeModifier threeDamage = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", 3, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
@@ -89,7 +89,7 @@ public class Mage extends GameClass {
         //Extra items
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
         //Talisman
-        starterTalismans.add(new HealerClassTalisman());
+        starterTalismans.add(new ClassExperienceTalisman());
         //For icon
         ItemStack newItem = new ItemStack(Material.AMETHYST_SHARD);
         ItemMeta newItemMeta = newItem.getItemMeta();

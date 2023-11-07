@@ -39,36 +39,36 @@ public final class TheRoadPlugin extends JavaPlugin {
     public GameClass[] gameClasses = new GameClass[]{
             new Swordsman(TheRoadPlugin.getInstance()),
             new Archer(TheRoadPlugin.getInstance()),
-            new Executioner(TheRoadPlugin.getInstance()),
+            new Healer(TheRoadPlugin.getInstance()),
             new Assassin(TheRoadPlugin.getInstance()),
             new WolfTamer(TheRoadPlugin.getInstance()),
-            new Healer(TheRoadPlugin.getInstance()),
-            new Defender(TheRoadPlugin.getInstance()),
-            new Mage(TheRoadPlugin.getInstance()),
             new Merchant(TheRoadPlugin.getInstance()),
+            new Defender(TheRoadPlugin.getInstance()),
+            new Executioner(TheRoadPlugin.getInstance()),
+            new Mage(TheRoadPlugin.getInstance()),
     };
 
     public Talisman[] talismans = new Talisman[]{
             new CritTalisman(),
-            new ArrowTalisman(),
-            new PrizeTalisman(),
             new SlownessTalisman(),
-            new VampireTalisman(),
-            new InfernoTalisman(),
+            new KnockbackTalisman(),
+            new AgonyTalisman(),
+            new PlunderTalisman(),
+            new ArrowTalisman(),
+            new MendingTalisman(),
             new SkullTalisman(),
             new PotionTalisman(),
-            new KnockbackTalisman(),
-            new HellFireTalisman(),
-            new PanicTalisman(),
-            new AgonyTalisman(),
-            new FrostTalisman(),
-            new PlunderTalisman(),
-            new SoulTalisman(),
             new ShieldTalisman(),
-            new MendingTalisman(),
-            new VigorTalisman(),
+            new PanicTalisman(),
             new TreasureTalisman(),
             new BarrageTalisman(),
+            new HellFireTalisman(),
+            new FrostTalisman(),
+            new VampireTalisman(),
+            new PrizeTalisman(),
+            new InfernoTalisman(),
+            new VigorTalisman(),
+            new SoulTalisman(),
     };
 
     @Override
@@ -99,6 +99,8 @@ public final class TheRoadPlugin extends JavaPlugin {
         new EntityChangeBlockListener(this);
         new PlayerToggleSneakListener(this);
         new EntityTargetListener(this);
+        new EntityChangeBlockListener(this);
+        new AsyncPlayerChatListener(this);
 
         ScoreboardHandler.updateScoreboard(this);
 
@@ -109,6 +111,7 @@ public final class TheRoadPlugin extends JavaPlugin {
         getCommand("MakeCursedTreasure").setExecutor(new CursedTreasureCommand());
         getCommand("MakeChallenge").setExecutor(new ChallengeCommand());
         getCommand("MakeLootGenerator").setExecutor(new MakeLootGeneratorCommand());
+        getCommand("MakeShrine").setExecutor(new ConjuringShrineCommand());
         getCommand("Debug").setExecutor(new DebugCommand());
         counterLoop.runTaskTimer(this,0,10);
 

@@ -5,6 +5,7 @@ import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Gamestates;
 import org.bukkit.*;
+import org.bukkit.block.Biome;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -77,6 +78,13 @@ public class MovementListener implements Listener {
 
                     ArmorStand armorstand = (ArmorStand) entity;
                     armorstand.setGlowing(false);
+                }
+            }
+            //Damage if in swamp water
+            if (player.getLocation().getBlock().getType() == Material.WATER){
+                if (player.getLocation().getBlock().getBiome() == Biome.SWAMP){
+                    player.damage(1);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.POISON,20,0,true,true,true));
                 }
             }
         }

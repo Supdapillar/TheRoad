@@ -15,6 +15,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.util.Transformation;
 
@@ -31,7 +32,7 @@ public class DebugCommand implements CommandExecutor {
                     case "ListTalisman":
                         for(Player player1 : Bukkit.getOnlinePlayers()){
                             for (Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player1)){
-                                Bukkit.broadcastMessage(player1.getDisplayName()+ ": " + talisman.name);
+                                player.sendMessage(player1.getDisplayName()+ ": " + talisman.name);
                             }
                         }
 
@@ -66,11 +67,6 @@ public class DebugCommand implements CommandExecutor {
                         textDisplay.setRotation(270,0);
                         textDisplay.setTransformation(transformation);
                         textDisplay.setBackgroundColor(Color.fromARGB(0,0,0,0));
-
-
-
-
-
                         break;
                     case "Money":
                         if (args.length > 2){
@@ -80,8 +76,12 @@ public class DebugCommand implements CommandExecutor {
                         }
                         else {
                             player.sendMessage(ChatColor.RED + "/Debug <Money> <Player> <Amount>");
-
                         }
+                        break;
+                    case "Unsupporter":
+                        Player SupporterPlayer = Bukkit.getPlayer(args[1]);
+                        SupporterPlayer.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Supporter removed!");
+                        SupporterPlayer.getPersistentDataContainer().remove(new NamespacedKey(TheRoadPlugin.getInstance(),"Supporter"));
                         break;
                     case "Reset":
                         if (args.length > 1){
@@ -98,6 +98,10 @@ public class DebugCommand implements CommandExecutor {
                         else {
                             player.sendMessage(ChatColor.RED + "/Reset <Player>");
                         }
+                    case "Revive":
+                        if (args.length> 1){
+                            TheRoadPlugin.getInstance().gameManager.respawnPlayer(Bukkit.getPlayer(args[1]),player.getLocation());
+                        }
                         break;
                     case "ForceStart":
                         TheRoadPlugin.getInstance().gameManager.startGame();
@@ -107,6 +111,21 @@ public class DebugCommand implements CommandExecutor {
             }
             else {
                 player.sendMessage(ChatColor.RED + "/Debug <ListTalisman | Summon | Money>");
+            }
+        }
+        else {
+            switch (args[0]) {
+                case "Supporter":
+                    Player SupporterPlayer = Bukkit.getPlayer(args[1]);
+                    SupporterPlayer.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Thank you for buying supporter, we really appreciate it!");
+                    SupporterPlayer.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(),"Supporter"), PersistentDataType.BOOLEAN, true);
+                    break;
+                case "Money":
+                    Bukkit.getPlayer(args[1]).sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Thank you for your purchase! +500$");
+
+                    TheRoadPlugin.getInstance().PlayerScores.put(Bukkit.getPlayer(args[1]),TheRoadPlugin.getInstance().PlayerScores.get(Bukkit.getPlayer(args[1])) + Integer.parseInt(args[2]));
+                    ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
+                    break;
             }
         }
     return true;

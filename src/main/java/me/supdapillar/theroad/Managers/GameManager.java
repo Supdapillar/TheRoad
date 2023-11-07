@@ -1,6 +1,7 @@
 package me.supdapillar.theroad.Managers;
 
 import me.supdapillar.theroad.Arenas.*;
+import me.supdapillar.theroad.Helpers.ConjuringShrineHelper;
 import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.Helpers.StarterItems;
 import me.supdapillar.theroad.Tasks.BeaconEventLoop;
@@ -31,7 +32,7 @@ public class GameManager {
     public Arena[] gameArenas = new Arena[]{
             new TheLantern(),
             new SkyRoad(),
-            //new HauntedManor(),
+            new HauntedManor(),
             //new TheCore(),
     };
     public int currentArena = 0;
@@ -99,14 +100,13 @@ public class GameManager {
             TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).addAll(GameClass.getClassFromEnum(TheRoadPlugin.getInstance().PlayerClass.get(player)).starterTalismans);
 
         }
-
-        //Removes all challenges
-
+        //Generate all shrines
+        ConjuringShrineHelper.generateShrines(gameArenas[currentArena].spawnLocation.getWorld());
 
         //Generates all the loot chests
         NamespacedKey namespacedKey = new NamespacedKey(TheRoadPlugin.getInstance(), "SpawnChance");
-        for (Entity entity : gameArenas[currentArena].spawnLocation.getWorld().getEntities()){
-            if (entity instanceof ArmorStand && entity.getPersistentDataContainer().has(namespacedKey, PersistentDataType.INTEGER)){
+        for (Entity entity : gameArenas[currentArena].spawnLocation.getWorld().getEntitiesByClass(ArmorStand.class)){
+            if (entity.getPersistentDataContainer().has(namespacedKey, PersistentDataType.INTEGER)){
                 ArmorStand armorStand = (ArmorStand) entity;
                 Random random = new Random();
                 boolean makeLoot = false;
@@ -120,8 +120,10 @@ public class GameManager {
                     makeLootChest(entity.getLocation());
                 }
             }
+
             //Generates the challenges
             if (entity.getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(), "ChallengeType"), PersistentDataType.STRING)){
+
                 Random random = new Random();
                 ItemDisplay itemDisplay = (ItemDisplay) entity.getWorld().spawnEntity(entity.getLocation(),EntityType.ITEM_DISPLAY,true);
                 Transformation transformation = itemDisplay.getTransformation();
@@ -161,7 +163,6 @@ public class GameManager {
                 entity.setCustomName(ChatColor.BOLD + "" + ChatColor.LIGHT_PURPLE + "CURSED TREASURE [CLICK] TO START EVENT");
             }
         }
-
     }
 
     public void makeLootChest(Location location){
@@ -287,16 +288,14 @@ public class GameManager {
                     String enemyType = data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING);
                     boolean isBoss = (enemyType.equals("SKYGUARDIAN") || enemyType.equals("THEENLIGHTENER") || enemyType.equals("THEGRANDMASTER"));
                     //Normal Spawn
-                    if (!isBoss){
+                    if (!isBoss) {
                         currentActiveSpawners.add(new DelayedSpawn(armorstand));
                     }
-
                     //Extra spawns if there are more players
                     if (Bukkit.getOnlinePlayers().size() > 1){
-                        for(int i = 0; i<Bukkit.getOnlinePlayers().size()-1; i++){
+                        for(int i = 0; i<Math.min(Bukkit.getOnlinePlayers().size(),6)-1; i++){
                             if (!isBoss){
-                                if (Math.random() > 0.4) {
-                                    //Bukkit.broadcastMessage(i+ "st wave spawn");
+                                if (Math.random() > 0.5) {
                                     currentActiveSpawners.add(new DelayedSpawn(armorstand));
                                 }
                             }
@@ -313,7 +312,7 @@ public class GameManager {
         //Activate all the delayed spawners
         for (DelayedSpawn delayedSpawn : currentActiveSpawners){
             Random random = new Random();
-            delayedSpawn.runTaskTimer(TheRoadPlugin.getInstance(), random.nextInt(0,100*Bukkit.getOnlinePlayers().size()), 1);
+            delayedSpawn.runTaskTimer(TheRoadPlugin.getInstance(), random.nextInt(0,Math.min(70*Bukkit.getOnlinePlayers().size(), 240)), 1);
         }
     }
 }

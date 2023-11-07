@@ -26,6 +26,7 @@ public class MobDeathListener implements Listener {
         put(EntityType.STRAY, 9);
         put(EntityType.SPIDER, 5);
         put(EntityType.CHICKEN, 2);
+        put(EntityType.CREEPER, 8);
     }};
     public MobDeathListener(TheRoadPlugin plugin){
         Bukkit.getServer().getPluginManager().registerEvents(this,plugin);
@@ -66,6 +67,11 @@ public class MobDeathListener implements Listener {
             mainPlugin.PlayerScores.put(player,mainPlugin.PlayerScores.get(player) + moneyValues.get(event.getEntity().getType()));
             ScoreboardHandler.updateScoreboard(mainPlugin);
             player.sendMessage(ChatColor.GREEN + "+" + moneyValues.get(event.getEntity().getType())+"$");
+            //For supporters
+            if (player.getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(),"Supporter"),PersistentDataType.BOOLEAN)){
+                player.sendMessage(ChatColor.GOLD + "+" + moneyValues.get(event.getEntity().getType())+"$");
+                mainPlugin.PlayerScores.put(player,mainPlugin.PlayerScores.get(player) + moneyValues.get(event.getEntity().getType()));
+            }
             //Talisman
             for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
                 talisman.onMobDeath(event);

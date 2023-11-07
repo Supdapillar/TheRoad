@@ -19,6 +19,8 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Random;
+
 public class InventoryOpenListener implements Listener {
     public  InventoryOpenListener(TheRoadPlugin plugin) {
         Bukkit.getServer().getPluginManager().registerEvents(this,  plugin);
@@ -86,15 +88,15 @@ public class InventoryOpenListener implements Listener {
                         player.getWorld().playSound(player, Sound.ENTITY_GUARDIAN_DEATH, 9999, 0.5f);
                         armorStand.getPersistentDataContainer().set(cursedKey, PersistentDataType.BOOLEAN, false);
                         new CursedTreasureEventLoop(armorStand).runTaskTimer(TheRoadPlugin.getInstance(),0,10);
-                        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getDisplayName() + "Activated a Cursed Treasure event!");
+                        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getDisplayName() + " Activated a Cursed Treasure event!");
                     }
                     else {
 
-                        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "A Cursed Treasure is already active!");
+                        player.sendMessage(ChatColor.LIGHT_PURPLE + "A Cursed Treasure is already active!");
                     }
                 }
                 else {
-                    Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "The Cursed Treasure has already been activated!");
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "The Cursed Treasure has already been activated!");
                 }
             }
             event.setCancelled(true);
@@ -150,7 +152,16 @@ public class InventoryOpenListener implements Listener {
                     if (BeaconEventLoop.beaconEventLoop == null){
                         if (armorStand.getPersistentDataContainer().get(namespacedKey, PersistentDataType.BOOLEAN)){
                             if (arePlayersCloseEnough){
-                                int SoulsNeeded = (int) Math.floor(Math.random()*3+5) + (Bukkit.getOnlinePlayers().size() );
+                                Random random = new Random();
+
+
+
+                                int SoulsNeeded = random.nextInt(4,6);
+                                for (Player player1 : Bukkit.getOnlinePlayers()){
+                                    if (player1.getGameMode() == GameMode.SPECTATOR){
+                                        SoulsNeeded+=random.nextInt(2,4);
+                                    }
+                                }
                                 armorStand.setCustomName(ChatColor.LIGHT_PURPLE + "Souls Needed: " + SoulsNeeded);
 
                                 new BeaconEventLoop(armorStand);

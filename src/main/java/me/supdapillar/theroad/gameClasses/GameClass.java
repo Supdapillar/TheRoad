@@ -24,6 +24,8 @@ public class GameClass {
     public String className;
     public int price;
     public Classes representingClass;
+    public ArrayList<String> iconLore = new ArrayList<String>();
+
     protected ArrayList<ItemStack> classItems = new ArrayList<ItemStack>();
     protected ItemStack[] classArmor = new ItemStack[4];
     public List<Talisman> starterTalismans = new ArrayList<>();
@@ -32,24 +34,28 @@ public class GameClass {
     public ItemStack makeIcon(Player player){
         ItemStack item = inventoryIcon;
 
-        String[] lore = new String[1];
         ItemMeta itemMeta = item.getItemMeta();
+        ArrayList<String> afterLore = new ArrayList<String>();
 
         if (TheRoadPlugin.getInstance().PlayerClass.get(player) == representingClass){
-            lore[0] = ChatColor.GREEN + "Currently Selected!";
+            afterLore.add(ChatColor.GREEN + "Currently Selected!");
             itemMeta.addEnchant(Enchantment.ARROW_INFINITE , 0, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         else if (TheRoadPlugin.getInstance().PlayerUnlockedClasses.get(player).contains(representingClass) || price == 0){
-            lore[0] = ChatColor.AQUA + "Unlocked!";
+            afterLore.add(ChatColor.AQUA + "Unlocked!");
             itemMeta.removeEnchant(Enchantment.ARROW_INFINITE);
         }
         else
         {
-            lore[0] = "" + ChatColor.RED + price + "$ " + ChatColor.GREEN + "[Click] " + ChatColor.RED + "To Unlock";
+            afterLore.add("" + ChatColor.RED + price + "$ " + ChatColor.GREEN + "[Click] " + ChatColor.RED + "To Unlock");
             itemMeta.removeEnchant(Enchantment.ARROW_INFINITE);
         }
-        itemMeta.setLore(Arrays.asList(lore));
+
+
+
+        afterLore.addAll(0,iconLore);
+        itemMeta.setLore(afterLore);
 
         item.setItemMeta(itemMeta);
         return item;

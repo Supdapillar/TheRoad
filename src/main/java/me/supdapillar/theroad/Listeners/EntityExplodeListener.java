@@ -2,6 +2,7 @@ package me.supdapillar.theroad.Listeners;
 
 import me.supdapillar.theroad.TheRoadPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +21,9 @@ public class EntityExplodeListener implements Listener {
     {
         if (event.getEntity() instanceof WitherSkull)
         {
+            event.setCancelled(true);
+        }
+        if (event.getEntity() instanceof Creeper){
             event.setCancelled(true);
         }
     }

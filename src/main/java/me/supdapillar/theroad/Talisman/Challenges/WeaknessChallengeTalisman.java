@@ -60,7 +60,7 @@ public class WeaknessChallengeTalisman extends Talisman {
 
 
                 TheRoadPlugin.getInstance().PlayerScores.put(challengeVictim,TheRoadPlugin.getInstance().PlayerScores.get(challengeVictim) + 40);
-                challengeVictim.sendMessage(ChatColor.GREEN + "+40$");
+                challengeVictim.sendMessage(ChatColor.GREEN + "Challenge Complete +40$");
                 ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
             }
         }

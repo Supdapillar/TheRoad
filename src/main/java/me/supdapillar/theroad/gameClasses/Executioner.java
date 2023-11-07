@@ -1,13 +1,12 @@
 package me.supdapillar.theroad.gameClasses;
 
-import me.supdapillar.theroad.Talisman.HealerClassTalisman;
+import me.supdapillar.theroad.Talisman.ClassExperienceTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +19,8 @@ public class Executioner extends GameClass {
     public Executioner(TheRoadPlugin plugin) {
         super(plugin);
         className = "Executioner";
-
+        iconLore.add(ChatColor.BLUE + "Equipped with a legendary axe, the");
+        iconLore.add(ChatColor.BLUE + "executioner is able to 1 shot most enemies! ");
 
 
 
@@ -64,7 +64,7 @@ public class Executioner extends GameClass {
         //Extra items
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
         //Talisman
-        starterTalismans.add(new HealerClassTalisman());
+        starterTalismans.add(new ClassExperienceTalisman());
         //Icon
         ItemStack newItem = new ItemStack(Material.NETHERITE_AXE);
         ItemMeta newItemMeta = newItem.getItemMeta();

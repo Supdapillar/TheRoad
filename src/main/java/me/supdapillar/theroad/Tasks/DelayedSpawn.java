@@ -2,6 +2,7 @@ package me.supdapillar.theroad.Tasks;
 
 import me.supdapillar.theroad.Tasks.SkyGuardian.SkyGuardianUpdater;
 import me.supdapillar.theroad.Tasks.TheEnlightener.TheEnlightenerUpdater;
+import me.supdapillar.theroad.Tasks.TheGrandmaster.TheGrandmasterUpdater;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Heads;
 import org.bukkit.*;
@@ -58,6 +59,13 @@ public class DelayedSpawn extends BukkitRunnable {
                 Zombie zombie = (Zombie) whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.ZOMBIE);
                 new TheEnlightenerUpdater(zombie).runTaskTimer(TheRoadPlugin.getInstance(), 0, 0);
 
+            }
+            else if (Objects.equals(dataContainer.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING), "THEGRANDMASTER")){
+                //////THE Grandmaster
+
+                TheRoadPlugin.getInstance().nextBossIs = "THEGRANDMASTER";
+                Zombie zombie = (Zombie) whereToSummon.getLocation().getWorld().spawnEntity(whereToSummon.getLocation(), EntityType.ZOMBIE);
+                new TheGrandmasterUpdater(zombie).runTaskTimer(TheRoadPlugin.getInstance(), 0, 0);
             }
             /////Normal mob spawn
             else {

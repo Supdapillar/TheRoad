@@ -1,6 +1,6 @@
 package me.supdapillar.theroad.gameClasses;
 
-import me.supdapillar.theroad.Talisman.HealerClassTalisman;
+import me.supdapillar.theroad.Talisman.ClassExperienceTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import org.bukkit.ChatColor;
@@ -21,6 +21,8 @@ public class Swordsman extends GameClass {
     public Swordsman(TheRoadPlugin plugin) {
         super(plugin);
         className = "Swordsman";
+        iconLore.add(ChatColor.BLUE + "A trained warrior fit for battle, ");
+        iconLore.add(ChatColor.BLUE + "equipped with his trusty sword!");
 
         //Sword
         ItemStack ironSword = new ItemStack(Material.IRON_SWORD);
@@ -56,7 +58,7 @@ public class Swordsman extends GameClass {
         //Other
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
         //Talisman
-        starterTalismans.add(new HealerClassTalisman());
+        starterTalismans.add(new ClassExperienceTalisman());
         //Potions
         ItemStack strengthPot = new ItemStack(Material.POTION);
         PotionMeta strengthMeta = (PotionMeta) strengthPot.getItemMeta();

@@ -1,6 +1,6 @@
 package me.supdapillar.theroad.gameClasses;
 
-import me.supdapillar.theroad.Talisman.HealerClassTalisman;
+import me.supdapillar.theroad.Talisman.ClassExperienceTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import org.bukkit.ChatColor;
@@ -19,6 +19,8 @@ public class Assassin extends GameClass {
     public Assassin(TheRoadPlugin plugin) {
         super(plugin);
         super.className = "Assassin";
+        iconLore.add(ChatColor.BLUE + "The lethal assassin, able ");
+        iconLore.add(ChatColor.BLUE + "to traverse extremely fast! ");
 
 
 
@@ -59,7 +61,7 @@ public class Assassin extends GameClass {
         //Extra items
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
         //Talisman
-        starterTalismans.add(new HealerClassTalisman());
+        starterTalismans.add(new ClassExperienceTalisman());
         //Icon
         ItemStack newItem = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta newItemMeta = newItem.getItemMeta();

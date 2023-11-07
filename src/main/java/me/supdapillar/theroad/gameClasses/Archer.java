@@ -1,6 +1,7 @@
 package me.supdapillar.theroad.gameClasses;
 
-import me.supdapillar.theroad.Talisman.HealerClassTalisman;
+import me.supdapillar.theroad.Talisman.ArcherClassTalisman;
+import me.supdapillar.theroad.Talisman.ClassExperienceTalisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import org.bukkit.ChatColor;
@@ -17,7 +18,8 @@ public class Archer extends GameClass {
         className = "Archer";
         price = 0;
         representingClass = Classes.Archer;
-
+        iconLore.add(ChatColor.BLUE + "The highly trained archer, able ");
+        iconLore.add(ChatColor.BLUE + "to gain arrows with kills! ");
 
         //Sword
         ItemStack woodSword = new ItemStack(Material.WOODEN_SWORD);
@@ -32,7 +34,6 @@ public class Archer extends GameClass {
         bowMeta.addEnchant(Enchantment.ARROW_DAMAGE, 1,true);
         bow.setItemMeta(bowMeta);
         classItems.add(bow);
-
         //Boots
         ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
         ItemMeta bootsMeta = boots.getItemMeta();
@@ -60,8 +61,10 @@ public class Archer extends GameClass {
         //Other
         classItems.add(new ItemStack(Material.GOLDEN_APPLE,2));
         classItems.add(new ItemStack(Material.ARROW, 64));
+        classItems.add(new ItemStack(Material.ARROW, 64));
         //Talisman
-        starterTalismans.add(new HealerClassTalisman());
+        starterTalismans.add(new ClassExperienceTalisman());
+        starterTalismans.add(new ArcherClassTalisman());
 
         //Icon
         ItemStack newItem = new ItemStack(Material.BOW);

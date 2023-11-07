@@ -2,16 +2,15 @@ package me.supdapillar.theroad.Talisman;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class HealerClassTalisman extends Talisman{
+public class ArcherClassTalisman extends Talisman{
 
-    public HealerClassTalisman(){
+    public ArcherClassTalisman(){
         countsAsActive = false;
-        name = "Internal Healer";
+        name = "Internal Archer";
         price = 0;
         lores.add(ChatColor.LIGHT_PURPLE + "STILL SHOULDN'T SEE THIS");
 
@@ -24,7 +23,6 @@ public class HealerClassTalisman extends Talisman{
 
     @Override
     public void onMobDeath(EntityDeathEvent event) {
-        Player player = event.getEntity().getKiller();
-        player.setLevel(player.getLevel()+1);
+        event.getEntity().getKiller().getInventory().addItem(new ItemStack(Material.ARROW,1));
     }
 }

@@ -29,14 +29,10 @@ public class ShopExplosiveChargeTalisman extends Talisman{
     public void onPlayerDamage(EntityDamageByEntityEvent event){
 
         Player player = (Player) event.getEntity();
-        Bukkit.broadcastMessage("Damage Check");
         if (!isUsed){
-            Bukkit.broadcastMessage("it isnt used");
             //Checks to make sure it does activate with multiple talisman active
             if (!event.isCancelled()){
-                Bukkit.broadcastMessage("isnt canceled");
                 if (event.getDamager() instanceof Mob){
-                    Bukkit.broadcastMessage("you were damaged by mob");
                     isUsed = true;
                     event.setCancelled(true);
                     player.getWorld().createExplosion(event.getEntity().getLocation().add(0, 0.5, 0), (float) 4, false, false, player);
