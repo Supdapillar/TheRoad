@@ -33,6 +33,7 @@ public final class TheRoadPlugin extends JavaPlugin {
     public HashMap<Player, Classes> PlayerClass = new HashMap<Player, Classes>();
     public HashMap<Player, List<Talisman>> PlayerActiveTalismans = new HashMap<Player, List<Talisman>>();
     public HashMap<Player, List<Talisman>> PlayerUnlockedTalisman = new HashMap<Player, List<Talisman>>();
+    public ArrayList<Player> playersInMatch = new ArrayList<>();
     public CounterLoop counterLoop = new CounterLoop();
 
     public GameManager gameManager;

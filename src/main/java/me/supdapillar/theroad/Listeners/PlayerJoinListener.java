@@ -82,7 +82,6 @@ public class PlayerJoinListener implements Listener {
             else {
                 playerData.set(talismanSlotsKey,PersistentDataType.INTEGER, 1);
             }
-
         }
         /////// Loading in the player depending on the current scene
         switch (TheRoadPlugin.getInstance().gameManager.gamestates){
@@ -104,9 +103,15 @@ public class PlayerJoinListener implements Listener {
                 }
                 break;
             case inGame:
-                player.setGameMode(GameMode.SPECTATOR);
-                player.sendMessage(ChatColor.YELLOW + "You are now spectating");
-                player.teleport(TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)].spawnLocation);
+                if (TheRoadPlugin.getInstance().playersInMatch.contains(player)){
+                    player.setGameMode(GameMode.SPECTATOR);
+                    player.sendMessage(ChatColor.YELLOW + "You are now spectating");
+                    player.teleport(TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)].spawnLocation);
+                }
+                else {
+                    TheRoadPlugin.getInstance().gameManager.respawnPlayer(player,TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)].spawnLocation);
+                }
+
                 break;
         }
     }

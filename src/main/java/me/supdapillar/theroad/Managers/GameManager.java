@@ -75,13 +75,17 @@ public class GameManager {
         }
 
 
+
+
         //Removes all votes from maps
         for(Arena arena : gameArenas){
             arena.votedPlayers.clear();
         }
-
+        //Remove all players from match list
+        TheRoadPlugin.getInstance().playersInMatch.clear();
         //Teleport the player to selected arena
         for (Player player : Bukkit.getOnlinePlayers()){
+            TheRoadPlugin.getInstance().playersInMatch.add(player);
             Arena currentSelectedArena = TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)];
 
             player.teleport(currentSelectedArena.spawnLocation);

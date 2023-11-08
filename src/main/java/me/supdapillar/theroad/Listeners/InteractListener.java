@@ -88,39 +88,39 @@ public class InteractListener implements Listener {
                     for(Player player1: Bukkit.getOnlinePlayers()){
                         //Makes sure the player can heal
                         if (player.getLevel() >= 1){
-                            player.playSound(player,Sound.ENTITY_SHULKER_SHOOT,  9999, 1.2f);
-                            //Checks if the player is within line of sight
-                            if (player1.getWorld() == player.getWorld()){
-                                Location eye = player.getEyeLocation();
-                                Vector toEntity = player1.getEyeLocation().toVector().subtract(eye.toVector());
+                            if (player1.getGameMode() == GameMode.ADVENTURE){
+                                player.playSound(player,Sound.ENTITY_SHULKER_SHOOT,  9999, 1.2f);
+                                //Checks if the player is within line of sight
+                                if (player1.getWorld() == player.getWorld()){
+                                    Location eye = player.getEyeLocation();
+                                    Vector toEntity = player1.getEyeLocation().toVector().subtract(eye.toVector());
 
-                                double dot = toEntity.normalize().dot(eye.getDirection());
+                                    double dot = toEntity.normalize().dot(eye.getDirection());
 
+                                    if (dot > 0.99D){
+                                        if (player1.getHealth() + 1 < player1.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()){
+                                            player1.setHealth(player1.getHealth()+1);
+                                            player1.sendMessage(ChatColor.GREEN + "You've been healed by " +player.getName());
 
-
-
-                                if (dot > 0.99D){
-                                    if (player1.getHealth() + 1 < player1.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()){
-                                        player1.setHealth(player1.getHealth()+1);
-                                        player1.sendMessage(ChatColor.GREEN + "You've been healed by " +player.getName());
-
-                                        player.setLevel(player.getLevel()-1);//TODO change
-                                        player.sendMessage(ChatColor.GREEN + "Healed "+ player1.getName());
+                                            player.setLevel(player.getLevel()-1);//TODO change
+                                            player.sendMessage(ChatColor.GREEN + "Healed "+ player1.getName());
 
 
-                                        Vector vector = new Vector(player1.getLocation().subtract(player.getLocation()).getX(), player1.getLocation().subtract(player.getLocation()).getY(), player1.getLocation().subtract(player.getLocation()).getZ());
-                                        //Spawn particles
-                                        for(int i = 0; i < (int)player.getLocation().distance(player1.getLocation()) * 4; i++){
-                                            Location particleLocation = new Location(player.getWorld(), player.getEyeLocation().getX() + vector.normalize().getX() * i/4, player.getEyeLocation().getY() +  vector.normalize().getY() * i/4,player.getEyeLocation().getZ() +  vector.normalize().getZ() * i/4);
-                                            player.getWorld().spawnParticle(Particle.REDSTONE,particleLocation ,1, 0.2,0.2,0.2, new Particle.DustOptions(Color.GREEN, 2));
-                                            player.getWorld().spawnParticle(Particle.COMPOSTER,particleLocation ,1, 0.3,0.3,0.3);
+                                            Vector vector = new Vector(player1.getLocation().subtract(player.getLocation()).getX(), player1.getLocation().subtract(player.getLocation()).getY(), player1.getLocation().subtract(player.getLocation()).getZ());
+                                            //Spawn particles
+                                            for(int i = 0; i < (int)player.getLocation().distance(player1.getLocation()) * 4; i++){
+                                                Location particleLocation = new Location(player.getWorld(), player.getEyeLocation().getX() + vector.normalize().getX() * i/4, player.getEyeLocation().getY() +  vector.normalize().getY() * i/4,player.getEyeLocation().getZ() +  vector.normalize().getZ() * i/4);
+                                                player.getWorld().spawnParticle(Particle.REDSTONE,particleLocation ,1, 0.2,0.2,0.2, new Particle.DustOptions(Color.GREEN, 2));
+                                                player.getWorld().spawnParticle(Particle.COMPOSTER,particleLocation ,1, 0.3,0.3,0.3);
+                                            }
+                                            break;
                                         }
+                                        else {
+                                            player1.setHealth(player1.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+                                            player.sendMessage(ChatColor.GREEN + player1.getName() + " is already healed!");
+                                        }
+                                        break;
                                     }
-                                    else {
-                                        player1.setHealth(player1.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
-                                        player.sendMessage(ChatColor.GREEN + player1.getName() + " is already healed!");
-                                    }
-                                    break;
                                 }
                             }
                         }
@@ -161,13 +161,15 @@ public class InteractListener implements Listener {
                                 else if (entity instanceof Player) {
                                     Player player1 = (Player) entity;
                                     //Is less than full
-                                    if ((player1.getHealth() + 2) < player1.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()){
-                                        player1.setHealth(player1.getHealth()+2);
-                                        player1.sendMessage(ChatColor.GREEN + "You've been healed by " +player.getName());
-                                        player.sendMessage("You healed "+ player1.getName());
-                                    }
-                                    else {
-                                        player1.setHealth(player1.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+                                    if (player.getGameMode() == GameMode.ADVENTURE){
+                                        if ((player1.getHealth() + 2) < player1.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()){
+                                            player1.setHealth(player1.getHealth()+2);
+                                            player1.sendMessage(ChatColor.GREEN + "You've been healed by " +player.getName());
+                                            player.sendMessage("You healed "+ player1.getName());
+                                        }
+                                        else {
+                                            player1.setHealth(player1.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+                                        }
                                     }
                                 }
                             }

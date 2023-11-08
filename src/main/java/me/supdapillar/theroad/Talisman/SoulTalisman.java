@@ -55,6 +55,7 @@ public class SoulTalisman extends Talisman{
             Location particleLocation = new Location(player.getWorld(), pLocation.getX() + (Math.cos(Angle) * 9f), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 9f));
             player.getWorld().spawnParticle(Particle.REDSTONE, particleLocation, 1, 0 ,0 ,0 ,new  Particle.DustOptions(Color.WHITE,1));
         }
+
     }
     @Override
     public void onTalismanDeselect(Player player){

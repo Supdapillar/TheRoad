@@ -38,7 +38,10 @@ public class MovementListener implements Listener {
         //Talisman
         if (TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player) != null){
             for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
-                talisman.onPlayerMove(event);
+                if (player.getGameMode() == GameMode.ADVENTURE){
+                    talisman.onPlayerMove(event);
+
+                }
             }
         }
 

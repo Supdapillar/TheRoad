@@ -1,5 +1,6 @@
 package me.supdapillar.theroad.Listeners;
 
+import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Gamestates;
 import org.bukkit.Bukkit;
@@ -23,6 +24,10 @@ public class PlayerDeathListener implements Listener {
         if (TheRoadPlugin.getInstance().gameManager.gamestates != Gamestates.inGame) return;
         Player player = event.getEntity();
 
+        //Removes challenge on death
+        TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).removeIf(o -> o.isChallenge);
+
+
         //Get the number of living players
         int NumberOfAlivePlayer = 0;
         for (Player alivePlayer : Bukkit.getOnlinePlayers()){
@@ -37,7 +42,6 @@ public class PlayerDeathListener implements Listener {
         //Checks if the dead player should become a ghost
         if (NumberOfAlivePlayer < 1){
             TheRoadPlugin.getInstance().gameManager.resetGame(false);
-
         }
     }
 }

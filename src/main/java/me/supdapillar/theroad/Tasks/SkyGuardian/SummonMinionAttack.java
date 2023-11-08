@@ -68,7 +68,7 @@ public class SummonMinionAttack extends BukkitRunnable {
                     location.getWorld().spawnParticle(Particle.SMALL_FLAME, location, 1,0.5,1,0.5, 0);
                     Zombie zombie = (Zombie) location.getWorld().spawnEntity(location, EntityType.ZOMBIE);
                     zombie.getEquipment().setHelmet(Heads.Cloud.getItemStack());
-                    zombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.45);
+                    zombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.40);
                     zombie.setBaby();
                 }
 
