@@ -52,6 +52,7 @@ public class MobSpawnListener implements Listener {
                     bossZombie.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(10);
                     bossZombie.setHealth(600 + (Bukkit.getOnlinePlayers().size()*300));
                     bossZombie.setCustomName(ChatColor.WHITE + "Sky Guardian");
+                    bossZombie.setRemoveWhenFarAway(false);
                     bossZombie.setCustomNameVisible(true);
                     bossZombie.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "BossName"),PersistentDataType.STRING, "Sky Guardian");
                     break;
@@ -66,6 +67,7 @@ public class MobSpawnListener implements Listener {
                     bossZombie.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(10);
                     bossZombie.setHealth(400 + (Bukkit.getOnlinePlayers().size()*200));
                     bossZombie.setCustomName(ChatColor.WHITE + "The Enlightener");
+                    bossZombie.setRemoveWhenFarAway(false);
                     bossZombie.setCustomNameVisible(true);
                     bossZombie.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "BossName"),PersistentDataType.STRING, "The Enlightener");
                     break;
@@ -80,6 +82,7 @@ public class MobSpawnListener implements Listener {
                     bossZombie.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(10);
                     bossZombie.setHealth(600 + (Bukkit.getOnlinePlayers().size()*300));
                     bossZombie.setCustomName(ChatColor.WHITE + "The Grandmaster");
+                    bossZombie.setRemoveWhenFarAway(false);
                     bossZombie.setCustomNameVisible(true);
                     bossZombie.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "BossName"),PersistentDataType.STRING, "The Grandmaster");
                     break;
@@ -92,6 +95,8 @@ public class MobSpawnListener implements Listener {
         else {
             mobEntity.setCustomName("[" + Math.round(mobEntity.getHealth()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
             mobEntity.setCustomNameVisible(true);
+            mobEntity.setRemoveWhenFarAway(false);
+
         }
     }
 }

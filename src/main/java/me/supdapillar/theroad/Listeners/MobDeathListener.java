@@ -21,6 +21,7 @@ public class MobDeathListener implements Listener {
     private TheRoadPlugin mainPlugin;
     public static final HashMap<EntityType, Integer> moneyValues = new HashMap<EntityType, Integer>() {{
         put(EntityType.ZOMBIE, 5);
+        put(EntityType.DROWNED, 6);
         put(EntityType.SKELETON, 8);
         put(EntityType.WITHER_SKELETON, 7);
         put(EntityType.STRAY, 9);

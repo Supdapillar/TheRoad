@@ -3,14 +3,17 @@ package me.supdapillar.theroad.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Date;
+import java.util.List;
 
 public class SoulTalisman extends Talisman{
 
@@ -38,6 +41,19 @@ public class SoulTalisman extends Talisman{
             if (player1 != player){
                 TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player1).add(new SoulChecker(player));
             }
+        }
+    }
+    @Override
+    public void onPlayerMove(PlayerMoveEvent event){
+        Player player = event.getPlayer();
+        List<LivingEntity> livingEntities = player.getWorld().getLivingEntities();
+
+        Location pLocation = player.getLocation();
+        double Angle = 0;
+        for(int i = 0; i < 15; i++){
+            Angle -= Math.PI/7.5f;
+            Location particleLocation = new Location(player.getWorld(), pLocation.getX() + (Math.cos(Angle) * 9f), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 9f));
+            player.getWorld().spawnParticle(Particle.REDSTONE, particleLocation, 1, 0 ,0 ,0 ,new  Particle.DustOptions(Color.WHITE,1));
         }
     }
     @Override

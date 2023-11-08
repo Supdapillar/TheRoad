@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -54,23 +55,27 @@ public class InteractListener implements Listener {
                 event.setCancelled(true);
                 break;
             case RED_CONCRETE:
-                player.getInventory().remove(Material.RED_CONCRETE);
-                StarterItems.GiveReadyConcrete(player);
-                player.sendMessage(ChatColor.GREEN + "You are now ready!");
-                player.playSound(player, Sound.ENCHANT_THORNS_HIT, 9999, 1);
-                int totalReadiedPlayers = 0;
-                for(Player player1 : Bukkit.getOnlinePlayers()){
-                    if (player1.getInventory().contains(Material.GREEN_CONCRETE)){
-                        totalReadiedPlayers++;
+                if (event.getHand() == EquipmentSlot.HAND){
+                    player.getInventory().remove(Material.RED_CONCRETE);
+                    StarterItems.GiveReadyConcrete(player);
+                    player.sendMessage(ChatColor.GREEN + "You are now ready!");
+                    player.playSound(player, Sound.ENCHANT_THORNS_HIT, 9999, 1);
+                    int totalReadiedPlayers = 0;
+                    for(Player player1 : Bukkit.getOnlinePlayers()){
+                        if (player1.getInventory().contains(Material.GREEN_CONCRETE)){
+                            totalReadiedPlayers++;
+                        }
                     }
+                    Bukkit.broadcastMessage(ChatColor.YELLOW + player.getDisplayName() + " is ready! (" + totalReadiedPlayers + "/" + Bukkit.getOnlinePlayers().size() + ")");
                 }
-                Bukkit.broadcastMessage(ChatColor.YELLOW + player.getDisplayName() + " is ready! (" + totalReadiedPlayers + "/" + Bukkit.getOnlinePlayers().size() + ")");
                 break;
             case GREEN_CONCRETE:
-                player.getInventory().remove(Material.GREEN_CONCRETE);
-                StarterItems.GiveUnreadyConcrete(player);
-                player.sendMessage(ChatColor.RED + "You are now unready!");
-                player.playSound(player, Sound.ENCHANT_THORNS_HIT, 9999, 1);
+                if (event.getHand() == EquipmentSlot.HAND) {
+                    player.getInventory().remove(Material.GREEN_CONCRETE);
+                    StarterItems.GiveUnreadyConcrete(player);
+                    player.sendMessage(ChatColor.RED + "You are now unready!");
+                    player.playSound(player, Sound.ENCHANT_THORNS_HIT, 9999, 1);
+                }
                 break;
             case TOTEM_OF_UNDYING:
                 StarterItems.refreshTalismanMenu(player);
@@ -82,7 +87,7 @@ public class InteractListener implements Listener {
                 if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK ){ // Shoots a beam and heals anything it touches
                     for(Player player1: Bukkit.getOnlinePlayers()){
                         //Makes sure the player can heal
-                        if (player.getLevel() > 1){
+                        if (player.getLevel() >= 1){
                             player.playSound(player,Sound.ENTITY_SHULKER_SHOOT,  9999, 1.2f);
                             //Checks if the player is within line of sight
                             if (player1.getWorld() == player.getWorld()){
@@ -122,28 +127,27 @@ public class InteractListener implements Listener {
                         else {
                             player.sendMessage(ChatColor.RED + "You lack the experience to heal!");
                         }
-
                     }
                 }
                 //Circle spell heal
                 else {
                     //Makes sure the player can heal
-                    if (player.getLevel() > 3) {
+                    if (player.getLevel() >= 3) {
                         player.getWorld().playSound(player, Sound.ENTITY_EVOKER_CAST_SPELL, 90, 0.8f);
                         player.setLevel(player.getLevel() -3);
                         //Particles
                         Location pLocation = player.getLocation();
                         double Angle = 0;
-                        for(int i = 0; i < 36; i++){
-                            Angle -= Math.PI/18f + new Date(System.currentTimeMillis()).getTime()*80;;
+                        for(int i = 0; i < 48; i++){
+                            Angle -= Math.PI/24f;
 
-                            Location particleLocation = new Location(player.getWorld(), pLocation.getX() + (Math.cos(Angle) * 4f), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 4f));
+                            Location particleLocation = new Location(player.getWorld(), pLocation.getX() + (Math.cos(Angle) * 6f), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 6f));
                             player.spawnParticle(Particle.REDSTONE, particleLocation, 3, 0.2 ,0.4 ,0.2 ,new Particle.DustOptions(Color.GREEN, 2));
                             player.spawnParticle(Particle.COMPOSTER, particleLocation, 2, 0.2 ,0.3 ,0.2);
                         }
                         //Heals all players and tameables in the radius
-                        for (Entity entity: player.getNearbyEntities(5,8,5)){
-                            if (entity.getLocation().distance(player.getLocation()) < 4){
+                        for (Entity entity: player.getNearbyEntities(7,8,7)){
+                            if (entity.getLocation().distance(player.getLocation()) < 6){
                                 if (entity instanceof Tameable){
                                     Tameable tameable = (Tameable) entity;
                                     //Is less than full

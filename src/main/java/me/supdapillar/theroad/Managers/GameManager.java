@@ -51,7 +51,7 @@ public class GameManager {
         //Deletes all from the previous round
         for (Entity entity : TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)].spawnLocation.getWorld().getEntities()){
             boolean SkipDeletion = entity instanceof Player;
-            if (entity instanceof ArmorStand || entity instanceof Painting || entity instanceof ItemFrame){
+            if (entity instanceof ArmorStand || entity instanceof Painting || entity instanceof ItemFrame || entity instanceof TextDisplay){
                 SkipDeletion = true;
             }
             if (!SkipDeletion){
@@ -130,7 +130,7 @@ public class GameManager {
                 itemDisplay.setTransformation(transformation);
                 itemDisplay.teleport(itemDisplay.getLocation().add(0,-0.5,0));
                 itemDisplay.setBillboard(Display.Billboard.CENTER);
-                switch (random.nextInt(0,4)){
+                switch (random.nextInt(0,5)){
                     case 0:
                         entity.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "ChallengeType"), PersistentDataType.STRING, "Poison");
                         itemDisplay.setItemStack(new ItemStack(Material.SPIDER_EYE));
@@ -148,6 +148,10 @@ public class GameManager {
                     case 3:
                         entity.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "ChallengeType"), PersistentDataType.STRING, "Weakness");
                         itemDisplay.setItemStack(new ItemStack(Material.REDSTONE));
+                        break;
+                    case 4:
+                        entity.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "ChallengeType"), PersistentDataType.STRING, "Warp");
+                        itemDisplay.setItemStack(new ItemStack(Material.ENDER_PEARL));
                         break;
                 }
                 entity.setCustomName(ChatColor.BOLD + "" + ChatColor.LIGHT_PURPLE + "CHALLENGE ALTAR [CLICK] TO SEAL YOUR FATE");
@@ -234,10 +238,8 @@ public class GameManager {
         TheRoadPlugin.getInstance().counterLoop.mobStallCounter = 60;
 
         //Remove challenge displays
-        for(Entity entity : gameArenas[currentArena].spawnLocation.getWorld().getEntities()){
-            if (entity instanceof ItemDisplay){
-                entity.remove();
-            }
+        for(ItemDisplay itemDisplay : gameArenas[currentArena].spawnLocation.getWorld().getEntitiesByClass(ItemDisplay.class)){
+            itemDisplay.remove();
         }
         currentRound = 0;
         TheRoadPlugin.getInstance().counterLoop.counter = 10;

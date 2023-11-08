@@ -1,18 +1,18 @@
 package me.supdapillar.theroad.Listeners;
 
+import me.supdapillar.theroad.Helpers.ConjuringShrineHelper;
 import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import me.supdapillar.theroad.gameClasses.Merchant;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -67,6 +67,15 @@ public class PlayerInteractEntityListener implements Listener {
                     //Talisman
                     for(Talisman talisman : TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
                         talisman.onLootChestOpen(lootInventory, tier);
+                    }
+                }
+                else if (fallingBlock.getBlockData().getMaterial() == Material.BARRIER){
+                    for (Entity entity: fallingBlock.getNearbyEntities(1,1,1)){
+                        if (entity instanceof TextDisplay){
+                            if (event.getHand() == EquipmentSlot.HAND) {
+                                ConjuringShrineHelper.processClick(event.getPlayer(), (TextDisplay) entity);
+                            }
+                        }
                     }
                 }
             }

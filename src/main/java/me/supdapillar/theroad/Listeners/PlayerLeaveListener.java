@@ -2,11 +2,9 @@ package me.supdapillar.theroad.Listeners;
 
 import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.TheRoadPlugin;
-import me.supdapillar.theroad.enums.Classes;
 import me.supdapillar.theroad.enums.Gamestates;
 import me.supdapillar.theroad.gameClasses.GameClass;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -15,8 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.util.ArrayList;
 
 public class PlayerLeaveListener implements Listener {
 
@@ -35,17 +31,20 @@ public class PlayerLeaveListener implements Listener {
         PersistentDataContainer playerData = player.getPersistentDataContainer();
         NamespacedKey moneyKey = new NamespacedKey(TheRoadPlugin.getInstance(),"Money");
         NamespacedKey unlockedClassesKey = new NamespacedKey(TheRoadPlugin.getInstance(),"unlockedClasses");
-        NamespacedKey unlockedTalisman = new NamespacedKey(TheRoadPlugin.getInstance(),"unlockedTalisman");
+        NamespacedKey unlockedTalismanKey = new NamespacedKey(TheRoadPlugin.getInstance(),"unlockedTalismanKey");
+        NamespacedKey talismanSlotsKey = new NamespacedKey(TheRoadPlugin.getInstance(),"TalismanSlots");
         //Default values
         playerData.set(moneyKey,PersistentDataType.INTEGER, 0);
         playerData.set(unlockedClassesKey,PersistentDataType.INTEGER_ARRAY, new int[9]);
-        playerData.set(unlockedTalisman,PersistentDataType.INTEGER_ARRAY, new int[20]);
+        playerData.set(unlockedTalismanKey,PersistentDataType.INTEGER_ARRAY, new int[20]);
         //Writes all the data
         //Saves Money
         playerData.set(moneyKey,PersistentDataType.INTEGER,TheRoadPlugin.getInstance().PlayerScores.get(player));
+        //Saves talisman slots
+        playerData.set(talismanSlotsKey,PersistentDataType.INTEGER,TheRoadPlugin.getInstance().TalismanSlots.get(player));
+        //Save Unlocked Classes
         int[] classesArray = new int[9];
         int[] talismansArray = new int[20];
-        //Save Unlocked Classes
         int i = 0;
         for(GameClass gameClass : TheRoadPlugin.getInstance().gameClasses){
             if (TheRoadPlugin.getInstance().PlayerUnlockedClasses.get(player).contains(gameClass.representingClass)){
@@ -71,7 +70,7 @@ public class PlayerLeaveListener implements Listener {
 
 
             }
-            playerData.set(unlockedTalisman,PersistentDataType.INTEGER_ARRAY,talismansArray );
+            playerData.set(unlockedTalismanKey,PersistentDataType.INTEGER_ARRAY,talismansArray );
             i++;
         }
 

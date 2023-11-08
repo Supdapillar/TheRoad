@@ -21,6 +21,7 @@ import org.bukkit.util.Transformation;
 
 import javax.xml.crypto.dsig.Transform;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DebugCommand implements CommandExecutor {
     @Override
@@ -59,25 +60,46 @@ public class DebugCommand implements CommandExecutor {
                         break;
                     case "Display":
                         TextDisplay textDisplay = (TextDisplay) player.getWorld().spawnEntity(player.getLocation(),EntityType.TEXT_DISPLAY,true);
-                        textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "⭐ Join our discord ⭐");
+                        //textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "⭐ Join our discord ⭐");
+                        //textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_AQUA + "❤ dankdankdot ❤" + ChatColor.RESET + " Lead map designer");
+                        //textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "🔥 Supdapillar 🔥" + ChatColor.RESET + " Lead game designer");
+                        textDisplay.setText(ChatColor.BOLD + "" + ChatColor.GREEN + "$❤---Store---❤$" + ChatColor.RESET + " If you wanna support us and our minigames, we have a " + ChatColor.GREEN + "/buy"+ ChatColor.RESET+ " with very cheap items! We appreciate you all!" +ChatColor.RED + " ❤");
                         textDisplay.setGlowing(true);
                         textDisplay.setGlowColorOverride(Color.BLACK);
                         textDisplay.setLineWidth(Integer.parseInt(args[1]));
                         Transformation transformation = textDisplay.getTransformation();
-                        textDisplay.setRotation(270,0);
+                        textDisplay.setRotation(90,0);
                         textDisplay.setTransformation(transformation);
-                        textDisplay.setBackgroundColor(Color.fromARGB(0,0,0,0));
+                        //textDisplay.setBackgroundColor(Color.fromARGB(0,0,0,0));
                         break;
                     case "Money":
                         if (args.length > 2){
                             TheRoadPlugin.getInstance().PlayerScores.put(Bukkit.getPlayer(args[1]),TheRoadPlugin.getInstance().PlayerScores.get(Bukkit.getPlayer(args[1])) + Integer.parseInt(args[2]));
                             ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
-
                         }
                         else {
                             player.sendMessage(ChatColor.RED + "/Debug <Money> <Player> <Amount>");
                         }
                         break;
+                    case "Spider":
+                            for (ArmorStand armorStand: player.getWorld().getEntitiesByClass(ArmorStand.class)){
+                                if (armorStand.getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(),"EnemyType"),PersistentDataType.STRING)){
+                                    if (Objects.equals(armorStand.getPersistentDataContainer().get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING), "SPIDER")){
+                                       Bukkit.broadcastMessage("Spider deleted");
+                                       armorStand.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"),PersistentDataType.STRING, "ZOMBIE");
+                                    }
+                                }
+                            }
+                        break;
+                    case "Slots":
+                            if (args.length > 2){
+                                TheRoadPlugin.getInstance().TalismanSlots.put(Bukkit.getPlayer(args[1]),TheRoadPlugin.getInstance().PlayerScores.get(Bukkit.getPlayer(args[1])) + Integer.parseInt(args[2]));
+                                ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
+                            }
+                            else {
+                                player.sendMessage(ChatColor.RED + "/Debug <Slots> <Player> <Amount>");
+                            }
+                            break;
                     case "Unsupporter":
                         Player SupporterPlayer = Bukkit.getPlayer(args[1]);
                         SupporterPlayer.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Supporter removed!");
@@ -87,6 +109,7 @@ public class DebugCommand implements CommandExecutor {
                         if (args.length > 1){
                             Player resetPlayer = Bukkit.getPlayer(args[1]);
                             TheRoadPlugin.getInstance().PlayerScores.put(resetPlayer,0);
+                            TheRoadPlugin.getInstance().TalismanSlots.put(resetPlayer,1);
                             TheRoadPlugin.getInstance().PlayerClass.put(resetPlayer,Classes.Swordsman);
                             TheRoadPlugin.getInstance().PlayerUnlockedClasses.put(resetPlayer, new ArrayList<Classes>());
                             TheRoadPlugin.getInstance().PlayerActiveTalismans.put(player, new ArrayList<Talisman>());
@@ -98,6 +121,7 @@ public class DebugCommand implements CommandExecutor {
                         else {
                             player.sendMessage(ChatColor.RED + "/Reset <Player>");
                         }
+                        break;
                     case "Revive":
                         if (args.length> 1){
                             TheRoadPlugin.getInstance().gameManager.respawnPlayer(Bukkit.getPlayer(args[1]),player.getLocation());

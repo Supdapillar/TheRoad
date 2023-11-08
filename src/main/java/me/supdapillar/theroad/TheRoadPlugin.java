@@ -28,6 +28,7 @@ public final class TheRoadPlugin extends JavaPlugin {
     }
 
     public HashMap<Player, Integer> PlayerScores = new HashMap<Player, Integer>();
+    public HashMap<Player, Integer> TalismanSlots = new HashMap<Player, Integer>();
     public HashMap<Player, List<Classes>> PlayerUnlockedClasses = new HashMap<Player, List<Classes>>();
     public HashMap<Player, Classes> PlayerClass = new HashMap<Player, Classes>();
     public HashMap<Player, List<Talisman>> PlayerActiveTalismans = new HashMap<Player, List<Talisman>>();
@@ -133,6 +134,7 @@ public final class TheRoadPlugin extends JavaPlugin {
             PlayerScores.putIfAbsent(player,0);
             mainPlugin.PlayerActiveTalismans.putIfAbsent(player, new ArrayList<Talisman>());
             mainPlugin.PlayerUnlockedTalisman.putIfAbsent(player, new ArrayList<Talisman>());
+            TalismanSlots.putIfAbsent(player,1);
         }
     }
 

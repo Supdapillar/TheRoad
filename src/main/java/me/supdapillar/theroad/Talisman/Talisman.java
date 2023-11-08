@@ -2,11 +2,9 @@ package me.supdapillar.theroad.Talisman;
 
 import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.TheRoadPlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -64,18 +62,18 @@ public class Talisman {
 
             }
             else {
-                if (getPlayerActiveTalismans(player) < 3){ // If the player hasnt hit the cap on talismans
+                if (getPlayerActiveTalismans(player) < TheRoadPlugin.getInstance().TalismanSlots.get(player)){ // If the player hasnt hit the cap on talismans
                     player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
                     player.sendMessage(ChatColor.AQUA + "You've activated the " + name + "!");
                     TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(this);
                     this.onTalismanSelect(player);
                 }
                 else {
-                    Talisman talismanToBeRemoved = TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).get(0);
+                    Talisman talismanToBeRemoved = getFirstActiveTalisman(player);
                     player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
                     player.sendMessage(ChatColor.AQUA + "You've activated the " + name);
                     player.sendMessage(ChatColor.RED + "but you've unactivated the " + talismanToBeRemoved.name + "!");
-                    TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).remove(0);
+                    TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).remove(talismanToBeRemoved);
                     talismanToBeRemoved.onTalismanDeselect(player);
                     TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(this);
                     this.onTalismanSelect(player);
@@ -97,6 +95,8 @@ public class Talisman {
                 player.playSound(player,Sound.ENTITY_VILLAGER_NO,999,1);
             }
         }
+        //Talisman slots upgrade
+
     }
 
     public static int getPlayerActiveTalismans(Player player){
@@ -117,5 +117,30 @@ public class Talisman {
     public void onPlayerHealthRegain(EntityRegainHealthEvent event) {};
     public void onPlayerDamage(EntityDamageByEntityEvent event){};
     public void onLootChestOpen(Inventory inventory, int tier){};
-
+    public static void processSlotsUpgrade(Player player){
+        if (TheRoadPlugin.getInstance().TalismanSlots.get(player) < 5){
+            //Player has the money
+            int Cost = TheRoadPlugin.getInstance().TalismanSlots.get(player)*1000;
+            if (TheRoadPlugin.getInstance().PlayerScores.get(player) >= Cost) {
+                TheRoadPlugin.getInstance().PlayerScores.put(player, TheRoadPlugin.getInstance().PlayerScores.get(player)-Cost);
+                TheRoadPlugin.getInstance().TalismanSlots.put(player, TheRoadPlugin.getInstance().TalismanSlots.get(player)+1);
+                player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP,999,0.75f);
+                player.sendMessage(ChatColor.AQUA + "You've purchased another talisman slot!");
+                player.sendMessage(ChatColor.AQUA + "You now have " + TheRoadPlugin.getInstance().TalismanSlots.get(player) + " slots!");
+                ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
+            }
+            else {
+                player.playSound(player, Sound.ENTITY_VILLAGER_NO,999,1f);
+                player.sendMessage(ChatColor.RED + "You do not have enough to buy more talisman slots!");
+            }
+        }
+    }
+    public static Talisman getFirstActiveTalisman(Player player){
+        for (Talisman talisman: TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player)){
+            if (!talisman.isChallenge && talisman.countsAsActive){
+                return talisman;
+            }
+        }
+        return null;
+    }
 }

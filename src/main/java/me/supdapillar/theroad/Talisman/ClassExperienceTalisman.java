@@ -11,7 +11,7 @@ public class ClassExperienceTalisman extends Talisman{
 
     public ClassExperienceTalisman(){
         countsAsActive = false;
-        name = "Internal Healer";
+        name = "Internal Experience";
         price = 0;
         lores.add(ChatColor.LIGHT_PURPLE + "STILL SHOULDN'T SEE THIS");
 

@@ -13,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class StarterItems {
@@ -71,6 +72,23 @@ public class StarterItems {
         {
             talismanInventory.addItem(talisman.makeIcon(player));
         }
+        ItemStack talismanSlots = new ItemStack(Material.NETHER_STAR);
+        ItemMeta slotsMeta = talismanSlots.getItemMeta();
+        ArrayList<String> iconLore = new ArrayList<String>();
+        iconLore.add(ChatColor.LIGHT_PURPLE + "Your currently have: " + TheRoadPlugin.getInstance().TalismanSlots.get(player) + " slot(s)!");
+        if (TheRoadPlugin.getInstance().TalismanSlots.get(player) < 5){
+            iconLore.add(ChatColor.RED + "" + (TheRoadPlugin.getInstance().TalismanSlots.get(player)*1000) + "$ " + ChatColor.GREEN +"[Click]"+ ChatColor.RED+  " to add another!");
+        }
+        else {
+            iconLore.add(ChatColor.LIGHT_PURPLE + "You are maxed out on talisman slots!");
+        }
+        slotsMeta.setLore(iconLore);
+        slotsMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Talisman Slots!");
+        talismanSlots.setItemMeta(slotsMeta);
+
+
+
+        talismanInventory.setItem(26,talismanSlots);
         player.openInventory(talismanInventory);
     }
     public static void refreshMapInventory(Player player){

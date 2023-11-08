@@ -34,6 +34,7 @@ public class PlayerJoinListener implements Listener {
         mainPlugin.PlayerClass.putIfAbsent(player, Classes.Swordsman);
         mainPlugin.PlayerUnlockedClasses.putIfAbsent(player, new ArrayList<Classes>());
         mainPlugin.PlayerScores.putIfAbsent(player,0);
+        mainPlugin.TalismanSlots.putIfAbsent(player,1);
         mainPlugin.PlayerActiveTalismans.putIfAbsent(player, new ArrayList<Talisman>());
         mainPlugin.PlayerUnlockedTalisman.putIfAbsent(player, new ArrayList<Talisman>());
         ScoreboardHandler.updateScoreboard(mainPlugin);
@@ -42,12 +43,14 @@ public class PlayerJoinListener implements Listener {
         NamespacedKey moneyKey = new NamespacedKey(TheRoadPlugin.getInstance(),"Money");
         NamespacedKey unlockedClassesKey = new NamespacedKey(TheRoadPlugin.getInstance(),"unlockedClasses");
         NamespacedKey unlockedTalisman = new NamespacedKey(TheRoadPlugin.getInstance(),"unlockedTalisman");
-        //make new save for new player
+        NamespacedKey talismanSlotsKey = new NamespacedKey(TheRoadPlugin.getInstance(),"TalismanSlots");
+        ////make new save for new player
         if (!playerData.has(moneyKey, PersistentDataType.INTEGER)){
             playerData.set(moneyKey,PersistentDataType.INTEGER, 0);
             playerData.set(unlockedClassesKey,PersistentDataType.INTEGER_ARRAY, new int[9]);
             playerData.set(unlockedTalisman,PersistentDataType.INTEGER_ARRAY, new int[20]);
-
+            playerData.set(moneyKey,PersistentDataType.INTEGER, 0);
+            playerData.set(talismanSlotsKey,PersistentDataType.INTEGER, 1);
         }
         //load in old save for reoccurring player
         else {
@@ -72,6 +75,13 @@ public class PlayerJoinListener implements Listener {
             //Load cash
             mainPlugin.PlayerScores.put(player,playerData.get(moneyKey,PersistentDataType.INTEGER));
             ScoreboardHandler.updateScoreboard(mainPlugin);
+            //Loads talisman count
+            if (playerData.has(talismanSlotsKey, PersistentDataType.INTEGER)){
+                mainPlugin.TalismanSlots.put(player,playerData.get(talismanSlotsKey,PersistentDataType.INTEGER));
+            }
+            else {
+                playerData.set(talismanSlotsKey,PersistentDataType.INTEGER, 1);
+            }
 
         }
         /////// Loading in the player depending on the current scene

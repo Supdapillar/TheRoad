@@ -18,7 +18,7 @@ public class ConjuringShrineCommand implements CommandExecutor {
         if (commandSender instanceof Player){
             Player player = (Player) commandSender;
 
-            if (args.length > 1){
+            if (args.length > 0){
 
                 float rotation = 0;
                 switch (args[0]){
@@ -37,15 +37,15 @@ public class ConjuringShrineCommand implements CommandExecutor {
                 }
 
                 TextDisplay textDisplay = (TextDisplay) player.getWorld().spawnEntity(player.getLocation(),EntityType.TEXT_DISPLAY,true);
-                textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "CONJURING SHRINE [CLICK] FOR AN <ITEM>\"+ ChatColor.BLUE + \" (15XP) ");
+                textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "CONJURING SHRINE [CLICK] FOR AN <ITEM>"+ ChatColor.BLUE + " (15XP) ");
                 textDisplay.getPersistentDataContainer().set(new NamespacedKey(TheRoadPlugin.getInstance(), "ShrineItem"), PersistentDataType.STRING, "none");
                 //textDisplay.setLineWidth(Integer.parseInt(args[1]));
                 Transformation transformation = textDisplay.getTransformation();
                 textDisplay.setBillboard(Display.Billboard.FIXED);
+                textDisplay.setPersistent(true);
                 textDisplay.setRotation(rotation,0);
                 textDisplay.setTransformation(transformation);
                 textDisplay.setBackgroundColor(Color.fromARGB(0,0,0,0));
-
 
                 player.sendMessage(ChatColor.BLUE + "Conjuring Shrine created");
             }

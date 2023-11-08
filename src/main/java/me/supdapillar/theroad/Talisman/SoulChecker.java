@@ -41,14 +41,14 @@ public class SoulChecker extends Talisman{
                 //Checkc if the host is able to revive
                 if (Host.getHealth() > 10 && Host.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() > 10){
                     //Revives the player
-                    if (Host.getLocation().distance(player.getLocation()) < 6 ){
+                    if (Host.getLocation().distance(player.getLocation()) < 9 ){
                         //Particles
                         Location pLocation = Host.getLocation();
                         double Angle = 0;
-                        for(int i = 0; i < 30; i++){
-                            Angle -= Math.PI/15f;;
+                        for(int i = 0; i < 60; i++){
+                            Angle -= Math.PI/30f;;
 
-                            Location particleLocation = new Location(Host.getWorld(), pLocation.getX() + (Math.cos(Angle) * 6f), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 6f));
+                            Location particleLocation = new Location(Host.getWorld(), pLocation.getX() + (Math.cos(Angle) * 9f), pLocation.getY(), pLocation.getZ()+ (Math.sin(Angle) * 9f));
                             player.getWorld().spawnParticle(Particle.HEART, particleLocation, 2, 0 ,0 ,0.5 ,0);
                         }
                         //The revive

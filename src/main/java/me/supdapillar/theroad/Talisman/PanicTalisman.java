@@ -27,7 +27,12 @@ public class PanicTalisman extends Talisman{
     @Override
     public void onPlayerMove(PlayerMoveEvent event){
         Player player = event.getPlayer();
-        player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3f - (0.01 * player.getHealth()) );
+        if (player.getHealth() < 20){
+            player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3f - (0.01 * player.getHealth()) );
+        }
+        else {
+            player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1f);
+        }
     }
 
     @Override

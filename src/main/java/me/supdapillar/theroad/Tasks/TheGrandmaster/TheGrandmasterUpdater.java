@@ -30,7 +30,6 @@ public class TheGrandmasterUpdater extends BukkitRunnable {
                 case 0:
 
                     new TeleportBehindAttack(bossToUpdate).runTaskTimer(TheRoadPlugin.getInstance(),0, 0);
-
                     AttackCooldown = 120+ random.nextInt(50);
                     break;
                 case 1:

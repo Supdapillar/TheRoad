@@ -1,9 +1,6 @@
 package me.supdapillar.theroad.Tasks.TheGrandmaster;
 
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -47,7 +44,9 @@ public class TeleportBehindAttack extends BukkitRunnable {
                             bossToUpdate.getTarget().getLocation().getY(),
                             bossToUpdate.getTarget().getLocation().getZ()-(Math.sin(radians)*6));
 
-                    bossToUpdate.teleport(newLocation);
+                    if (newLocation.getBlock().getType() != Material.AIR){
+                        bossToUpdate.teleport(newLocation);
+                    }
                 }
             }
 

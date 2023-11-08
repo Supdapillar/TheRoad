@@ -1,9 +1,6 @@
 package me.supdapillar.theroad.Listeners;
 
-import me.supdapillar.theroad.Talisman.Challenges.FistChallengeTalisman;
-import me.supdapillar.theroad.Talisman.Challenges.HealingTouchChallengeTalisman;
-import me.supdapillar.theroad.Talisman.Challenges.PoisonChallengeTalisman;
-import me.supdapillar.theroad.Talisman.Challenges.WeaknessChallengeTalisman;
+import me.supdapillar.theroad.Talisman.Challenges.*;
 import me.supdapillar.theroad.Tasks.BeaconEventLoop;
 import me.supdapillar.theroad.Tasks.CounterLoop;
 import me.supdapillar.theroad.Tasks.CursedTreasureEventLoop;
@@ -62,6 +59,9 @@ public class InventoryOpenListener implements Listener {
                                 break;
                             case "Weakness":
                                 TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(new WeaknessChallengeTalisman(player)   );
+                                break;
+                            case "Warp":
+                                TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).add(new WarpChallengeTalisman(player)   );
                                 break;
                         }
                     }

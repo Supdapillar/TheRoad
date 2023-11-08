@@ -61,6 +61,10 @@ public class InventoryInteractionListener implements Listener {
                             talisman.processClick(player);
                         }
                     }
+                    //Talisman slots upgrade
+                    if (event.getCurrentItem().getType() == Material.NETHER_STAR){
+                        Talisman.processSlotsUpgrade(player);
+                    }
                     StarterItems.refreshTalismanMenu(player);
                 }
 
