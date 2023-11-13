@@ -92,6 +92,9 @@ public class PlayerInteractEntityListener implements Listener {
                 event.setCancelled(true);
             }
         }
+        else if (event.getRightClicked() instanceof Wolf){
+            event.setCancelled(true);
+        }
     }
 
     public static ItemStack GenerateRandomLoot(int tier) {

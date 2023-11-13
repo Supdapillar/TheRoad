@@ -66,8 +66,8 @@ public class WarpChallengeTalisman extends Talisman {
                 challengeVictim.sendMessage("You survived the warp challenge!");
 
 
-                TheRoadPlugin.getInstance().PlayerScores.put(challengeVictim,TheRoadPlugin.getInstance().PlayerScores.get(challengeVictim) + 35);
-                challengeVictim.sendMessage(ChatColor.GREEN + "Challenge Complete +35$");
+                TheRoadPlugin.getInstance().PlayerScores.put(challengeVictim,TheRoadPlugin.getInstance().PlayerScores.get(challengeVictim) + 45);
+                challengeVictim.sendMessage(ChatColor.GREEN + "Challenge Complete +45$");
                 ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
             }
         }

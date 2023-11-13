@@ -15,7 +15,7 @@ public class HauntedManor extends Arena {
         iconLore.add(ChatColor.BLUE + "Surrounded by dead trees with windows that leave shadows dancing in your eyes, ");
         iconLore.add(ChatColor.BLUE + "this map will lead you down a winding road of undead fun.");
 
-        iconLore.add(ChatColor.LIGHT_PURPLE + "Difficulty: Normal");
+        iconLore.add(ChatColor.LIGHT_PURPLE + "Difficulty: Medium");
         iconLore.add(ChatColor.LIGHT_PURPLE + "Length: 20 Rounds");
 
         spawnLocation = new Location(Bukkit.getWorld("HauntedRoad"), -185.5, -52, 188 );
@@ -28,7 +28,7 @@ public class HauntedManor extends Arena {
         hauntedroadIconMeta.setLore(iconLore);
 
         hauntedroadIcon.setItemMeta(hauntedroadIconMeta);
-
+        victoryCash = 125;
         inventoryIcon = hauntedroadIcon;
     }
 }

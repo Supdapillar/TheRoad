@@ -54,10 +54,15 @@ public class MobDamageByEntityListener implements Listener {
                     event.setCancelled(true);
                 }
             }
+            else {
+                event.setCancelled(true);
+            }
         }
 
+        //All normal and boss enemies
         if (!(event.getEntity() instanceof Mob)) return;
         Mob mobEntity = (Mob) event.getEntity();
+
         //Resets stall counter
         TheRoadPlugin.getInstance().counterLoop.mobStallCounter = 80;
 
@@ -74,18 +79,15 @@ public class MobDamageByEntityListener implements Listener {
 
         //For bosses
         else if (mobEntity.getPersistentDataContainer().has(new NamespacedKey(TheRoadPlugin.getInstance(), "BossName"),PersistentDataType.STRING)){
-
-
-
             mobEntity.setCustomName(ChatColor.WHITE + mobEntity.getPersistentDataContainer().get(new NamespacedKey(TheRoadPlugin.getInstance(),"BossName"),PersistentDataType.STRING) + " [" + Math.ceil(mobEntity.getHealth() - event.getDamage()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
             mobEntity.setCustomNameVisible(true);
+            mobEntity.setNoDamageTicks(1);
+            mobEntity.setMaximumNoDamageTicks(1);
         }
         else { // everything that isn't a boss
-
             mobEntity.setCustomName("[" + Math.ceil(mobEntity.getHealth() - event.getDamage()) + "❤/" + mobEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
             mobEntity.setCustomNameVisible(true);
         }
-
 
 
 

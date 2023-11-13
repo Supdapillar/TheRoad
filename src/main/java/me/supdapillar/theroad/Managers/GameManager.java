@@ -2,6 +2,7 @@ package me.supdapillar.theroad.Managers;
 
 import me.supdapillar.theroad.Arenas.*;
 import me.supdapillar.theroad.Helpers.ConjuringShrineHelper;
+import me.supdapillar.theroad.Helpers.DatabaseHandler;
 import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.Helpers.StarterItems;
 import me.supdapillar.theroad.Tasks.BeaconEventLoop;
@@ -85,7 +86,7 @@ public class GameManager {
         TheRoadPlugin.getInstance().playersInMatch.clear();
         //Teleport the player to selected arena
         for (Player player : Bukkit.getOnlinePlayers()){
-            TheRoadPlugin.getInstance().playersInMatch.add(player);
+            TheRoadPlugin.getInstance().playersInMatch.add(player.getDisplayName());
             Arena currentSelectedArena = TheRoadPlugin.getInstance().gameManager.gameArenas[(TheRoadPlugin.getInstance().gameManager.currentArena)];
 
             player.teleport(currentSelectedArena.spawnLocation);
@@ -98,7 +99,7 @@ public class GameManager {
             player.playSound(player, Sound.ENTITY_GUARDIAN_DEATH, 9999, 1);
             player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-
+            player.setAbsorptionAmount(0);
 
             TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).removeAll(TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).stream().filter(o -> !o.countsAsActive).collect(Collectors.toList()));
             TheRoadPlugin.getInstance().PlayerActiveTalismans.get(player).addAll(GameClass.getClassFromEnum(TheRoadPlugin.getInstance().PlayerClass.get(player)).starterTalismans);
@@ -253,10 +254,11 @@ public class GameManager {
             //Gives game end cash
             for (Player player : Bukkit.getOnlinePlayers()){
                 if (player.getGameMode() == GameMode.ADVENTURE){
-
                     TheRoadPlugin.getInstance().PlayerScores.put(player,TheRoadPlugin.getInstance().PlayerScores.get(player) + gameArenas[currentArena].victoryCash);
                     ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
                     player.sendMessage(ChatColor.GREEN + "VICTORY +"+ gameArenas[currentArena].victoryCash+"$");
+                    //Saves all players
+                    DatabaseHandler.getInstance().savePlayer(player);
                 }
             }
             new GameEndDelayer(this).runTaskTimer(TheRoadPlugin.getInstance(), 0, 20);
@@ -268,7 +270,6 @@ public class GameManager {
                 player.getInventory().clear();
                 player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
                 player.setGameMode(GameMode.ADVENTURE);
-                player.setLevel(0);
                 StarterItems.GiveClassCompass(player);
 
                 StarterItems.GiveUnreadyConcrete(player);
@@ -285,39 +286,44 @@ public class GameManager {
 
     public void summonWave(){
         World world = gameArenas[currentArena].spawnLocation.getWorld();
-        for(Entity entity : (world.getEntities())){
-            if (entity instanceof ArmorStand){
-                ArmorStand armorstand = (ArmorStand) entity;
-                PersistentDataContainer data = armorstand.getPersistentDataContainer();
-                if (Objects.equals(data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "Round"), PersistentDataType.INTEGER), currentRound)) {
-                    //Spawns enemies based on players
-                    String enemyType = data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING);
-                    boolean isBoss = (enemyType.equals("SKYGUARDIAN") || enemyType.equals("THEENLIGHTENER") || enemyType.equals("THEGRANDMASTER"));
-                    //Normal Spawn
-                    if (!isBoss) {
-                        currentActiveSpawners.add(new DelayedSpawn(armorstand));
-                    }
-                    //Extra spawns if there are more players
-                    if (Bukkit.getOnlinePlayers().size() > 1){
-                        for(int i = 0; i<Math.min(Bukkit.getOnlinePlayers().size(),6)-1; i++){
-                            if (!isBoss){
-                                if (Math.random() > 0.5) {
-                                    currentActiveSpawners.add(new DelayedSpawn(armorstand));
-                                }
-                            }
-                        }
-                    }
-                    //Only spawn 1 boss
-                    if (isBoss){
-                        currentActiveSpawners.add(new DelayedSpawn(armorstand));
-                    }
-                }
+
+        //Player scaling
+        double difficultyScale = 1 + (Math.log(Bukkit.getOnlinePlayers().size())*1.2f);
+        ArrayList<ArmorStand> allRoundArmorstands = new ArrayList<>();
+        //Adds armorstand that are on the current round to the list
+        for(ArmorStand armorStand : (world.getEntitiesByClass(ArmorStand.class))){
+            PersistentDataContainer data = armorStand.getPersistentDataContainer();
+            if (Objects.equals(data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "Round"), PersistentDataType.INTEGER), currentRound)) {
+                allRoundArmorstands.add(armorStand);
             }
         }
+        Random random = new Random();
+
+
+        //Increments through all the spawns
+        boolean bossRound = false;
+        //Normal spawns
+        for (int i = 0; i < Math.ceil(allRoundArmorstands.size()*difficultyScale); i++){
+            ArmorStand chosenSpawn = allRoundArmorstands.get(random.nextInt(allRoundArmorstands.size()));
+            PersistentDataContainer data = chosenSpawn.getPersistentDataContainer();
+            String enemyType = data.get(new NamespacedKey(TheRoadPlugin.getInstance(), "EnemyType"), PersistentDataType.STRING);
+
+            boolean isBoss = (enemyType.equals("SKYGUARDIAN") || enemyType.equals("THEENLIGHTENER") || enemyType.equals("THEGRANDMASTER"));
+            if (!isBoss) {
+                currentActiveSpawners.add(new DelayedSpawn(chosenSpawn));
+            }
+            else {
+                bossRound = true;
+            }
+        }
+        //Boss rounds only have 1 spawn
+        if (bossRound){
+            currentActiveSpawners.add(new DelayedSpawn(allRoundArmorstands.get(0)));
+        }
+
 
         //Activate all the delayed spawners
         for (DelayedSpawn delayedSpawn : currentActiveSpawners){
-            Random random = new Random();
             delayedSpawn.runTaskTimer(TheRoadPlugin.getInstance(), random.nextInt(0,Math.min(70*Bukkit.getOnlinePlayers().size(), 240)), 1);
         }
     }

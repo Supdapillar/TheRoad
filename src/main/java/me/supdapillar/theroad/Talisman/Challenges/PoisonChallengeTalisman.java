@@ -54,8 +54,8 @@ public class PoisonChallengeTalisman extends Talisman {
                 challengeEnded = true;
                 challengeVictim.sendMessage("You survived the poison challenge!");
                 challengeVictim.removePotionEffect(PotionEffectType.WITHER);
-                TheRoadPlugin.getInstance().PlayerScores.put(challengeVictim,TheRoadPlugin.getInstance().PlayerScores.get(challengeVictim) + 30);
-                challengeVictim.sendMessage(ChatColor.GREEN + "Challenge Complete +30$");
+                TheRoadPlugin.getInstance().PlayerScores.put(challengeVictim,TheRoadPlugin.getInstance().PlayerScores.get(challengeVictim) + 45);
+                challengeVictim.sendMessage(ChatColor.GREEN + "Challenge Complete +45$");
                 ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
             }
         }

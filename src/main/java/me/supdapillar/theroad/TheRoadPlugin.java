@@ -1,14 +1,24 @@
 package me.supdapillar.theroad;
 
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import com.mongodb.MongoException;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
+
 import me.supdapillar.theroad.Commands.*;
+import me.supdapillar.theroad.Helpers.DatabaseHandler;
 import me.supdapillar.theroad.Managers.GameManager;
 import me.supdapillar.theroad.Talisman.*;
-import me.supdapillar.theroad.Tasks.BeaconEventLoop;
 import me.supdapillar.theroad.Tasks.CounterLoop;
 import me.supdapillar.theroad.enums.Classes;
 import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.Listeners.*;
 import me.supdapillar.theroad.gameClasses.*;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -17,8 +27,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.mongodb.client.model.Filters.eq;
 
 public final class TheRoadPlugin extends JavaPlugin {
 
@@ -33,7 +46,7 @@ public final class TheRoadPlugin extends JavaPlugin {
     public HashMap<Player, Classes> PlayerClass = new HashMap<Player, Classes>();
     public HashMap<Player, List<Talisman>> PlayerActiveTalismans = new HashMap<Player, List<Talisman>>();
     public HashMap<Player, List<Talisman>> PlayerUnlockedTalisman = new HashMap<Player, List<Talisman>>();
-    public ArrayList<Player> playersInMatch = new ArrayList<>();
+    public ArrayList<String> playersInMatch = new ArrayList<>();
     public CounterLoop counterLoop = new CounterLoop();
 
     public GameManager gameManager;
@@ -76,9 +89,6 @@ public final class TheRoadPlugin extends JavaPlugin {
     @Override
     public void onEnable()
     {
-
-
-
         //createWorld();
         mainPlugin = this;
         new PlayerJoinListener(this);

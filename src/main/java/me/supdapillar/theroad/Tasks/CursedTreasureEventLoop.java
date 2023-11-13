@@ -22,7 +22,7 @@ public class CursedTreasureEventLoop extends BukkitRunnable {
 
     public CursedTreasureEventLoop(ArmorStand armorStand){
         centerPointArmorStand = armorStand;
-        enemiesLeftToSpawn = random.nextInt(5,9+Bukkit.getOnlinePlayers().size());
+        enemiesLeftToSpawn = random.nextInt(4,6);
 
         activeCursedTreasure = this;
     }

@@ -1,5 +1,6 @@
 package me.supdapillar.theroad.Commands;
 
+import me.supdapillar.theroad.Helpers.DatabaseHandler;
 import me.supdapillar.theroad.Helpers.ScoreboardHandler;
 import me.supdapillar.theroad.Talisman.Talisman;
 import me.supdapillar.theroad.Tasks.SkyGuardian.SkyGuardianUpdater;
@@ -9,17 +10,14 @@ import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Classes;
 import me.supdapillar.theroad.enums.Heads;
 import org.bukkit.*;
-import org.bukkit.block.data.type.Switch;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.util.Transformation;
+import org.bukkit.util.Vector;
 
-import javax.xml.crypto.dsig.Transform;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -59,18 +57,27 @@ public class DebugCommand implements CommandExecutor {
                         }
                         break;
                     case "Display":
-                        TextDisplay textDisplay = (TextDisplay) player.getWorld().spawnEntity(player.getLocation(),EntityType.TEXT_DISPLAY,true);
-                        //textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "⭐ Join our discord ⭐");
-                        //textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_AQUA + "❤ dankdankdot ❤" + ChatColor.RESET + " Lead map designer");
-                        //textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "🔥 Supdapillar 🔥" + ChatColor.RESET + " Lead game designer");
-                        textDisplay.setText(ChatColor.BOLD + "" + ChatColor.GREEN + "$❤---Store---❤$" + ChatColor.RESET + " If you wanna support us and our minigames, we have a " + ChatColor.GREEN + "/buy"+ ChatColor.RESET+ " with very cheap items! We appreciate you all!" +ChatColor.RED + " ❤");
-                        textDisplay.setGlowing(true);
-                        textDisplay.setGlowColorOverride(Color.BLACK);
-                        textDisplay.setLineWidth(Integer.parseInt(args[1]));
-                        Transformation transformation = textDisplay.getTransformation();
-                        textDisplay.setRotation(90,0);
-                        textDisplay.setTransformation(transformation);
+                        //TextDisplay textDisplay = (TextDisplay) player.getWorld().spawnEntity(player.getLocation(),EntityType.TEXT_DISPLAY,true);
+                        ////textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "⭐ Join our discord ⭐");
+                        ////textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_AQUA + "❤ dankdankdot ❤" + ChatColor.RESET + " Lead map designer");
+                        ////textDisplay.setText(ChatColor.BOLD + "" + ChatColor.DARK_PURPLE + "🔥 Supdapillar 🔥" + ChatColor.RESET + " Lead game designer");
+                        //textDisplay.setText(ChatColor.BOLD + "" + ChatColor.GREEN + "$❤---Store---❤$" + ChatColor.RESET + " If you wanna support us and our minigames, we have a " + ChatColor.GREEN + "/buy"+ ChatColor.RESET+ " with very cheap items! We appreciate you all!" +ChatColor.RED + " ❤");
+                        //textDisplay.setGlowing(true);
+                        //textDisplay.setGlowColorOverride(Color.BLACK);
+                        //textDisplay.setLineWidth(Integer.parseInt(args[1]));
+                        //Transformation transformation = textDisplay.getTransformation();
+                        //textDisplay.setRotation(90,0);
+                        //textDisplay.setTransformation(transformation);
                         //textDisplay.setBackgroundColor(Color.fromARGB(0,0,0,0));
+
+                        ItemDisplay itemDisplay = (ItemDisplay) player.getWorld().spawnEntity(player.getLocation(), EntityType.ITEM_DISPLAY,true);
+                        Transformation transformation = itemDisplay.getTransformation();
+                        transformation.getScale().set(15,1,15);
+                        itemDisplay.setItemStack(Heads.Lava.getItemStack());
+                        itemDisplay.setTransformation(transformation);
+                        itemDisplay.setVelocity(new Vector(0,-20,0));
+
+
                         break;
                     case "Money":
                         if (args.length > 2){
@@ -79,6 +86,15 @@ public class DebugCommand implements CommandExecutor {
                         }
                         else {
                             player.sendMessage(ChatColor.RED + "/Debug <Money> <Player> <Amount>");
+                        }
+                        break;
+                    case "Save":
+                        if (args.length > 1){
+                            DatabaseHandler.getInstance().savePlayer(Bukkit.getPlayer(args[1]));
+                            ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "/Debug <Save> <Player>");
                         }
                         break;
                     case "Spider":

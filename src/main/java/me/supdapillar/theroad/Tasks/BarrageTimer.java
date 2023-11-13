@@ -27,6 +27,8 @@ public class BarrageTimer extends BukkitRunnable {
     public void run() {
         hitRemaining--;
         Victim.damage(1,Damager);
+        Victim.setNoDamageTicks(1);
+
 
         Victim.getWorld().spawnParticle(Particle.REDSTONE, Victim.getLocation().add(0,0.5,0), 14,0.4,0.8,0.4, new Particle.DustOptions(Color.BLACK, (float) (1+Math.random())));
         if (hitRemaining <= 0){

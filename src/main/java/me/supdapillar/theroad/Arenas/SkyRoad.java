@@ -30,7 +30,7 @@ public class SkyRoad extends Arena {
         skyroadIconMeta.setLore(iconLore);
 
         skyroadIcon.setItemMeta(skyroadIconMeta);
-
+        victoryCash = 125;
         inventoryIcon = skyroadIcon;
     }
 }

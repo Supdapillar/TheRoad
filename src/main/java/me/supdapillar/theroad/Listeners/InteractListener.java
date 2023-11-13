@@ -267,6 +267,7 @@ public class InteractListener implements Listener {
             wolf.setTamed(true);
             wolf.setOwner(player);
             wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
+            wolf.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.36);
 
             wolf.setCustomName(ChatColor.BLUE + "[" + wolf.getHealth() + "❤/" + wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + "❤]");
             wolf.setCustomNameVisible(true);

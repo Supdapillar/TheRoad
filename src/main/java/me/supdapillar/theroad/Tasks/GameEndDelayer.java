@@ -5,6 +5,7 @@ import me.supdapillar.theroad.Managers.GameManager;
 import me.supdapillar.theroad.TheRoadPlugin;
 import me.supdapillar.theroad.enums.Gamestates;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -44,10 +45,11 @@ public class GameEndDelayer extends BukkitRunnable {
             for (Player player : Bukkit.getOnlinePlayers()){
 
                 player.getInventory().clear();
+                player.setLevel(0);
+                player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
 
                 player.setGameMode(GameMode.ADVENTURE);
                 StarterItems.GiveClassCompass(player);
-
                 StarterItems.GiveUnreadyConcrete(player);
                 StarterItems.GiveTalismanTotem(player);
                 StarterItems.GiveMapSelection(player);

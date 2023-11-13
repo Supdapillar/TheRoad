@@ -38,6 +38,21 @@ public class CounterLoop extends BukkitRunnable {
                 }
                 break;
             case starting:
+                //Lowers the counter
+                if (counter > 0){
+                    counter--;
+                    if (counter <= 5 || counter == 30 || counter == 20 || counter == 10){
+                        Bukkit.broadcastMessage(ChatColor.YELLOW + "Game will begin in " + counter);
+                        for(Player player : Bukkit.getOnlinePlayers()){
+                            player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 9999, 1f);
+                        }
+                    }
+                }
+                else {
+                    // Beginning the game
+                    TheRoadPlugin.getInstance().gameManager.startGame();
+                    counter=5;
+                }
                 //Need players for a game to be started
                 if (Bukkit.getOnlinePlayers().isEmpty()){
                     Bukkit.broadcastMessage(ChatColor.YELLOW + "Not all players ready, stopping countdown");
@@ -50,8 +65,7 @@ public class CounterLoop extends BukkitRunnable {
                         unreadyPlayers++;
                     }
                 }
-
-                if (unreadyPlayers >= Math.ceil((double) Bukkit.getOnlinePlayers().size() /2)){
+                if (unreadyPlayers > Math.ceil((double) Bukkit.getOnlinePlayers().size() /2) || unreadyPlayers == Bukkit.getOnlinePlayers().size()){
                     Bukkit.broadcastMessage(ChatColor.YELLOW + "Not all players ready, stopping countdown");
                     TheRoadPlugin.getInstance().gameManager.gamestates = Gamestates.lobby;
                 }
@@ -60,19 +74,6 @@ public class CounterLoop extends BukkitRunnable {
                         Bukkit.broadcastMessage(ChatColor.YELLOW + "All players ready, game will start in 5");
                         counter=5;
                     }
-                }
-                //Lowers the counter
-                if (counter > 0){
-                    Bukkit.broadcastMessage(ChatColor.YELLOW + "Game will begin in " + counter);
-                    counter--;
-                    for(Player player : Bukkit.getOnlinePlayers()){
-                        player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 9999, 1f);
-                    }
-                }
-                else {
-                    // Beginning the game
-                    TheRoadPlugin.getInstance().gameManager.startGame();
-                    counter=5;
                 }
                 break;
                 case inGame:

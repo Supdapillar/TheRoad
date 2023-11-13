@@ -59,8 +59,8 @@ public class FistChallengeTalisman extends Talisman {
             if (!challengeEnded){
                 challengeEnded = true;
                 challengeVictim.sendMessage(ChatColor.GRAY + "- You survived the fist only challenge!");
-                TheRoadPlugin.getInstance().PlayerScores.put(challengeVictim,TheRoadPlugin.getInstance().PlayerScores.get(challengeVictim) + 25);
-                challengeVictim.sendMessage(ChatColor.GREEN + "Challenge Complete +25$");
+                TheRoadPlugin.getInstance().PlayerScores.put(challengeVictim,TheRoadPlugin.getInstance().PlayerScores.get(challengeVictim) + 35);
+                challengeVictim.sendMessage(ChatColor.GREEN + "Challenge Complete +35$");
                 ScoreboardHandler.updateScoreboard(TheRoadPlugin.getInstance());
             }
         }

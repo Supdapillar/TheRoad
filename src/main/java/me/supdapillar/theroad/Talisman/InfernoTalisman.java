@@ -51,8 +51,9 @@ public class InfernoTalisman extends Talisman{
 
         for (LivingEntity livingEntity : livingEntities){
             if (livingEntity.getLocation().distance(player.getLocation()) < 3.75){
-                livingEntity.setFireTicks(livingEntity.getFireTicks() + 4);
+                livingEntity.setFireTicks(livingEntity.getFireTicks() + 15);
                 livingEntity.damage(0, player);
+                livingEntity.setNoDamageTicks(1);
             }
         }
     }
